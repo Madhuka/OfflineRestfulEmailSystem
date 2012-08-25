@@ -1,0 +1,854 @@
+<!DOCTYPE HTML>
+<!--   IMP: Copyright 2001-2008 The Horde Project.  IMP is under the GPL.  -->
+<!-- Horde Project: http://www.horde.org/ | IMP: http://www.horde.org/imp/ -->
+<!--        GNU Public License: http://www.fsf.org/copyleft/gpl.html       -->
+<html lang="en-US">
+<head>
+<!--<script type="text/javascript">//<![CDATA[
+var IMP = {"conf":{"hasDOM":true,"IMP_ALL":0,"isIE":false,"pop3":false,"fixed_folders":[],"js_editor":"xinha"},"text":{"compose_cancel":"Cancelling this message will permanently discard its contents.\nAre you sure you want to do this?","compose_discard":"Doing so will discard this message permanently.","compose_recipient":"You must specify a recipient.","compose_sigreplace":"The signature was successfully replaced.","compose_signotreplace":"The signature could not be replaced.","compose_nosubject":"The message does not have a Subject entered.\nSend message without a Subject?","compose_file":"File","compose_attachment":"Attachment","compose_inline":"Inline","mailbox_submit":"You must select at least one message first.","mailbox_delete":"Are you sure you wish to PERMANENTLY delete these messages?","mailbox_selectone":"You must select at least one message first.","yes":"Yes","no":"No","contacts_select":"You must select an address first.","contacts_closed":"The message being composed has been closed. Exiting.","contacts_called":"This window must be called from a compose window.","folders_select":"Please select a folder before you perform this action.","folders_oneselect":"Only one folder should be selected for this action.","folders_subfolder1":"You are creating a sub-folder to","folders_subfolder2":"Please enter the name of the new folder:","folders_toplevel":"You are creating a top-level folder.\nPlease enter the name of the new folder:","folders_download1":"All messages in the following folder(s) will be downloaded into one MBOX file:","folders_download2":"This may take some time. Are you sure you want to continue?","folders_rename1":"You are renaming the folder:","folders_rename2":"Please enter the new name:","folders_no_rename":"This folder may not be renamed:","search_select":"Please select at least one folder to search.","popup_block":"A popup window could not be opened. Perhaps you have set your browser to block popup windows?","login_username":"Please provide your username.","login_password":"Please provide your password.","spam_report":"Are you sure you wish to report this message as spam?","notspam_report":"Are you sure you wish to report this message as innocent?","newfolder":"You are copying\/moving to a new folder.\nPlease enter a name for the new folder:\n","target_mbox":"You must select a target mailbox first."}};
+//]]></script>
+<script type="text/javascript" src="/horde/js/prototype.js"></script>
+<script type="text/javascript" src="/horde/js/horde-prototype.js"></script>
+<script type="text/javascript" src="/horde/js/accesskeys.js"></script>
+<script type="text/javascript" src="imp/js/effects.js"></script>
+<script type="text/javascript" src="imp/js/redbox.js"></script>
+<script type="text/javascript" src="imp/js/mailbox.js"></script>-->
+<link href="css/theme/screen.css" rel="stylesheet" type="text/css"/>
+<link href="css/theme/bluewhite/screen.css" rel="stylesheet" type="text/css"/>
+<link href="css/theme/opera.css" rel="stylesheet" type="text/css"/>
+<link href="css/imp/theme/screen.css" rel="stylesheet" type="text/css"/>
+<link href="css/imp/theme/bluewhite/screen.css" rel="stylesheet" type="text/css"/>
+<title>Mail :: Inbox (29)</title>
+<link href="img/theme/favicon.ico" rel="SHORTCUT ICON"/>
+<link href="imp/mailbox.php" rel="Up"/>
+<link href="imp/mailbox.php?mailbox=INBOX&page=2" rel="Next" id="next"/>
+<link href="imp/mailbox.php?mailbox=INBOX&page=2" rel="Last"/>
+<link rel="alternate" type="application/rss+xml" href="imp/rss.php"/>
+<link href="imp/search.php" rel="search"/>
+<style>
+.widget1{
+	color:#000;
+}
+</style>
+</head>
+<body>
+<script type="text/javascript" src="imp/js/popup.js"></script>
+<script type="text/javascript" src="/horde/js/popup.js"></script>
+<form action="mailbox.php" method="get" name="menuform">
+<div id="menu">
+<!--<div class="rightFloat">
+<input type="hidden" name="no_newmail_popup" value="1"/>
+<label for="mailbox" accesskey="l">
+<select id="mailbox" name="mailbox" onchange="folderSubmit()">
+<option value="INBOX" selected="selected">Inbox</option>
+<option value="" disabled="disabled">- - - - - - - - -</option>
+<option value="**search_699sc23nh4l7swos8kwss0">Virtual INBOX</option>
+</select>
+</label>
+</div>-->
+<!--<div class="rightFloat">
+<ul>
+<li class="rightFloat">
+<a href="#" onclick="folderSubmit(true); return false;">
+<img src="img/imp/theme/graphics/folders/folder_open.png" alt="Open Folder" title=""/>
+<br/>
+Open Fo
+<span class="accessKey">l</span>
+der
+</a>
+</li>
+</ul>
+</div>-->
+<div class="leftFloat">
+<ul>
+<li>
+<a href="imp/mailbox.php?mailbox=INBOX" class="current" accesskey="I">
+<img src="img/imp/theme/graphics/folders/inbox.png" alt="Inbox" title=""/>
+<br/>
+<span class="accessKey">I</span>nbox
+</a>
+</li>
+<li>
+<a href="javascript:popup_imp('imp/compose.php',700,650,'mailbox=INBOX');" accesskey="N">
+<img src="img/imp/theme/graphics/compose.png" alt="New Message" title=""/>
+<br/>
+<span class="accessKey">N</span>ew Message
+</a>
+</li>
+<li>
+<a href="imp/folders.php" accesskey="F">
+<img src="img/imp/theme/graphics/folders/folder.png" alt="Folders" title=""/>
+<br/>
+<span class="accessKey">F</span>olders
+</a>
+</li>
+<li>
+<a href="imp/search.php" accesskey="S">
+<img src="img/theme/graphics/search.png" alt="Search" title=""/>
+<br/>
+<span class="accessKey">S</span>earch </a>
+</li>
+<li>
+<a href="imp/fetchmail.php" accesskey="e">
+<img src="img/imp/theme/graphics/fetchmail.png" alt="Fetch Mail" title=""/>
+<br/>
+F<span class="accessKey">e</span>tch Mail </a>
+</li>
+<li>
+<a href="/horde/services/prefs.php?app=imp" accesskey="O">
+<img src="img/theme/graphics/prefs.png" alt="Options" title=""/>
+<br/>
+<span class="accessKey">O</span>ptions </a>
+</li>
+<li>
+<a href="/horde/services/problem.php?return_url=https%3A%2F%2Fwebmail.uom.lk%2Fhorde%2Fimp%2Fmailbox.php%3Fmailbox%3DINBOX%26mailbox_token%3D6BI73ZsN_t2q2QeoxLNw9KaG6xw">
+<img src="img/theme/graphics/problem.png" alt="Problem" title=""/>
+<br/>
+Problem
+</a>
+</li>
+<li>
+<a href="https://webmail.uom.lk/horde/services/help/?module=imp" onclick="popup(this.href); return false;" class="helplink" target="help">
+<img src="img/theme/graphics/help_index.png" alt="Help" title=""/>
+<br/>
+Help
+</a>
+</li>
+<li>
+<a href="/horde/login.php?horde_logout_token=9c-W5Ti25g7GjIohtoTGsyjmFWY&app=imp&logout_reason=logout" target="_parent">
+<img src="img/theme/graphics/logout.png" alt="Log out" title=""/>
+<br/>
+Log out
+</a>
+</li>
+</ul>
+</div>
+<br class="clear"/>
+</div>
+</form>
+<script type="text/javascript">
+var loading;
+function folderSubmit(clear)
+{
+    if (document.menuform.mailbox[document.menuform.mailbox.selectedIndex].value != '') {
+        if ((loading == null) || (clear != null)) {
+            loading = true;
+            document.menuform.submit();
+        }
+    }
+}
+</script>
+<div class="header" style="margin-bottom:2px">
+<div style="width:40%" class="leftFloat">
+<span dir="ltr">Inbox (29)</span>
+<a href="imp/mailbox.php?mailbox=INBOX&page=1" nicetitle="Refresh Inbox (Accesskey R)" accesskey="R">
+<img src="img/theme/graphics/reload.png" alt="Reload" title=""/>
+</a>
+<a href="imp/mailbox.php?mailbox=INBOX&actionID=filter&mailbox_token=7-sjjbcaN847s4npO3W1-f8UoVA&page=1" nicetitle="Apply Filters to Inbox">
+<img src="img/theme/graphics/filters.png" alt="Apply Filters" title=""/>
+</a>
+<a href="imp/search.php?search_mailbox=INBOX" nicetitle="Search Inbox">
+<img src="img/theme/graphics/search.png" alt="Search" title=""/>
+</a>
+<a href="imp/mailbox.php?mailbox=INBOX&actionID=empty_mailbox&mailbox_token=7-sjjbcaN847s4npO3W1-f8UoVA" onclick="imp_confirm(this.href, 'Are you sure you wish to delete all mail in this folder?'); return false;" nicetitle="Empty folder">
+<img src="img/theme/graphics/empty_spam.png" alt="Empty folder" title=""/>
+</a>
+</div>
+<div style="width:20%" class="leftFloat"> Page 1 of 2 </div>
+<div style="width:40%" class="rightFloat rightAlign"> 1 to 20 of 33 Messages </div>
+<div class="clear"/>
+</div>
+<table width="100%" cellspacing="0">
+<tbody>
+<tr class="mboxcontrol">
+<td>
+<div class="leftFloat">
+<form id="select1" action="javascript:void(0)" onsubmit="return false">
+<input type="hidden" name="mailbox" value="INBOX"/>
+<label for="filter1" class="hidden">Select:</label>
+<select id="filter1" name="filter" onchange="makeSelection(1);">
+<option value="" selected="selected">Select:</option>
+<option value="!0">All</option>
+<option value="0">None</option>
+<option value="+0">Invert</option>
+<option value="!1">Seen</option>
+<option value="1">Unseen</option>
+<option value="8">Important</option>
+<option value="!8">Not Important</option>
+<option value="4">Answered</option>
+<option value="!4">Unanswered</option>
+<option value="2">Deleted</option>
+<option value="!2">Not Deleted</option>
+<option value="16">Draft</option>
+<option value="!16">Not Draft</option>
+<option value="32">Personal</option>
+<option value="!32">Not Personal</option>
+</select>
+<label for="flag1" class="hidden">Mark as:</label>
+<select id="flag1" name="flag" onchange="flagMessages(1);">
+<option value="" selected="selected">Mark as:</option>
+<option value="Seen">Seen</option>
+<option value="0Seen">Unseen</option>
+<option value="Flagged">Flagged For Followup</option>
+<option value="0Flagged">Not Flagged</option>
+<option value="Answered">Answered</option>
+<option value="0Answered">Unanswered</option>
+<option value="Deleted">Deleted</option>
+<option value="0Deleted">Not Deleted</option>
+<option value="Draft">Draft</option>
+<option value="0Draft">Not Draft</option>
+</select>
+</form>
+</div>
+<div class="leftFloat" style="padding-left:10px">
+<form method="post" action="imp/mailbox.php">
+<input type="hidden" name="mailbox" value="INBOX"/>
+<ul class="msgactions" style="display:inline">
+<li>
+<a href="#" onclick="transfer('move_messages', 1); return false;" class="widget1">Move</a>
+</li>
+<li class="lastnavbar">
+<a href="#" onclick="transfer('copy_messages', 1); return false;" class="widget1">Copy</a>
+</li>
+</ul>
+<label for="targetMailbox1" class="hidden">Target Mailbox:</label>
+<select id="targetMailbox1" name="targetMailbox" onchange="updateFolders(1);">
+<option value="">Messages to</option>
+<option value="" disabled="disabled">- - - - - - - - -</option>
+<option value="*new*">New Folder</option>
+<option value="" disabled="disabled">- - - - - - - - -</option>
+<option value="INBOX">Inbox</option>
+<option value="" disabled="disabled"> </option>
+<option value="" disabled="disabled">- - Task Lists - -</option>
+<option value="_tasklist_084025j@mrt.ac.lk">084025j@mrt.ac.lk's Task List</option>
+<option value="" disabled="disabled"> </option>
+<option value="" disabled="disabled">- - Notepads - -</option>
+<option value="_notepad_084025j@mrt.ac.lk">084025j@mrt.ac.lk's Notepad</option>
+</select>
+</form>
+</div>
+<div class="rightFloat">
+<form method="get" action="imp/mailbox.php">
+<input type="hidden" name="mailbox" value="INBOX"/>
+<img src="img/theme/graphics/nav/first-grey.png" alt="" title=""/>
+<img src="img/theme/graphics/nav/left-grey.png" alt="" title=""/>
+<label for="page1" class="hidden">Page:</label>
+<input type="text" id="page1" name="page" value="1" size="1"/>
+<a href="imp/mailbox.php?mailbox=INBOX&page=2" nicetitle="Next Page">
+<img src="img/theme/graphics/nav/right.png" alt=">" title=""/>
+</a>
+<a href="imp/mailbox.php?mailbox=INBOX&page=2" nicetitle="Last Page">
+<img src="img/theme/graphics/nav/last.png" alt=">>" title=""/>
+</a>
+</form>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+<table width="100%" cellspacing="0">
+<tbody>
+<tr>
+<td class="mboxcontrol bottombordercollapse">
+<div class="rightFloat">
+<ul class="msgactions">
+<li>
+<a href="imp/mailbox.php?mailbox=INBOX&page=1&actionID=hide_deleted&mailbox_token=7-sjjbcaN847s4npO3W1-f8UoVA" class="widget1">Hide Deleted</a>
+</li>
+<li class="lastnavbar">
+<a href="imp/mailbox.php?mailbox=INBOX&page=1&actionID=expunge_mailbox&mailbox_token=7-sjjbcaN847s4npO3W1-f8UoVA" class="widget1" accesskey="g">
+Pur<span class="accessKey">g</span>e Deleted
+</a>
+</li>
+</ul>
+</div>
+<div class="leftFloat">
+<ul class="msgactions">
+<li>
+<a href="#" onclick="messages_submit('delete_messages'); return false;" class="widget1" accesskey="D">
+<span class="accessKey">D</span>elete
+</a>
+</li>
+<li>
+<a href="#" onclick="messages_submit('undelete_messages'); return false;" class="widget1" accesskey="U">
+<span class="accessKey">U</span>ndelete
+</a>
+</li>
+<li>
+<a href="#" onclick="messages_submit('blacklist'); return false;" class="widget1" accesskey="B">
+<span class="accessKey">B</span>lacklist </a>
+</li>
+<li>
+<a href="#" onclick="messages_submit('whitelist'); return false;" class="widget1" accesskey="W">
+<span class="accessKey">W</span>hitelist </a>
+</li>
+<li>
+<a href="#" onclick="messages_submit('fwd_digest'); return false;" class="widget1">Forward</a>
+</li>
+<li class="lastnavbar">
+<a href="#" onclick="messages_submit('view_messages'); return false;" class="widget1">View Messages</a>
+</li>
+</ul>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+<form method="post" id="messages" name="messages" action="imp/mailbox.php">
+<input type="hidden" name="mailbox" value="INBOX"/>
+<input type="hidden" name="mailbox_token" value="7-sjjbcaN847s4npO3W1-f8UoVA"/>
+<table class="messageList" width="100%" cellspacing="0" style="font-size:85%">
+<tbody>
+<tr class="item">
+<th id="checkheader" width="8%" onclick="$('checkAll').checked = !$('checkAll').checked;makeSelection(-1);">
+<label for="checkAll" class="hidden">Check All/None</label>
+<input type="checkbox" class="checkbox" id="checkAll" name="checkAll" onclick="makeSelection(-1);if(window.event){window.event.cancelBubble = true;}else if(event){event.stopPropagation();}" title="Check All/None (Accesskey A)" accesskey="A"/>
+</th>
+<th class="selected" width="4%" onclick="document.location.href=this.down('A').href;">
+<a href="imp/mailbox.php?mailbox=INBOX&sortdir=1&sortby=1&actionID=change_sort&mailbox_token=7-sjjbcaN847s4npO3W1-f8UoVA" nicetitle="Sort by Arrival">
+<img src="img/theme/graphics/az.png" alt="/\" title=""/>
+</a>
+<a href="imp/mailbox.php?mailbox=INBOX&sortdir=1&sortby=1&actionID=change_sort&mailbox_token=7-sjjbcaN847s4npO3W1-f8UoVA" class="widget">#</a>
+</th>
+<th class="item" width="10%" onclick="document.location.href=this.down('A').href;">
+<a href="imp/mailbox.php?mailbox=INBOX&sortby=0&actionID=change_sort&mailbox_token=7-sjjbcaN847s4npO3W1-f8UoVA" class="widget">Date</a>
+</th>
+<th class="item" width="20%" onclick="document.location.href=this.down('A').href;">
+<a href="imp/mailbox.php?mailbox=INBOX&sortby=2&actionID=change_sort&mailbox_token=7-sjjbcaN847s4npO3W1-f8UoVA" class="widget" accesskey="m">
+Fro<span class="accessKey">m</span>
+</a>
+</th>
+<th class="item" width="52%" onclick="document.location.href=this.down('A').href;">
+<a href="imp/mailbox.php?mailbox=INBOX&sortby=3&actionID=change_sort&mailbox_token=7-sjjbcaN847s4npO3W1-f8UoVA" class="widget" accesskey="j">
+Sub<span class="accessKey">j</span>ect
+</a>
+<span style="font-size:95%">
+[
+<a href="imp/mailbox.php?mailbox=INBOX&sortby=161&actionID=change_sort&mailbox_token=7-sjjbcaN847s4npO3W1-f8UoVA" onclick="if (window.event) window.event.cancelBubble = true; else if (event) event.stopPropagation();" class="widget" style="font-size:95%; font-weight:normal;" accesskey="T">
+<span class="accessKey">T</span>hread
+</a>
+]
+</span>
+</th>
+<th class="item" width="6%" onclick="document.location.href=this.down('A').href;">
+<a href="imp/mailbox.php?mailbox=INBOX&sortby=6&actionID=change_sort&mailbox_token=7-sjjbcaN847s4npO3W1-f8UoVA" class="widget" accesskey="z">
+Si<span class="accessKey">z</span>e </a>
+</th>
+</tr>
+<tr id="row1INBOX" class="seen">
+<td>
+<label>
+<input id="check1INBOX" type="checkbox" class="checkbox" name="indices[]" onclick="selectRange(event);" value="1INBOX"/>
+</label>
+</td>
+<td> 1 </td>
+<td>10/12/2009 </td>
+<td>
+<a href="imp/message.php?mailbox=INBOX&index=1" nicetitle="User Import &lt;system_mail@e-academy.com&gt;">User Import</a>
+</td>
+<td>
+<a href="imp/message.php?mailbox=INBOX&index=1" id="subject1INBOX">Welcome to MSDN Academic Alliance: Online Software System</a>
+</td>
+<td class="rightAlign">4 KB</td>
+</tr>
+<tr id="row2INBOX" class="unseen">
+<td>
+<label>
+<input id="check2INBOX" type="checkbox" class="checkbox" name="indices[]" onclick="selectRange(event);" value="2INBOX"/>
+<img src="img/imp/theme/graphics/mail_unseen.png" alt="Unseen" title="Unseen"/>
+</label>
+</td>
+<td> 2 </td>
+<td>10/27/2009 </td>
+<td>
+<a href="imp/message.php?mailbox=INBOX&index=2" nicetitle="Charith Gunasekara &lt;charith@uom.lk&gt;">Charith Gunasekara</a>
+</td>
+<td>
+<a href="imp/message.php?mailbox=INBOX&index=2" id="subject2INBOX">Fwd: University of Moratuwa wins IEEEXtreme Global Programming Competition</a>
+</td>
+<td class="rightAlign">320 KB</td>
+</tr>
+<tr id="row3INBOX" class="unseen">
+<td>
+<label>
+<input id="check3INBOX" type="checkbox" class="checkbox" name="indices[]" onclick="selectRange(event);" value="3INBOX"/>
+<img src="img/imp/theme/graphics/mail_unseen.png" alt="Unseen" title="Unseen"/>
+</label>
+</td>
+<td> 3 </td>
+<td>10/30/2009 </td>
+<td>
+<a href="imp/message.php?mailbox=INBOX&index=3" nicetitle="niranjala &lt;niranjalag@uom.lk&gt;">niranjala</a>
+</td>
+<td>
+<a href="imp/message.php?mailbox=INBOX&index=3" id="subject3INBOX">Fw: America Education Fair</a>
+</td>
+<td class="rightAlign">5.7 MB</td>
+</tr>
+<tr id="row4INBOX" class="seen">
+<td>
+<label>
+<input id="check4INBOX" type="checkbox" class="checkbox" name="indices[]" onclick="selectRange(event);" value="4INBOX"/>
+</label>
+</td>
+<td> 4 </td>
+<td>11/05/2009 </td>
+<td>
+<a href="imp/message.php?mailbox=INBOX&index=4" nicetitle="niranjala &lt;niranjalag@uom.lk&gt;">niranjala</a>
+</td>
+<td>
+<a href="imp/message.php?mailbox=INBOX&index=4" id="subject4INBOX">Edex Sithuwam 2010</a>
+</td>
+<td class="rightAlign">4.0 MB</td>
+</tr>
+<tr id="row5INBOX" class="unseen">
+<td>
+<label>
+<input id="check5INBOX" type="checkbox" class="checkbox" name="indices[]" onclick="selectRange(event);" value="5INBOX"/>
+<img src="img/imp/theme/graphics/mail_unseen.png" alt="Unseen" title="Unseen"/>
+</label>
+</td>
+<td> 5 </td>
+<td>11/05/2009 </td>
+<td>
+<a href="imp/message.php?mailbox=INBOX&index=5" nicetitle="niranjala &lt;niranjalag@uom.lk&gt;">niranjala</a>
+</td>
+<td>
+<a href="imp/message.php?mailbox=INBOX&index=5" id="subject5INBOX">mFile submissions for GSMA Mobile World Congress</a>
+</td>
+<td class="rightAlign">144 KB</td>
+</tr>
+<tr id="row6INBOX" class="seen">
+<td>
+<label>
+<input id="check6INBOX" type="checkbox" class="checkbox" name="indices[]" onclick="selectRange(event);" value="6INBOX"/>
+</label>
+</td>
+<td> 6 </td>
+<td>11/13/2009 </td>
+<td>
+<a href="imp/message.php?mailbox=INBOX&index=6" nicetitle="hemajith &lt;hemajitha@uom.lk&gt;">hemajith</a>
+</td>
+<td>
+<a href="imp/message.php?mailbox=INBOX&index=6" id="subject6INBOX">Year registration for Batch 06,Batch 07 and Batch 08</a>
+</td>
+<td class="rightAlign">4 KB</td>
+</tr>
+<tr id="row7INBOX" class="unseen">
+<td>
+<label>
+<input id="check7INBOX" type="checkbox" class="checkbox" name="indices[]" onclick="selectRange(event);" value="7INBOX"/>
+<img src="img/imp/theme/graphics/mail_unseen.png" alt="Unseen" title="Unseen"/>
+</label>
+</td>
+<td> 7 </td>
+<td>11/14/2009 </td>
+<td>
+<a href="imp/message.php?mailbox=INBOX&index=7" nicetitle="niranjala &lt;niranjalag@uom.lk&gt;">niranjala</a>
+</td>
+<td>
+<a href="imp/message.php?mailbox=INBOX&index=7" id="subject7INBOX">SAARC Youth Award 2009</a>
+</td>
+<td class="rightAlign">364 KB</td>
+</tr>
+<tr id="row8INBOX" class="unseen">
+<td>
+<label>
+<input id="check8INBOX" type="checkbox" class="checkbox" name="indices[]" onclick="selectRange(event);" value="8INBOX"/>
+<img src="img/imp/theme/graphics/mail_unseen.png" alt="Unseen" title="Unseen"/>
+</label>
+</td>
+<td> 8 </td>
+<td>11/17/2009 </td>
+<td>
+<a href="imp/message.php?mailbox=INBOX&index=8" nicetitle="student_notices@uom.lk">student_notices@uom.lk</a>
+</td>
+<td>
+<a href="imp/message.php?mailbox=INBOX&index=8" id="subject8INBOX">wireless Zone</a>
+</td>
+<td class="rightAlign">19 KB</td>
+</tr>
+<tr id="row9INBOX" class="seen">
+<td>
+<label>
+<input id="check9INBOX" type="checkbox" class="checkbox" name="indices[]" onclick="selectRange(event);" value="9INBOX"/>
+</label>
+</td>
+<td> 9 </td>
+<td>11/17/2009 </td>
+<td>
+<a href="imp/message.php?mailbox=INBOX&index=9" nicetitle="fitstu-notices@uom.lk">fitstu-notices@uom.lk</a>
+</td>
+<td>
+<a href="imp/message.php?mailbox=INBOX&index=9" id="subject9INBOX">Wireless Zone</a>
+</td>
+<td class="rightAlign">19 KB</td>
+</tr>
+<tr id="row10INBOX" class="unseen">
+<td>
+<label>
+<input id="check10INBOX" type="checkbox" class="checkbox" name="indices[]" onclick="selectRange(event);" value="10INBOX"/>
+<img src="img/imp/theme/graphics/mail_unseen.png" alt="Unseen" title="Unseen"/>
+</label>
+</td>
+<td> 10 </td>
+<td>01/06/2010 </td>
+<td>
+<a href="imp/message.php?mailbox=INBOX&index=10" nicetitle="Notices for Students &lt;fitstu-notices@uom.lk&gt;">Notices for Students</a>
+</td>
+<td>
+<a href="imp/message.php?mailbox=INBOX&index=10" id="subject10INBOX">Fw: The Role of Information Systems in Mobile Communication Business</a>
+</td>
+<td class="rightAlign">33 KB</td>
+</tr>
+<tr id="row11INBOX" class="unseen">
+<td>
+<label>
+<input id="check11INBOX" type="checkbox" class="checkbox" name="indices[]" onclick="selectRange(event);" value="11INBOX"/>
+<img src="img/imp/theme/graphics/mail_unseen.png" alt="Unseen" title="Unseen"/>
+</label>
+</td>
+<td> 11 </td>
+<td>01/12/2010 </td>
+<td>
+<a href="imp/message.php?mailbox=INBOX&index=11" nicetitle="jcbala@uom.lk">jcbala@uom.lk</a>
+</td>
+<td>
+<a href="imp/message.php?mailbox=INBOX&index=11" id="subject11INBOX">Fwd: Academic Calendar 2010</a>
+</td>
+<td class="rightAlign">108 KB</td>
+</tr>
+<tr id="row12INBOX" class="unseen">
+<td>
+<label>
+<input id="check12INBOX" type="checkbox" class="checkbox" name="indices[]" onclick="selectRange(event);" value="12INBOX"/>
+<img src="img/imp/theme/graphics/mail_unseen.png" alt="Unseen" title="Unseen"/>
+</label>
+</td>
+<td> 12 </td>
+<td>01/15/2010 </td>
+<td>
+<a href="imp/message.php?mailbox=INBOX&index=12" nicetitle="Notices for Students &lt;fitstu-notices@uom.lk&gt;">Notices for Students</a>
+</td>
+<td>
+<a href="imp/message.php?mailbox=INBOX&index=12" id="subject12INBOX">Election of new office bearers to the IT Faculty Studen's Union for 2009-2010</a>
+</td>
+<td class="rightAlign">57 KB</td>
+</tr>
+<tr id="row13INBOX" class="unseen">
+<td>
+<label>
+<input id="check13INBOX" type="checkbox" class="checkbox" name="indices[]" onclick="selectRange(event);" value="13INBOX"/>
+<img src="img/imp/theme/graphics/mail_unseen.png" alt="Unseen" title="Unseen"/>
+</label>
+</td>
+<td> 13 </td>
+<td>01/15/2010 </td>
+<td>
+<a href="imp/message.php?mailbox=INBOX&index=13" nicetitle="084063x@uom.lk">084063x@uom.lk</a>
+</td>
+<td>
+<a href="imp/message.php?mailbox=INBOX&index=13" id="subject13INBOX">Microsoft Student Champ Meeting - on 15th January 2010</a>
+</td>
+<td class="rightAlign">13 KB</td>
+</tr>
+<tr id="row14INBOX" class="unseen">
+<td>
+<label>
+<input id="check14INBOX" type="checkbox" class="checkbox" name="indices[]" onclick="selectRange(event);" value="14INBOX"/>
+<img src="img/imp/theme/graphics/mail_unseen.png" alt="Unseen" title="Unseen"/>
+</label>
+</td>
+<td> 14 </td>
+<td>02/02/2010 </td>
+<td>
+<a href="imp/message.php?mailbox=INBOX&index=14" nicetitle="Notices for Students &lt;fitstu-notices@uom.lk&gt;">Notices for Students</a>
+</td>
+<td>
+<a href="imp/message.php?mailbox=INBOX&index=14" id="subject14INBOX">Attention of All Bursary Entitled Students</a>
+</td>
+<td class="rightAlign">20 KB</td>
+</tr>
+<tr id="row15INBOX" class="unseen">
+<td>
+<label>
+<input id="check15INBOX" type="checkbox" class="checkbox" name="indices[]" onclick="selectRange(event);" value="15INBOX"/>
+<img src="img/imp/theme/graphics/mail_unseen.png" alt="Unseen" title="Unseen"/>
+</label>
+</td>
+<td> 15 </td>
+<td>02/04/2010 </td>
+<td>
+<a href="imp/message.php?mailbox=INBOX&index=15" nicetitle="Notices for Students &lt;fitstu-notices@uom.lk&gt;">Notices for Students</a>
+</td>
+<td>
+<a href="imp/message.php?mailbox=INBOX&index=15" id="subject15INBOX">Contest on Integration in Asia</a>
+</td>
+<td class="rightAlign">47 KB</td>
+</tr>
+<tr id="row16INBOX" class="unseen">
+<td>
+<label>
+<input id="check16INBOX" type="checkbox" class="checkbox" name="indices[]" onclick="selectRange(event);" value="16INBOX"/>
+<img src="img/imp/theme/graphics/mail_unseen.png" alt="Unseen" title="Unseen"/>
+</label>
+</td>
+<td> 16 </td>
+<td>04/05/2010 </td>
+<td>
+<a href="imp/message.php?mailbox=INBOX&index=16" nicetitle="hemajitha &lt;hemajitha@uom.lk&gt;">hemajitha</a>
+</td>
+<td>
+<a href="imp/message.php?mailbox=INBOX&index=16" id="subject16INBOX">Module registration for NT (Non Technical) Subjects</a>
+</td>
+<td class="rightAlign">185 KB</td>
+</tr>
+<tr id="row17INBOX" class="unseen">
+<td>
+<label>
+<input id="check17INBOX" type="checkbox" class="checkbox" name="indices[]" onclick="selectRange(event);" value="17INBOX"/>
+<img src="img/imp/theme/graphics/mail_unseen.png" alt="Unseen" title="Unseen"/>
+</label>
+</td>
+<td> 17 </td>
+<td>06/07/2010 </td>
+<td>
+<a href="imp/message.php?mailbox=INBOX&index=17" nicetitle="hemajitha &lt;hemajitha@uom.lk&gt;">hemajitha</a>
+</td>
+<td>
+<a href="imp/message.php?mailbox=INBOX&index=17" id="subject17INBOX">Semester Registration L3S1</a>
+</td>
+<td class="rightAlign">85 KB</td>
+</tr>
+<tr id="row18INBOX" class="unseen">
+<td>
+<label>
+<input id="check18INBOX" type="checkbox" class="checkbox" name="indices[]" onclick="selectRange(event);" value="18INBOX"/>
+<img src="img/imp/theme/graphics/mail_unseen.png" alt="Unseen" title="Unseen"/>
+</label>
+</td>
+<td> 18 </td>
+<td>06/17/2010 </td>
+<td>
+<a href="imp/message.php?mailbox=INBOX&index=18" nicetitle="hemajitha &lt;hemajitha@uom.lk&gt;">hemajitha</a>
+</td>
+<td>
+<a href="imp/message.php?mailbox=INBOX&index=18" id="subject18INBOX">Time table L3S1</a>
+</td>
+<td class="rightAlign">139 KB</td>
+</tr>
+<tr id="row19INBOX" class="unseen">
+<td>
+<label>
+<input id="check19INBOX" type="checkbox" class="checkbox" name="indices[]" onclick="selectRange(event);" value="19INBOX"/>
+<img src="img/imp/theme/graphics/mail_unseen.png" alt="Unseen" title="Unseen"/>
+</label>
+</td>
+<td> 19 </td>
+<td>06/28/2010 </td>
+<td>
+<a href="imp/message.php?mailbox=INBOX&index=19" nicetitle="Ruvini Weerasinghe &lt;ruviniw@uom.lk&gt;">Ruvini Weerasinghe</a>
+</td>
+<td>
+<a href="imp/message.php?mailbox=INBOX&index=19" id="subject19INBOX">NT- 213 (Extra Lecture)</a>
+</td>
+<td class="rightAlign">3 KB</td>
+</tr>
+<tr id="row20INBOX" class="unseen">
+<td>
+<label>
+<input id="check20INBOX" type="checkbox" class="checkbox" name="indices[]" onclick="selectRange(event);" value="20INBOX"/>
+<img src="img/imp/theme/graphics/mail_unseen.png" alt="Unseen" title="Unseen"/>
+</label>
+</td>
+<td> 20 </td>
+<td>07/01/2010 </td>
+<td>
+<a href="imp/message.php?mailbox=INBOX&index=20" nicetitle="Ruvini Weerasinghe &lt;ruviniw@uom.lk&gt;">Ruvini Weerasinghe</a>
+</td>
+<td>
+<a href="imp/message.php?mailbox=INBOX&index=20" id="subject20INBOX">NT-213 (Extra Lecture)</a>
+</td>
+<td class="rightAlign">3 KB</td>
+</tr>
+
+</tbody>
+</table>
+<input type="hidden" name="page" value="1"/>
+<input type="hidden" id="actionID" name="actionID" value=""/>
+<input type="hidden" id="targetMbox" name="targetMbox" value=""/>
+<input type="hidden" id="newMbox" name="newMbox" value="0"/>
+<input type="hidden" id="flag" name="flag" value=""/>
+</form>
+<table width="100%" cellspacing="0">
+<tbody>
+<tr>
+<td class="mboxcontrol topborder">
+<div class="rightFloat">
+<ul class="msgactions">
+<li>
+<a href="imp/mailbox.php?mailbox=INBOX&page=1&actionID=hide_deleted&mailbox_token=7-sjjbcaN847s4npO3W1-f8UoVA" class="widget">Hide Deleted</a>
+</li>
+<li class="lastnavbar">
+<a href="imp/mailbox.php?mailbox=INBOX&page=1&actionID=expunge_mailbox&mailbox_token=7-sjjbcaN847s4npO3W1-f8UoVA" class="widget" accesskey="g">
+Pur
+<span class="accessKey">g</span>
+e Deleted
+</a>
+</li>
+</ul>
+</div>
+<div class="leftFloat">
+<ul class="msgactions">
+<li>
+<a href="#" onclick="messages_submit('delete_messages'); return false;" class="widget" accesskey="D">
+<span class="accessKey">D</span>
+elete
+</a>
+</li>
+<li>
+<a href="#" onclick="messages_submit('undelete_messages'); return false;" class="widget" accesskey="U">
+<span class="accessKey">U</span>
+ndelete
+</a>
+</li>
+<li>
+<a href="#" onclick="messages_submit('blacklist'); return false;" class="widget" accesskey="B">
+<span class="accessKey">B</span>
+lacklist
+</a>
+</li>
+<li>
+<a href="#" onclick="messages_submit('whitelist'); return false;" class="widget" accesskey="W">
+<span class="accessKey">W</span>
+hitelist
+</a>
+</li>
+<li>
+<a href="#" onclick="messages_submit('fwd_digest'); return false;" class="widget">Forward</a>
+</li>
+<li class="lastnavbar">
+<a href="#" onclick="messages_submit('view_messages'); return false;" class="widget">View Messages</a>
+</li>
+</ul>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+<table width="100%" cellspacing="0">
+<tbody>
+<tr class="mboxcontrol">
+<td class="bottomborder">
+<div class="leftFloat">
+<form id="select2" action="javascript:void(0)" onsubmit="return false">
+<input type="hidden" name="mailbox" value="INBOX"/>
+<label for="filter2" class="hidden">Select:</label>
+<select id="filter2" name="filter" onchange="makeSelection(2);">
+<option value="" selected="selected">Select:</option>
+<option value="!0">All</option>
+<option value="0">None</option>
+<option value="+0">Invert</option>
+<option value="!1">Seen</option>
+<option value="1">Unseen</option>
+<option value="8">Important</option>
+<option value="!8">Not Important</option>
+<option value="4">Answered</option>
+<option value="!4">Unanswered</option>
+<option value="2">Deleted</option>
+<option value="!2">Not Deleted</option>
+<option value="16">Draft</option>
+<option value="!16">Not Draft</option>
+<option value="32">Personal</option>
+<option value="!32">Not Personal</option>
+</select>
+<label for="flag2" class="hidden">Mark as:</label>
+<select id="flag2" name="flag" onchange="flagMessages(2);">
+<option value="" selected="selected">Mark as:</option>
+<option value="Seen">Seen</option>
+<option value="0Seen">Unseen</option>
+<option value="Flagged">Flagged For Followup</option>
+<option value="0Flagged">Not Flagged</option>
+<option value="Answered">Answered</option>
+<option value="0Answered">Unanswered</option>
+<option value="Deleted">Deleted</option>
+<option value="0Deleted">Not Deleted</option>
+<option value="Draft">Draft</option>
+<option value="0Draft">Not Draft</option>
+</select>
+</form>
+</div>
+<div class="leftFloat" style="padding-left:10px">
+<form method="post" action="imp/mailbox.php">
+<input type="hidden" name="mailbox" value="INBOX"/>
+<ul class="msgactions" style="display:inline">
+<li>
+<a href="#" onclick="transfer('move_messages', 2); return false;" class="widget">Move</a>
+</li>
+<li class="lastnavbar">
+<a href="#" onclick="transfer('copy_messages', 2); return false;" class="widget">Copy</a>
+</li>
+</ul>
+<label for="targetMailbox2" class="hidden">Target Mailbox:</label>
+<select id="targetMailbox2" name="targetMailbox" onchange="updateFolders(2);">
+<option value="">Messages to</option>
+<option value="" disabled="disabled">- - - - - - - - -</option>
+<option value="*new*">New Folder</option>
+<option value="" disabled="disabled">- - - - - - - - -</option>
+<option value="INBOX">Inbox</option>
+<option value="" disabled="disabled"> </option>
+<option value="" disabled="disabled">- - Task Lists - -</option>
+<option value="_tasklist_084025j@mrt.ac.lk">084025j@mrt.ac.lk's Task List</option>
+<option value="" disabled="disabled"> </option>
+<option value="" disabled="disabled">- - Notepads - -</option>
+<option value="_notepad_084025j@mrt.ac.lk">084025j@mrt.ac.lk's Notepad</option>
+</select>
+</form>
+</div>
+<div class="rightFloat">
+<form method="get" action="imp/mailbox.php">
+<input type="hidden" name="mailbox" value="INBOX"/>
+<img src="img/theme/graphics/nav/first-grey.png" alt="" title=""/>
+<img src="img/theme/graphics/nav/left-grey.png" alt="" title=""/>
+<label for="page2" class="hidden">Page:</label>
+<input type="text" id="page2" name="page" value="1" size="1"/>
+<a href="imp/mailbox.php?mailbox=INBOX&page=2" nicetitle="Next Page">
+<img src="img/theme/graphics/nav/right.png" alt=">" title=""/>
+</a>
+<a href="imp/mailbox.php?mailbox=INBOX&page=2" nicetitle="Last Page">
+<img src="img/theme/graphics/nav/last.png" alt=">>" title=""/>
+</a>
+</form>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+<script type="text/javascript">//<![CDATA[
+var messagelist = {"1INBOX":0,"2INBOX":1,"3INBOX":1,"4INBOX":0,"5INBOX":1,"6INBOX":0,"7INBOX":1,"8INBOX":1,"9INBOX":0,"10INBOX":1,"11INBOX":1,"12INBOX":1,"13INBOX":1,"14INBOX":1,"15INBOX":1,"16INBOX":1,"17INBOX":1,"18INBOX":1,"19INBOX":1,"20INBOX":1};
+//]]></script>
+<script language="JavaScript1.5" type="text/javascript">
+
+var _setHordeTitle = 1;
+try {
+    if (document.title && parent.frames.horde_main) parent.document.title = document.title;
+} catch (e) {
+}
+// -->
+</script>
+<script type="text/javascript">
+
+if (typeof(_setHordeTitle) == 'undefined' && document.title && parent.frames.horde_main) parent.document.title = document.title;
+// -->
+</script>
+<table align="right">
+<tbody>
+<tr>
+<td>
+<a href="https://webmail.uom.lk/horde/mypwd.php"> Change password </a>
+</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

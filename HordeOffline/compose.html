@@ -1,0 +1,497 @@
+<!DOCTYPE HTML>
+<html manifest="mani/hordefront.manifest">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<!--<script type="text/javascript" src="compose_files/prototype.js"></script>-->
+<script type="text/javascript" src="js/compose.js"></script>
+<script type="text/javascript" src="js/prototype.js"></script>
+<script type="text/javascript" src="js/JSLocalReading.js"></script>
+<script type="text/javascript" src="js/JRESTReader.js"></script>
+<script type="text/javascript" src="js/OfflineEvent.js"></script>
+<script type="text/javascript" src="js/nicetitlenew.js"></script>
+<script type="text/javascript" src="js/RedBox.js"></script>
+<script type="text/javascript" src="js/effects.js"></script>
+<script type="text/javascript" src="js/functions_mailbox.js"></script>
+<script type="text/javascript" src="js/Encodes.js"></script>
+<script type="text/javascript" src="js/Global.js"></script>
+<script type="text/javascript" src="js/ui.js"></script>
+<script type="text/javascript" src="js/XMLWriter.js"></script>
+
+<link href="css/tooltip.css" rel="stylesheet" type="text/css"/>
+<link href="css/theme/screen.css" rel="stylesheet" type="text/css">
+<link href="css/theme/bluewhite/screen.css" rel="stylesheet" type="text/css">
+<link href="css/imp/theme/screen.css" rel="stylesheet" type="text/css">
+<link href="css/imp/theme/bluewhite/screen.css" rel="stylesheet" type="text/css">
+<title>Mail :: New Message</title>
+<link href="img/theme/favicon.ico" rel="SHORTCUT ICON">
+<style>
+  .thumb {
+    height: 75px;
+    border: 1px solid #000;
+    margin: 10px 5px 0 0;
+  }
+</style>
+</head>
+
+<body>
+<div id="dhtmltooltip" style="visibility:hidden"></div>
+<script language="JavaScript"> 
+function popup1(url){
+	if(localStorage.getItem('connectionStatus')=='online'&&localStorage.getItem('connectionStatusBrowser')=='online'&&localStorage.getItem('connectionStatusUser')=='online'){
+		 var controlinfo;
+		 controlinfo = window.open(url, '',"width=600,height=500, menubar=0, resizable=0,scrollbars=0");
+		 controlinfo.focus();
+		 return;
+	}else{
+		imp_info('This feature is not available in offline mode.',1);
+	}
+}
+</script>
+<!--On load functions-->
+<script type="text/javascript">
+
+var hasharr=new Array();
+        // Function to run after page finish loading
+        function windowOnload(func) {
+			var current = window.onload;
+			if(typeof(current) != 'function') {
+				window.onload = func;
+			} else {
+				window.onload = function() {
+					current.apply(current);
+					func.apply(func);
+				};
+   		 }
+		}
+	windowOnload(loadDyanamicInfo);
+
+</script>
+<script> 
+
+function removeAtt(hash){
+	hasharr=hasharr.splice(hasharr.indexOf(hash), 1);
+}
+
+  function handleFileSelect(evt) { 
+    var files = evt.target.files; 
+    // FileList object 
+    // Loop through the FileList and render image files as thumbnails. 
+    for (var i = 0, f; f = files[i]; i++) {
+        var fx = files[i]; 
+        // Only process image files. 
+       
+        var reader = new FileReader();
+        // Closure to capture the file information.
+        reader.onload = (function(theFile) {
+            return function(e) {
+				var hash = hex_sha1(theFile.name);
+				 if (fx.type.toLowerCase().indexOf('image')!=-1) {
+                     // Render thumbnail.
+					var span = document.createElement('div'); 
+					span.id="div"+hash;
+			span.innerHTML = '<img class="thumb" src="'+ e.target.result+ '" title="'+ theFile.name+ '"/>';
+			var al = document.createElement('span');
+			al.innerHTML='<a onclick="removeAtt('+hash+')">Remove</a>';
+			span.appendChild(al);
+					$('list').insertBefore(span, null);
+				 }else{
+					 var span = document.createElement('div'); 
+					 span.id="div"+hash;
+					span.innerHTML = '+<p >'+ theFile.name+ '</p>';
+					var al = document.createElement('span');
+					al.innerHTML='<a onclick="removeAtt('+hash+')">Remove</a>';
+					span.appendChild(al);
+					$('list').insertBefore(span, null);
+				 }
+                
+                console.log('File hash:'+hash);
+                console.log('File Type:'+fx.type); 
+                // console.log('File Encode:'+e.target.result);
+                var Content = e.target.result; 
+				if(fx.type=='text/plain'){
+                	saveMIMEbody(hash,Content,fx.type,'7bit',Content.length,fx.size); 
+				}else{
+					saveMIMEbody(hash,Content,fx.type,'base64',Content.length,fx.size);
+				}
+				hasharr.push(hash);
+                console.log('File saved to local storage'); 
+            };        
+        })(f); // Read in the image file as a data URL.
+        reader.readAsDataURL(f); 
+    } 
+}
+
+ </script>
+
+<ul id="cmpnotice" class="notices" style="display:none">
+<li>
+<img id="cmpnoticeimg" src="img/theme/graphics/alerts/error.png" alt="Error" title=""><span id="cmpnoticemsg">You must enter at least one recipient.</span>
+</li>
+</ul>
+
+<form method="post" id="compose" name="compose" enctype="multipart/form-data">
+
+
+<input name="MAX_FILE_SIZE" value="2097152" id="MAX_FILE_SIZE" type="hidden">
+
+<input name="actionID" value="" id="actionID" type="hidden">
+
+<input name="compose_requestToken" value="kdGMm6WT4iE8OYx0h21gB6dCPkw" id="compose_requestToken" type="hidden">
+
+<input name="compose_formToken" value="xiCEs5kFk_pH3OQouxt68ptFul0" id="compose_formToken" type="hidden">
+
+<input name="messageCache" value="5420179214d7764051fe1e" id="messageCache" type="hidden">
+
+<input name="mailbox" value="INBOX" id="mailbox" type="hidden">
+
+<input name="thismailbox" value="" id="thismailbox" type="hidden">
+
+<input name="page" value="" id="page" type="hidden">
+
+<input name="start" value="" id="start" type="hidden">
+
+<input name="popup" value="" id="popup" type="hidden">
+
+<input name="attachmentAction" value="" id="attachmentAction" type="hidden">
+
+<input name="reloaded" value="1" id="reloaded" type="hidden">
+
+<input name="oldrtemode" value="0" id="oldrtemode" type="hidden">
+
+<input name="rtemode" value="0" id="rtemode" type="hidden">
+
+<input name="index" value="" id="index" type="hidden">
+
+
+<h1 class="header" id="topheader">New Message</h1>
+
+<br>
+
+
+
+<table cellspacing="0">
+ <tbody><tr>
+  <td>&nbsp;</td>
+  <td class="nowrap">
+   <input name="btn_send_message" title="Send Message (Accesskey S)" accesskey="S" class="button" onclick="sendMessage()" value="Send Message" type="button">
+
+   <input name="btn_save_draft" title="Save Draft (Accesskey D)" accesskey="D" class="button" onclick="saveDraft()" value="Save Draft" type="button">
+
+   <input name="btn_cancel_compose" title="Cancel Message" class="button" onclick="imp_confirm(confirmCancle, 'Cancelling this message will permanently discard its contents.<br/>Are you sure you want to do this?'); return false;" value="Cancel Message" type="button">
+  </td>
+  <td class="rightAlign"><a href="#" onclick="popup1('services/help/?module=imp&amp;topic=compose-buttons');return false;" class="helplink" target="hordehelpwin" onMouseover="ddrivetip('Help')" onMouseout="hideddrivetip()"><img src="img/theme/graphics/help.png" alt="Help" title="" height="16" width="16"></a>&nbsp;</td>
+ </tr>
+
+ <tr>
+  <td class="light rightAlign"><strong><label for="identity" accesskey="I"><span class="accessKey">I</span>dentity</label>&nbsp;</strong></td>
+  <td class="item">
+
+   <input id="last_identity" name="last_identity" value="0" type="hidden">
+
+   <input name="identity" value="tag:identity_default /&gt;" type="hidden">
+   <span id="senderid"> </span>
+
+
+  </td>
+  <td class="item rightAlign"><a href="#" onclick="popup1('services/help/?module=imp&amp;topic=compose-identity');return false;" class="helplink" target="hordehelpwin" onMouseover="ddrivetip('Help')" onMouseout="hideddrivetip()"><img src="img/theme/graphics/help.png" alt="Help" title="" height="16" width="16"></a>&nbsp;</td>
+ </tr>
+
+
+ <tr>
+  <td class="light rightAlign"><strong><label for="to" accesskey="T"><span class="accessKey">T</span>o</label>&nbsp;</strong></td>
+
+  <td class="item addressTr">
+   <input id="to" autocomplete="off" tabindex="1" style="direction: ltr;" name="to" type="text">
+   <span id="to_loading_img" style="display:none;"><img src="img/theme/graphics/loading.gif" alt="Loading..." title=""></span>
+   <div style="display: none;" id="to_results" class="autocomplete"></div>
+  </td>
+  <td class="item rightAlign"><a href="#" onclick="popup1('services/help/?module=imp&amp;topic=compose-to');return false;" class="helplink" target="hordehelpwin" onMouseover="ddrivetip('Help')" onMouseout="hideddrivetip()"><img src="img/theme/graphics/help.png" alt="Help" title="" height="16" width="16"></a>&nbsp;</td>
+
+ </tr>
+
+ <tr>
+  <td class="light rightAlign"><strong><label for="cc" accesskey="C"><span class="accessKey">C</span>c</label>&nbsp;</strong></td>
+
+  <td class="item addressTr">
+   <input id="cc" autocomplete="off" tabindex="2" style="direction: ltr;" name="cc" type="text">
+   <span id="cc_loading_img" style="display:none;"><img src="img/theme/graphics/loading.gif" alt="Loading..." title=""></span>
+   <div style="display: none;" id="cc_results" class="autocomplete"></div>
+  </td>
+  <td class="item rightAlign"><a href="#" onclick="popup1('services/help/?module=imp&amp;topic=compose-cc');return false;" class="helplink" target="hordehelpwin" onMouseover="ddrivetip('Help')" onMouseout="hideddrivetip()"><img src="img/theme/graphics/help.png" alt="Help" title="" height="16" width="16"></a>&nbsp;</td>
+
+ </tr>
+
+ <tr>
+  <td class="light rightAlign"><strong><label for="bcc" accesskey="B"><span class="accessKey">B</span>cc</label>&nbsp;</strong></td>
+
+  <td class="item addressTr">
+   <input name="bcc" type="text" id="bcc" style="direction: ltr;" tabindex="3" autocomplete="off">
+   <span id="bcc_loading_img" style="display:none;"><img src="img/theme/graphics/loading.gif" alt="Loading..." title=""></span>
+   <div style="display: none;" id="bcc_results" class="autocomplete"></div>
+  </td>
+  <td class="item rightAlign"><a href="#" onclick="popup1('services/help/?module=imp&amp;topic=compose-bcc');return false;" class="helplink" target="hordehelpwin" onMouseover="ddrivetip('Help')" onMouseout="hideddrivetip()"><img src="img/theme/graphics/help.png" alt="Help" title="" height="16" width="16"></a>&nbsp;</td>
+
+ </tr>
+
+
+ <tr>
+  <td class="light rightAlign"><strong><label for="subject" accesskey="u">S<span class="accessKey">u</span>bject</label>&nbsp;</strong></td>
+  <td class="item">
+   <input id="subject" tabindex="4" name="subject" type="text">
+  </td>
+  <td class="item rightAlign"><a href="#" onclick="popup1('services/help/?module=imp&amp;topic=compose-subject');return false;" class="helplink" target="hordehelpwin" onMouseover="ddrivetip('Help')" onMouseout="hideddrivetip()"><img src="img/theme/graphics/help.png" alt="Help" title="" height="16" width="16"></a>&nbsp;</td>
+ </tr>
+
+
+ <tr>
+  <td class="light rightAlign">
+   <strong><label for="charset" accesskey="h">C<span class="accessKey">h</span>arset</label>&nbsp;</strong>
+  </td>
+  <td class="item">
+   <!--<input id="charset" tabindex="4" name="charset" type="text" value="Western (ISO-8859-1)" disabled>-->
+<select tabindex="5" name="charset" id="charset"> 
+ 
+    <option value="windows-1256">Arabic (Windows-1256)</option> 
+ 
+    <option value="ARMSCII-8">Armenian (ARMSCII-8)</option> 
+ 
+    <option value="ISO-8859-13">Baltic (ISO-8859-13)</option> 
+ 
+    <option value="ISO-8859-14">Celtic (ISO-8859-14)</option> 
+ 
+    <option value="ISO-8859-2">Central European (ISO-8859-2)</option> 
+ 
+    <option value="GB2312">Chinese Simplified (GB2312)</option> 
+ 
+    <option value="BIG5">Chinese Traditional (Big5)</option> 
+ 
+    <option value="KOI8-R">Cyrillic (KOI8-R)</option> 
+ 
+    <option value="windows-1251">Cyrillic (Windows-1251)</option> 
+ 
+    <option value="KOI8-U">Cyrillic/Ukrainian (KOI8-U)</option> 
+ 
+    <option value="ISO-8859-7">Greek (ISO-8859-7)</option> 
+ 
+    <option value="ISO-8859-8-I">Hebrew (ISO-8859-8-I)</option> 
+ 
+    <option value="ISO-2022-JP">Japanese (ISO-2022-JP)</option> 
+ 
+    <option value="EUC-KR">Korean (EUC-KR)</option> 
+ 
+    <option value="ISO-8859-10">Nordic (ISO-8859-10)</option> 
+ 
+    <option value="ISO-8859-3">South European (ISO-8859-3)</option> 
+ 
+    <option value="TIS-620">Thai (TIS-620)</option> 
+ 
+    <option value="ISO-8859-9">Turkish (ISO-8859-9)</option> 
+ 
+    <option selected="selected" value="UTF-8">Unicode (UTF-8)</option> 
+ 
+    <option value="VISCII">Vietnamese (VISCII)</option> 
+ 
+    <option value="ISO-8859-1">Western (ISO-8859-1)</option> 
+ 
+    <option value="ISO-8859-15">Western (ISO-8859-15)</option> 
+ 
+   </select>
+  
+  
+  </td>
+  <td class="item rightAlign"><a href="#" onclick="popup1('services/help/?module=imp&amp;topic=compose-charset');return false;" class="helplink" target="hordehelpwin" onMouseover="ddrivetip('Help')" onMouseout="hideddrivetip()"><img src="img/theme/graphics/help.png" alt="Help" title="" height="16" width="16"></a>&nbsp;</td>
+ </tr>
+
+
+
+
+
+
+ <tr>
+  <td>&nbsp;</td>
+  <td class="item">
+   <table cellspacing="0" width="100%">
+    <tbody><tr>
+
+    <!-- <td align="center">
+      <a href="#" onclick="window.open('/horde/imp/contacts.php', 'contacts', 'toolbar=no,location=no,status=no,scrollbars=yes,resizable=yes,width=550,height=300,left=100,top=100'); return false;" class="widget"><img src="img/theme/graphics/addressbook_browse.png" alt="" title=""><br>Address Book</a>
+     </td>
+-->
+     <td align="center">
+      <a href="#" onclick="window.open('keyboard.html', 'chars', 'toolbar=no,location=no,status=yes,scrollbars=yes,resizable=yes,height=220,width=400'); return false;" class="widget"><img src="img/theme/graphics/keyboard.png" alt="" title=""><br>Special Characters</a>
+     </td>
+
+     <td align="center">
+      <a href="#attachments" class="widget"><img src="img/theme/graphics/manage_attachments.png" alt="" title=""><br>Attachments</a>
+     </td>
+
+    </tr>
+   </tbody></table>
+  </td>
+  <td class="item rightAlign"><a href="#" onclick="popup1('services/help/?module=imp&amp;topic=compose-options');return false;" class="helplink" target="hordehelpwin" onMouseover="ddrivetip('Help')" onMouseout="hideddrivetip()"><img src="img/theme/graphics/help.png" alt="Help" title="" height="16" width="16"></a>&nbsp;</td>
+ </tr>
+
+
+<!-- <tr>
+  <td>&nbsp;</td>
+  <td class="item" colspan="2">
+   <input id="ssm" class="checkbox" name="save_sent_mail" checked="checked" type="checkbox">
+   <label for="ssm" accesskey="v">Sa<span class="accessKey">v</span>e a copy in </label>
+
+   <span id="sent_mail_folder">"Sent"</span>
+
+  </td>
+ </tr>
+
+
+
+ <tr>
+  <td>&nbsp;</td>
+  <td class="item" colspan="2">
+   <input id="rrr" class="checkbox" name="request_read_receipt" type="checkbox"> <label for="rrr" accesskey="R">Request a <span class="accessKey">R</span>ead Receipt</label>
+  </td>
+ </tr>
+
+
+
+ <tr>
+  <td>&nbsp;</td>
+  <td class="item" colspan="2">
+   <img src="img/theme/graphics/compose.png" alt="Switch Composition Method" title="">
+   <a nicetitle="Switch Composition Method" href="#" onclick="$('rtemode').value='1';uniqSubmit();return false;">
+   Switch to HTML composition</a>
+  </td>
+ </tr>-->
+
+
+ <tr>
+  <td class="light rightAlign" valign="top"><strong><label for="message" accesskey="x">Te<span class="accessKey">x</span>t</label>&nbsp;</strong></td>
+  <td class="item" colspan="2" id="messageParent">
+  
+   <textarea class="composebody" tabindex="6" name="message" id="message" rows="20" cols="80"></textarea>
+  </td>
+ </tr>
+
+ <tr>
+  <td>&nbsp;</td>
+  <td class="nowrap">
+   <input name="btn_send_message" title="Send Message (Accesskey S)" accesskey="S" class="button" onclick="sendMessage()" value="Send Message" type="button">
+
+   <input name="btn_save_draft" title="Save Draft (Accesskey D)" accesskey="D" class="button" onclick="saveDraft()" value="Save Draft" type="button" >
+
+   <input name="btn_cancel_compose" title="Cancel Message" class="button" onclick="imp_confirm(confirmCancle, 'Cancelling this message will permanently discard its contents.<br/>Are you sure you want to do this?'); return false;" value="Cancel Message" type="button">
+  </td>
+  <td class="rightAlign"><a href="#" onclick="popup1('services/help/?module=imp&amp;topic=compose-buttons');return false;" class="helplink" target="hordehelpwin" onMouseover="ddrivetip('Help')" onMouseout="hideddrivetip()"><img src="img/theme/graphics/help.png" alt="Help" title="" height="16" width="16"></a>&nbsp;</td>
+ </tr>
+
+
+
+
+
+
+<!-- <tr>
+  <td>&nbsp;</td>
+  <td class="item nowrap" colspan="2">
+   <input id="vcard" class="checkbox" name="vcard" type="checkbox">
+   <label for="vcard">Attach your contact information to the message?</label>
+  </td>
+ </tr>-->
+
+</tbody></table>
+
+
+<br>
+
+<h1 class="header">
+ <strong>&nbsp;<a id="attachments"></a>Attachments</strong>
+
+</h1>
+
+<table cellspacing="0" width="100%">
+ <tbody><tr class="item" id="upload_atc">
+
+
+  <td>
+   <table>
+    <tbody><tr id="attachment_row_1">
+     <!--<td>
+      <strong><label for="upload_1">File 1:</label></strong> <input id="upload_1" name="upload_1" tabindex="7" onchange="attachmentChanged()" size="25" type="file">
+     </td>-->
+     <td>
+   <strong><label>Files:</label></strong><input type="file" id="files" name="files[]" multiple tabindex="7" />
+ 
+     </td>
+     <!--<td>
+      <label for="upload_disposition_1" class="hidden">Disposition</label>
+      <select id="upload_disposition_1" name="upload_disposition_1">
+       <option value="attachment" selected="selected">Attachment</option>
+       <option value="inline">Inline</option>
+      </select>
+     </td>-->
+    </tr>
+    <tr>
+    <td>
+    <output id="list"></output>
+    </td>
+    </tr>
+    <tr>
+     <td colspan="2">
+      (Maximum Attachment Size: 2,097,152 bytes)
+     </td>
+    </tr>
+   </tbody></table>
+  </td>
+
+
+  <!--<td class="rightAlign">
+   <input name="btn_add_attachment" class="button" onclick="uniqSubmit('add_attachment', event);" value="Update" type="submit">
+   &nbsp;<a href="#" onclick="popup1('services/help/?module=imp&amp;topic=compose-attachments');return false;" class="helplink" target="hordehelpwin" onMouseover="ddrivetip('Help')" onMouseout="hideddrivetip()"><img src="img/theme/graphics/help.png" alt="Help" title="" height="16" width="16"></a>
+  </td>-->
+ </tr>
+
+
+<!--
+ <tr class="item">
+  <td colspan="3">
+   <strong><label for="save_attachments_select">Save Attachments with message in sent-mail folder?</label></strong>&nbsp;
+   <select id="save_attachments_select" name="save_attachments_select">
+    <option value="1">Yes</option>
+    <option value="0" selected="selected">No</option>
+   </select>
+   &nbsp;<a href="#" onclick="popup1('services/help/?module=imp&amp;topic=compose-save-attachmentss');return false;" class="helplink" target="hordehelpwin" onMouseover="ddrivetip('Help')" onMouseout="hideddrivetip()"><img src="img/theme/graphics/help.png" alt="Help" title="" height="16" width="16"></a>
+  </td>
+ </tr>-->
+
+ <!--<tr class="item">
+  <td colspan="3">
+   <strong><label for="link_attachments">Link Attachments?</label></strong>&nbsp;
+   <select id="link_attachments" name="link_attachments">
+    <option value="1">Yes</option>
+    <option value="0" selected="selected">No</option>
+   </select>
+   &nbsp;<a href="#" onclick="popup1('services/help/?module=imp&amp;topic=compose-link-attachments');return false;" class="helplink" target="hordehelpwin" onMouseover="ddrivetip('Help')" onMouseout="hideddrivetip()"><img src="img/theme/graphics/help.png" alt="Help" title="" height="16" width="16"></a>
+  </td>
+ </tr>-->
+
+
+</tbody></table>
+
+
+
+
+</form>
+<script language="JavaScript1.5" type="text/javascript">
+<!--
+var _setHordeTitle = 1;
+try {
+    if (document.title && parent.frames.horde_main) parent.document.title = document.title;
+} catch (e) {
+}
+// -->
+</script>
+<script type="text/javascript">
+<!--
+if (typeof(_setHordeTitle) == 'undefined' && document.title && parent.frames.horde_main) parent.document.title = document.title;
+// -->
+</script>
+</body></html>

@@ -1,0 +1,170 @@
+<emails>
+<email>
+<subject>Test1</subject>
+<to>profGihan</to>
+<from>madhuka</from>
+<replyto>madhuka</replyto>
+<id>1</id>
+<date>2011-04-23 13:34:45 UTC</date>
+<folder>Sent</folder>
+<body>hi, testing the email restful ws</body>
+<mimebodyparts>0</mimebodyparts>
+<mimesize>0</mimesize>
+</email>
+<email>
+<subject>More Try</subject>
+<to>profGihan</to>
+<from>madhuka</from>
+<replyto>madhuka</replyto>
+<id>2</id>
+<date>2011-04-23 13:35:41 UTC</date>
+<folder>Sent</folder>
+<body>hello sir it is working some far</body>
+<mimebodyparts>0</mimebodyparts>
+<mimesize>0</mimesize>
+</email>
+<email>
+<subject>work more</subject>
+<to>ruchira</to>
+<from>madhuka</from>
+<replyto>madhuka</replyto>
+<id>3</id>
+<date>2011-04-23 17:17:44 UTC</date>
+<folder>Sent</folder>
+<body>hi, try it out</body>
+<mimebodyparts>0</mimebodyparts>
+<mimesize>0</mimesize>
+</email>
+<email>
+<subject>HTML5</subject>
+<to>mithila</to>
+<from>madhuka</from>
+<replyto>madhuka</replyto>
+<id>4</id>
+<date>2011-04-23 17:18:31 UTC</date>
+<folder>Sent</folder>
+<body>hi, it is work thx</body>
+<mimebodyparts>0</mimebodyparts>
+<mimesize>0</mimesize>
+</email>
+<email>
+<subject>uni</subject>
+<to>mithila</to>
+<from>madhuka</from>
+<replyto>madhuka</replyto>
+<id>5</id>
+<date>2011-04-23 17:19:18 UTC</date>
+<folder>Sent</folder>
+<body>hi, offline testing...</body>
+<mimebodyparts>0</mimebodyparts>
+<mimesize>0</mimesize>
+</email>
+<email>
+<subject>HTML5</subject>
+<to>mithila</to>
+<from>tharidu</from>
+<replyto>madhuka</replyto>
+<id>6</id>
+<date>2011-04-23 17:20:52 UTC</date>
+<folder>Inbox</folder>
+<body>hi, rest ws function list</body>
+<mimebodyparts>1</mimebodyparts>
+<mimesize>1</mimesize>
+</email>
+<email>
+<subject>hi</subject>
+<to>madhuka</to>
+<from>tharidu</from>
+<replyto>tharidu</replyto>
+<id>7</id>
+<date>2011-04-23 18:56:21 UTC</date>
+<folder>Inbox</folder>
+<body>hi, i am OK in UI</body>
+<mimebodyparts>1</mimebodyparts>
+<mimesize>10</mimesize>
+</email>
+<email>
+<subject>deleting</subject>
+<to>madhuka</to>
+<from>tharidu</from>
+<replyto>tharidu</replyto>
+<id>8</id>
+<date>2011-04-24 04:55:36 UTC</date>
+<folder>Trash</folder>
+<body>hi, horde config is working now</body>
+<mimebodyparts>1</mimebodyparts>
+<mimesize>9</mimesize>
+</email>
+<email>
+<subject>testing out box</subject>
+<to>mithila</to>
+<from>madhuka</from>
+<replyto>madhuka</replyto>
+<id>9</id>
+<date>2011-04-24 04:56:31 UTC</date>
+<folder>Outbox</folder>
+<body>hi, offline working now</body>
+<mimebodyparts>0</mimebodyparts>
+<mimesize>0</mimesize>
+</email>
+<email>
+<subject>saving emails</subject>
+<to>tharidu</to>
+<from>madhuka</from>
+<replyto>madhuka</replyto>
+<id>10</id>
+<date>2011-04-24 04:58:12 UTC</date>
+<folder>Draft</folder>
+<body>hi, saving emails in draft</body>
+<mimebodyparts>0</mimebodyparts>
+<mimesize>0</mimesize>
+</email>
+<email>
+<subject>labeling</subject>
+<to>profGihan</to>
+<from>madhuka</from>
+<replyto>madhuka</replyto>
+<id>11</id>
+<date>2011-04-24 04:59:32 UTC</date>
+<folder>OfflineProject</folder>
+<body>hi, here i am try out labeling</body>
+<mimebodyparts>0</mimebodyparts>
+<mimesize>0</mimesize>
+</email>
+<email>
+<subject>testing in html5 rest</subject>
+<to>mithila</to>
+<from>madhuka</from>
+<replyto>madhuka</replyto>
+<id>12</id>
+<date>2011-04-29 03:12:17 UTC</date>
+<folder>Sent</folder>
+<body>hi, it is work now well</body>
+<mimebodyparts>0</mimebodyparts>
+<mimesize>0</mimesize>
+</email>
+<email>
+<subject>ccc</subject>
+<to>fdg</to>
+<from>madhuka</from>
+<replyto>dfd</replyto>
+<id>13</id>
+<date>2011-05-15 14:40:14 UTC</date>
+<folder>TestLabeling</folder>
+<body>fssfsf</body>
+<mimebodyparts>1</mimebodyparts>
+<mimesize>10</mimesize>
+</email>
+<email>
+<subject>ccc</subject>
+<to>fdg</to>
+<from>madhuka</from>
+<replyto>dfd</replyto>
+<id>14</id>
+<date>2011-05-15 14:40:39 UTC</date>
+<folder>TestLabeling</folder>
+<body>fssfsf</body>
+<mimebodyparts>1</mimebodyparts>
+<mimesize>10</mimesize>
+</email>
+</emails>

@@ -1,0 +1,95 @@
+
+<!DOCTYPE HTML>
+<!--   IMP: Copyright 2001-2008 The Horde Project.  IMP is under the GPL.  -->
+<!-- Horde Project: http://www.horde.org/ | IMP: http://www.horde.org/imp/ -->
+<!--        GNU Public License: http://www.fsf.org/copyleft/gpl.html       -->
+<html manifest="mani/hordefront.manifest">
+<head>
+<script type="text/javascript" src="js/prototype.js"></script>
+<script type="text/javascript" src="js/functions_mailbox.js"></script>
+<script type="text/javascript" src="js/JSLocalReading.js"></script>
+<script type="text/javascript" src="js/JRESTReader.js"></script>
+<script type="text/javascript" src="js/OfflineEvent.js"></script>
+<script type="text/javascript" src="js/functions_inbox.js"></script>
+<script type="text/javascript" src="js/functions_folders.js"></script>
+<script type="text/javascript" src="js/functions_confirmPage.js"></script>
+<script type="text/javascript" src="js/RedBox.js"></script>
+<script type="text/javascript" src="js/effects.js"></script>
+<link href="css/theme/screen.css" rel="stylesheet" type="text/css"/>
+<link href="css/theme/bluewhite/screen.css" rel="stylesheet" type="text/css"/>
+<link href="css/theme/opera.css" rel="stylesheet" type="text/css"/>
+<link href="css/imp/theme/screen.css" rel="stylesheet" type="text/css"/>
+<link href="css/tooltip.css" rel="stylesheet" type="text/css"/>
+<link href="css/imp/theme/bluewhite/screen.css" rel="stylesheet" type="text/css"/>
+<link href="css/dropdown.css" rel="stylesheet" type="text/css"/>
+<title>Mail :: Folder Actions - Confirmation </title> 
+</head> 
+<body>
+ 
+ <!--On load functions-->
+<script type="text/javascript">
+// Function to run after page finish loading
+function windowOnload(func) {
+    var current = window.onload;
+
+    if(typeof(current) != 'function') {
+        window.onload = func;
+    } else {
+        window.onload = function() {
+            current.apply(current);
+            func.apply(func, new Array());
+        };
+    }
+}
+windowOnload(loadDynamicInfoConfirmpage);
+
+</script>
+ 
+<form id="fmanager" name="fmanager" action="#"> 
+ 
+<div class="header leftAlign" id="headmsg"> 
+ Folder Actions - Confirmation 
+</div> 
+ 
+<div class="control leftAlign" id="mainmsg"> 
+<!--  
+ You are attempting to delete all messages contained in the following folder(s). 
+ <br> 
+ If you continue, all messages in the folder(s) will be lost! -->
+</div> 
+ 
+<div id="folderlst">
+<!--<div class="item0"> 
+ &nbsp;<label><input type="checkbox" class="checkbox" name="folder_list[]" value="Sent" checked="checked"> Sent</label> 
+</div> 
+ 
+<div class="item1"> 
+ &nbsp;<label><input type="checkbox" class="checkbox" name="folder_list[]" value="test" checked="checked"> test</label> 
+</div>--> 
+ </div>
+ 
+<div class="control leftAlign" id="confrmbtns"> 
+ <input type="button" id="actionbtn" name="submit" class="button" value="Confirm" onClick="">&nbsp; 
+ <input type="button" class="button" onclick="self.location.href='folders.html';" value="Cancel"> 
+</div> 
+ 
+</form> 
+<script language="JavaScript1.5" type="text/javascript">
+<!--
+var _setHordeTitle = 1;
+try {
+    if (document.title && parent.frames.horde_main) parent.document.title = document.title;
+} catch (e) {
+}
+// -->
+</script>
+<script type="text/javascript">
+<!--
+if (typeof(_setHordeTitle) == 'undefined' && document.title && parent.frames.horde_main) parent.document.title = document.title;
+// -->
+</script>
+<!--<p align="right"><a href="#" onClick="viewPwdChangeScreen()"> Change password </a></p>-->
+
+
+</body>
+</html>

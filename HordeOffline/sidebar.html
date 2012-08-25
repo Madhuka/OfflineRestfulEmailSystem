@@ -1,0 +1,530 @@
+<!DOCTYPE HTML>
+<html manifest="mani/hordefront.manifest">
+<head>
+<!--<script type="text/javascript" src="/horde/services/javascript.php?file=tree.js&app=horde"></script>
+<script type="text/javascript" src="js/prototype.js"></script>
+<script type="text/javascript" src="js/sidebar.js"></script>
+<script type="text/javascript" src="horde-prototype.js"></script>
+<script type="text/javascript" src="accesskeys.js"></script>
+<script type="text/javascript" src="js/popup.js"></script>-->
+<script type="text/javascript" src="js/popup.js"></script>
+<script type="text/javascript" src="js/prototype.js"></script>
+<script type="text/javascript" src="js/sidebaroff.js"></script>
+<script type="text/javascript" src="js/functions_mailbox.js"></script>
+<!-- <script type="text/javascript" src="js/db.js"></script>-->
+<script type="text/javascript" src="js/JSLocalReading.js"></script>
+<script type="text/javascript" src="js/JRESTReader.js"></script>
+<script type="text/javascript" src="js/OfflineEvent.js"></script>
+<script type="text/javascript" src="js/functions_inbox.js"></script>
+<script type="text/javascript" src="js/RedBox.js"></script>
+<script type="text/javascript" src="js/effects.js"></script>
+<title>Horde</title>
+<link href="img/theme/favicon.ico" rel="SHORTCUT ICON"/>
+<link href="css/theme/screen.css" rel="stylesheet" type="text/css"/>
+<link href="css/theme/bluewhite/screen.css" rel="stylesheet" type="text/css"/>
+<!--<link href="img/theme/opera.css" rel="stylesheet" type="text/css"/>-->
+</head>
+<body class="sidebar">
+
+<!--On load functions-->
+<script type="text/javascript">
+// Function to run after page finish loading
+function windowOnload(func) {
+    var current = window.onload;
+
+    if(typeof(current) != 'function') {
+        window.onload = func;
+    } else {
+        window.onload = function() {
+            current.apply(current);
+            func.apply(func, new Array());
+        };
+    }
+}
+windowOnload(loadDynamicSidebarInfo);
+
+
+function loadDynamicSidebarInfo(){
+	
+	$('newFolderList').update();
+	$('createNewFolder').update();
+	
+	var menu="<div class=\"treeRow\"><div style=\"float:left;\"><img src=\"img/theme/graphics/tree/blank.png\" alt=\" \" height=\"20\" width=\"20\"/><img id=\"nodeToggle_impcompose\" src=\"img/theme/graphics/tree/join.png\" alt=\"|-\" height=\"20\" width=\"20\"/><a href=\"javascript:popup('compose.html');\"><img id=\"nodeIcon_impcompose\" src=\"img/theme/graphics/compose.png\"/>New Message</a></div>"+"<div class=\"treeRow\"><div style=\"float:left;\"><img src=\"img/theme/graphics/tree/blank.png\" alt=\" \" height=\"20\" width=\"20\"/><img id=\"nodeToggle_impseach\" src=\"img/theme/graphics/tree/join.png\" alt=\"|-\" height=\"20\" width=\"20\"/><a href=\"#\" onClick=\"viewSearchPage()\"><img id=\"nodeIcon_impserch\" src=\"img/theme/graphics/search.png\"/><span dir=\"ltr\">Search</span></a></div></div>"+"<div class=\"treeRow\"><div style=\"float:left;\"><img src=\"img/theme/graphics/tree/blank.png\" alt=\" \" height=\"20\" width=\"20\"/><img id=\"nodeToggle_impINBOX\" src=\"img/theme/graphics/tree/join.png\" alt=\"|-\" height=\"20\" width=\"20\"/><a href=\"#\" onClick=\"viewInbox()\"><img id=\"nodeIcon_impINBOX\" src=\"img/theme/graphics/inbox.png\"/><span dir=\"ltr\">Inbox</span></a></div></div>"+"<div class=\"treeRow\"><div style=\"float:left;\"><img src=\"img/theme/graphics/tree/blank.png\" alt=\" \" height=\"20\" width=\"20\"/><img id=\"nodeToggle_impDRAFT\" src=\"img/theme/graphics/tree/join.png\" alt=\"|-\" height=\"20\" width=\"20\"/><a href=\"#\" onClick=\"viewInbox(null,'Drafts')\"><img id=\"nodeIcon_impDRAFT\" src=\"img/theme/graphics/drafts.png\"/><span dir=\"ltr\">Drafts</span></a></div></div>"+"<div class=\"treeRow\"><div style=\"float:left;\"><img src=\"img/theme/graphics/tree/blank.png\" alt=\" \" height=\"20\" width=\"20\"/><img id=\"nodeToggle_impSENT\" src=\"img/theme/graphics/tree/join.png\" alt=\"|-\" height=\"20\" width=\"20\"/><a href=\"#\" onClick=\"viewInbox(null,'Sent')\"><img id=\"nodeIcon_impSENT\" src=\"img/theme/graphics/sent.png\"/><span dir=\"ltr\">Sent</span></a></div></div>"+"<div class=\"treeRow\"><div style=\"float:left;\"><img src=\"img/theme/graphics/tree/blank.png\" alt=\" \" height=\"20\" width=\"20\"/><img id=\"nodeToggle_impOUTBOX\" src=\"img/theme/graphics/tree/join.png\" alt=\"|-\" height=\"20\" width=\"20\"/><a href=\"#\" onClick=\"viewInbox(null,'Outbox')\"><img id=\"nodeIcon_impOUTBOX\" src=\"img/theme/graphics/outbox.png\"/><span dir=\"ltr\">Outbox</span></a></div></div>"+"<div class=\"treeRow\"><div style=\"float:left;\"><img src=\"img/theme/graphics/tree/blank.png\" alt=\" \" height=\"20\" width=\"20\"/><img id=\"nodeToggle_impTRASH\" src=\"img/theme/graphics/tree/join.png\" alt=\"|-\" height=\"20\" width=\"20\"/><a href=\"#\" onClick=\"viewInbox(null,'Trash')\"><img id=\"nodeIcon_impTRASH\" src=\"img/theme/graphics/trash.png\"/><span dir=\"ltr\">Trash</span></a></div></div>";
+	$('newFolderList').insert(menu);
+	
+	var folders=ListOfFolders();
+	
+	if(folders!=null){
+		for(var i=0; i<folders.length ; i++){
+			var f=folders[i].toLowerCase();
+			if(!(f=="inbox"||f=="sent"||f=="drafts"||f=="outbox"||f=="trash")){
+				var h="<div class=\"treeRow\"><div style=\"float:left;\"><img src=\"img/theme/graphics/tree/blank.png\" alt=\" \" height=\"20\" width=\"20\"/><img id=\"nodeToggle_imp"+folders[i]+"\" src=\"img/theme/graphics/tree/join.png\" alt=\"|-\" height=\"20\" width=\"20\"/><a href=\"#\" onClick=\"viewInbox(null,'"+folders[i]+"')\"><img id=\"nodeIcon_imp"+folders[i]+"\" src=\"img/theme/graphics/folder.png\"/><span dir=\"ltr\">"+folders[i]+"</span></a></div></div>";
+				$('newFolderList').insert(h);
+			}	
+		}
+	}
+	
+	var newfoldermenu="<div class=\"treeRow\"><div style=\"float:left;\"><img src=\"img/theme/graphics/tree/blank.png\" alt=\" \" height=\"20\" width=\"20\"/><img id=\"nodeToggle_impNew\" src=\"img/theme/graphics/tree/joinbottom.png\" alt=\"|_\" height=\"20\" width=\"20\"/><a href=\"#\" onClick=\"createNewFolder(false)\"><img id=\"nodeIcon_impNew\" src=\"img/theme/graphics/newfolder.png\"/><span dir=\"ltr\">Create Folder</span></a></div></div>";
+	$('createNewFolder').insert(newfoldermenu);
+	
+}
+
+</script>
+
+<div id="menu" style="overflow:hidden">
+<span class="leftFloat" id="themelogo">   </span>
+<div class="clear"> </div>
+</div>
+<div id="expandedSidebar" style="overflow:hidden">
+<span id="expandButton" class="rightFloat">
+<a href="#" onclick="toggleMenuFrame(); return false;" nicetitle="Collapse Sidebar">
+<img src="img/theme/graphics/hide_panel.png" alt=""  title="" id="toggleimg"/>
+</a>
+</span>
+<div id="sidebarPanel">
+<div id="t_horde_menu">
+<div class="treeRow">
+<div style="float:left;">
+<img id="nodeToggle_horde" src="img/theme/graphics/tree/nullonly.png" alt=" " height="20" width="20"/>
+<a href="#"  onClick="">
+<img id="nodeIcon_horde" src="img/theme/graphics/horde.png"/>
+Horde
+</a>
+</div>
+</div>
+<div class="treeRow">
+<div style="float:left;">
+<img id="nodeToggle_imp" src="img/theme/graphics/tree/minusonly.png" alt="-" style="cursor:pointer" onclick="expandNodes('nodeChildren_imp','nodeToggle_imp')" height="20" width="20"/>
+<a href="#" onClick="viewInbox()">
+<img id="nodeIcon_imp" src="img/theme/graphics/newmail.png"/>
+Mail
+</a>
+</div>
+</div>
+<div id="nodeChildren_imp" style="display:block">
+<!--<div class="treeRow">
+<div style="float:left;">
+<img src="img/theme/graphics/tree/blank.png" alt=" " height="20" width="20"/>
+<img id="nodeToggle_impcompose" src="img/theme/graphics/tree/join.png" alt="|-" height="20" width="20"/>
+<a href="javascript:popup('compose.html');" >
+<img id="nodeIcon_impcompose" src="img/theme/graphics/compose.png"/>
+New Message
+</a>
+</div>-->
+<!--</div>
+<div class="treeRow">
+<div style="float:left;">
+<img src="img/theme/graphics/tree/blank.png" alt=" " height="20" width="20"/>
+<img id="nodeToggle_impsearch" src="img/theme/graphics/tree/join.png" alt="|-" height="20" width="20"/>
+<a href="/horde/imp/search.php" target="horde_main">
+<img id="nodeIcon_impsearch" src="img/theme/graphics/search.png"/>
+Search
+</a>
+</div>
+</div>-->
+<!--<div class="treeRow">
+<div style="float:left;">
+<img src="img/theme/graphics/tree/blank.png" alt=" " height="20" width="20"/>
+<img id="nodeToggle_impINBOX" src="img/theme/graphics/tree/join.png" alt="|-" height="20" width="20"/>
+<a href="#" onClick="viewInbox()">
+<img id="nodeIcon_impINBOX" src="img/theme/graphics/inbox.png"/>
+<span dir="ltr">
+Inbox
+</span>
+</a>
+</div>
+</div>-->
+<!--<div class="treeRow">
+<div style="float:left;">
+<img src="img/theme/graphics/tree/blank.png" alt=" " height="20" width="20"/>
+<img id="nodeToggle_impDRAFT" src="img/theme/graphics/tree/join.png" alt="|-" height="20" width="20"/>
+<a href="#" onClick="viewInbox(null,'Draft')">
+<img id="nodeIcon_impDRAFT" src="img/theme/graphics/drafts.png"/>
+<span dir="ltr">
+Drafts
+</span>
+</a>
+</div>
+</div>-->
+<!--<div class="treeRow">
+<div style="float:left;">
+<img src="img/theme/graphics/tree/blank.png" alt=" " height="20" width="20"/>
+<img id="nodeToggle_impSENT" src="img/theme/graphics/tree/join.png" alt="|-" height="20" width="20"/>
+<a href="#" onClick="viewInbox(null,'Sent')">
+<img id="nodeIcon_impSENT" src="img/theme/graphics/sent.png"/>
+<span dir="ltr">
+Sent
+</span>
+</a>
+</div>
+</div>-->
+
+<div id="newFolderList">
+</div>
+<div id="createNewFolder">
+</div>
+</div>
+<!--<div class="treeRow">
+<div style="float:left;">
+<img id="nodeToggle_organizing" src="img/theme/graphics/tree/plusonly.png" alt="+" style="cursor:pointer" onclick="expandNodes('nodeChildren_organizing','nodeToggle_organizing')" height="20" width="20"/>
+<span class="toggle" onclick="horde_menu.toggle('organizing')">
+<img id="nodeIcon_organizing" src="img/theme/graphics/organizing.png"/>
+Organizing
+</span>
+</div>
+</div>-->
+<div id="nodeChildren_organizing" style="display:none;">
+<div class="treeRow">
+<div style="float:left;">
+<img src="img/theme/graphics/tree/blank.png" alt=" " height="20" width="20"/>
+<img id="nodeToggle_turba" src="img/theme/graphics/tree/plus.png" alt="+" style="cursor:pointer" onclick="expandNodes('nodeChildren_turba','nodeToggle_turba')" height="20" width="20"/>
+<a href="/horde/turba/" target="horde_main">
+<img id="nodeIcon_turba" src="img/theme/graphics/turba.png"/>
+Address Book
+</a>
+</div>
+</div>
+<div id="nodeChildren_turba" style="display:none;">
+<div class="treeRow">
+<div style="float:left;">
+<img src="img/theme/graphics/tree/blank.png" alt=" " height="20" width="20"/>
+<img src="img/theme/graphics/tree/line.png" alt="| " height="20" width="20"/>
+<img id="nodeToggle_turba__new" src="img/theme/graphics/tree/plus.png" alt="+" style="cursor:pointer" onclick="expandNodes('nodeChildren_turba__new','nodeToggle_turba__new')" height="20" width="20"/>
+<a href="#" target="horde_main">
+<img id="nodeIcon_turba__new" src="img/theme/graphics/new.png"/>
+New Contact
+</a>
+</div>
+</div>
+<div id="nodeChildren_turba__new" style="display:none;">
+<div class="treeRow">
+<div style="float:left;">
+<img src="img/theme/graphics/tree/blank.png" alt=" " height="20" width="20"/>
+<img src="img/theme/graphics/tree/line.png" alt="| " height="20" width="20"/>
+<img src="img/theme/graphics/tree/line.png" alt="| " height="20" width="20"/>
+<img id="nodeToggle_turba95e5888b91effdddd0fe4493e323b0fa__new" src="img/theme/graphics/tree/joinbottom.png" alt="`-" height="20" width="20"/>
+<a href="#" target="horde_main">
+<img id="nodeIcon_turba95e5888b91effdddd0fe4493e323b0fa__new" src="img/theme/graphics/new.png"/>
+in 084025j@mrt.ac.lk's Address Book
+</a>
+</div>
+</div>
+</div>
+<div class="treeRow">
+<div style="float:left;">
+<img src="img/theme/graphics/tree/blank.png" alt=" " height="20" width="20"/>
+<img src="img/theme/graphics/tree/line.png" alt="| " height="20" width="20"/>
+<img id="nodeToggle_turba95e5888b91effdddd0fe4493e323b0fa" src="img/theme/graphics/tree/join.png" alt="|-" height="20" width="20"/>
+<a href="#" target="horde_main">
+<img id="nodeIcon_turba95e5888b91effdddd0fe4493e323b0fa" src="img/theme/graphics/browse.png"/>
+084025j@mrt.ac.lk's Address Book
+</a>
+</div>
+</div>
+<div class="treeRow">
+<div style="float:left;">
+<img src="img/theme/graphics/tree/blank.png" alt=" " height="20" width="20"/>
+<img src="img/theme/graphics/tree/line.png" alt="| " height="20" width="20"/>
+<img id="nodeToggle_turba__search" src="img/theme/graphics/tree/joinbottom.png" alt="`-" height="20" width="20"/>
+<a href="#" target="horde_main">
+<img id="nodeIcon_turba__search" src="img/theme/graphics/search.png"/>
+Search
+</a>
+</div>
+</div>
+</div>
+<div class="treeRow">
+<div style="float:left;">
+<img src="img/theme/graphics/tree/blank.png" alt=" " height="20" width="20"/>
+<img id="nodeToggle_kronolith" src="img/theme/graphics/tree/plus.png" alt="+" style="cursor:pointer" onclick="expandNodes('nodeChildren_kronolith','nodeToggle_kronolith')" height="20" width="20"/>
+<a href="#" target="horde_main">
+<img id="nodeIcon_kronolith" src="img/theme/graphics/kronolith.png"/>
+Calendar
+</a>
+</div>
+</div>
+<div id="nodeChildren_kronolith" style="display:none;">
+<div class="treeRow">
+<div style="float:left;">
+<img src="img/theme/graphics/tree/blank.png" alt=" " height="20" width="20"/>
+<img src="img/theme/graphics/tree/line.png" alt="| " height="20" width="20"/>
+<img id="nodeToggle_kronolithnew" src="img/theme/graphics/tree/join.png" alt="|-" height="20" width="20"/>
+<a href="#" target="horde_main">
+<img id="nodeIcon_kronolithnew" src="img/theme/graphics/new.png"/>
+New Event
+</a>
+</div>
+</div>
+<div class="treeRow">
+<div style="float:left;">
+<img src="img/theme/graphics/tree/blank.png" alt=" " height="20" width="20"/>
+<img src="img/theme/graphics/tree/line.png" alt="| " height="20" width="20"/>
+<img id="nodeToggle_kronolithday" src="img/theme/graphics/tree/join.png" alt="|-" height="20" width="20"/>
+<a href="#" target="horde_main">
+<img id="nodeIcon_kronolithday" src="img/theme/graphics/dayview.png"/>
+Day
+</a>
+</div>
+</div>
+<div class="treeRow">
+<div style="float:left;">
+<img src="img/theme/graphics/tree/blank.png" alt=" " height="20" width="20"/>
+<img src="img/theme/graphics/tree/line.png" alt="| " height="20" width="20"/>
+<img id="nodeToggle_kronolithwork" src="img/theme/graphics/tree/join.png" alt="|-" height="20" width="20"/>
+<a href="#" target="horde_main">
+<img id="nodeIcon_kronolithwork" src=""/>
+Work Week
+</a>
+</div>
+</div>
+<div class="treeRow">
+<div style="float:left;">
+<img src="img/theme/graphics/tree/blank.png" alt=" " height="20" width="20"/>
+<img src="img/theme/graphics/tree/line.png" alt="| " height="20" width="20"/>
+<img id="nodeToggle_kronolithweek" src="img/theme/graphics/tree/join.png" alt="|-" height="20" width="20"/>
+<a href="#" target="horde_main">
+<img id="nodeIcon_kronolithweek" src="img/theme/graphics/weekview.png"/>
+Week
+</a>
+</div>
+</div>
+<div class="treeRow">
+<div style="float:left;">
+<img src="img/theme/graphics/tree/blank.png" alt=" " height="20" width="20"/>
+<img src="img/theme/graphics/tree/line.png" alt="| " height="20" width="20"/>
+<img id="nodeToggle_kronolithmonth" src="img/theme/graphics/tree/join.png" alt="|-" height="20" width="20"/>
+<a href="#" target="horde_main">
+<img id="nodeIcon_kronolithmonth" src="img/theme/graphics/monthview.png"/>
+Month
+</a>
+</div>
+</div>
+<div class="treeRow">
+<div style="float:left;">
+<img src="img/theme/graphics/tree/blank.png" alt=" " height="20" width="20"/>
+<img src="img/theme/graphics/tree/line.png" alt="| " height="20" width="20"/>
+<img id="nodeToggle_kronolithyear" src="img/theme/graphics/tree/join.png" alt="|-" height="20" width="20"/>
+<a href="#" target="horde_main">
+<img id="nodeIcon_kronolithyear" src="img/theme/graphics/yearview.png"/>
+Year
+</a>
+</div>
+</div>
+<div class="treeRow">
+<div style="float:left;">
+<img src="img/theme/graphics/tree/blank.png" alt=" " height="20" width="20"/>
+<img src="img/theme/graphics/tree/line.png" alt="| " height="20" width="20"/>
+<img id="nodeToggle_kronolithsearch" src="img/theme/graphics/tree/joinbottom.png" alt="`-" height="20" width="20"/>
+<a href="#" target="horde_main">
+<img id="nodeIcon_kronolithsearch" src="img/theme/graphics/search.png"/>
+Search
+</a>
+</div>
+</div>
+</div>
+<div class="treeRow">
+<div style="float:left;">
+<img src="img/theme/graphics/tree/blank.png" alt=" " height="20" width="20"/>
+<img id="nodeToggle_nag" src="img/theme/graphics/tree/plus.png" alt="+" style="cursor:pointer" onclick="expandNodes('nodeChildren_nag','nodeToggle_nag')" height="20" width="20"/>
+<a href="#" target="horde_main">
+<img id="nodeIcon_nag" src="img/theme/graphics/nag.png"/>
+Tasks
+</a>
+</div>
+</div>
+<div id="nodeChildren_nag" style="display:none;">
+<div class="treeRow">
+<div style="float:left;">
+<img src="img/theme/graphics/tree/blank.png" alt=" " height="20" width="20"/>
+<img src="img/theme/graphics/tree/line.png" alt="| " height="20" width="20"/>
+<img id="nodeToggle_nag__new" src="img/theme/graphics/tree/plus.png" alt="+" style="cursor:pointer" onclick="expandNodes('nodeChildren_nag__new','nodeToggle_nag__new')" height="20" width="20"/>
+<a href="#" target="horde_main">
+<img id="nodeIcon_nag__new" src="img/theme/graphics/add.png"/>
+New Task
+</a>
+</div>
+</div>
+<div id="nodeChildren_nag__new" style="display:none;">
+<div class="treeRow">
+<div style="float:left;">
+<img src="img/theme/graphics/tree/blank.png" alt=" " height="20" width="20"/>
+<img src="img/theme/graphics/tree/line.png" alt="| " height="20" width="20"/>
+<img src="img/theme/graphics/tree/line.png" alt="| " height="20" width="20"/>
+<img id="nodeToggle_nag084025j@mrt.ac.lk__new" src="img/theme/graphics/tree/joinbottom.png" alt="`-" height="20" width="20"/>
+<a href="#" target="horde_main">
+<img id="nodeIcon_nag084025j@mrt.ac.lk__new" src="img/theme/graphics/add.png"/>
+in 084025j@mrt.ac.lk's Task List
+</a>
+</div>
+</div>
+</div>
+<div class="treeRow">
+<div style="float:left;">
+<img src="img/theme/graphics/tree/blank.png" alt=" " height="20" width="20"/>
+<img src="img/theme/graphics/tree/line.png" alt="| " height="20" width="20"/>
+<img id="nodeToggle_nag__search" src="img/theme/graphics/tree/joinbottom.png" alt="`-" height="20" width="20"/>
+<a href="#" target="horde_main">
+<img id="nodeIcon_nag__search" src="img/theme/graphics/search.png"/>
+Search
+</a>
+</div>
+</div>
+</div>
+<div class="treeRow">
+<div style="float:left;">
+<img src="img/theme/graphics/tree/blank.png" alt=" " height="20" width="20"/>
+<img id="nodeToggle_mnemo" src="img/theme/graphics/tree/plusbottom.png" alt="+" style="cursor:pointer" onclick="expandNodes('nodeChildren_mnemo','nodeToggle_mnemo')" height="20" width="20"/>
+<a href="#" target="horde_main">
+<img id="nodeIcon_mnemo" src="img/theme/graphics/mnemo.png"/>
+Notes
+</a>
+</div>
+</div>
+<div id="nodeChildren_mnemo" style="display:none;">
+<div class="treeRow">
+<div style="float:left;">
+<img src="img/theme/graphics/tree/blank.png" alt=" " height="20" width="20"/>
+<img src="img/theme/graphics/tree/blank.png" alt=" " height="20" width="20"/>
+<img id="nodeToggle_mnemo__new" src="img/theme/graphics/tree/plus.png" alt="+" style="cursor:pointer" onclick="expandNodes('nodeChildren_mnemo__new','nodeToggle_mnemo__new')" height="20" width="20"/>
+<a href="#" target="horde_main">
+<img id="nodeIcon_mnemo__new" src="img/theme/graphics/add.png"/>
+New Note
+</a>
+</div>
+</div>
+<div id="nodeChildren_mnemo__new" style="display:none;">
+<div class="treeRow">
+<div style="float:left;">
+<img src="img/theme/graphics/tree/blank.png" alt=" " height="20" width="20"/>
+<img src="img/theme/graphics/tree/blank.png" alt=" " height="20" width="20"/>
+<img src="img/theme/graphics/tree/line.png" alt="| " height="20" width="20"/>
+<img id="nodeToggle_mnemo084025j@mrt.ac.lk__new" src="img/theme/graphics/tree/joinbottom.png" alt="`-" height="20" width="20"/>
+<a href="#" target="horde_main">
+<img id="nodeIcon_mnemo084025j@mrt.ac.lk__new" src="img/theme/graphics/add.png"/>
+in 084025j@mrt.ac.lk's Notepad
+</a>
+</div>
+</div>
+</div>
+<div class="treeRow">
+<div style="float:left;">
+<img src="img/theme/graphics/tree/blank.png" alt=" " height="20" width="20"/>
+<img src="img/theme/graphics/tree/blank.png" alt=" " height="20" width="20"/>
+<img id="nodeToggle_mnemo__search" src="img/theme/graphics/tree/joinbottom.png" alt="`-" height="20" width="20"/>
+<a href="#" target="horde_main" >
+<img id="nodeIcon_mnemo__search" src="img/theme/graphics/search.png"/>
+Search
+</a>
+</div>
+</div>
+</div>
+</div>
+<!--<div class="treeRow">
+<div style="float:left;">
+<img id="nodeToggle_options" src="img/theme/graphics/tree/plusonly.png" alt="+" style="cursor:pointer" onclick="expandNodes('nodeChildren_options','nodeToggle_options')" height="20" width="20"/>
+<span class="toggle" onclick="horde_menu.toggle('options')">
+<img id="nodeIcon_options" src="img/theme/graphics/prefs.png"/>
+Options
+</span>
+</div>
+</div>
+<div id="nodeChildren_options" style="display:none;">
+<div class="treeRow">
+<div style="float:left;">
+<img src="img/theme/graphics/tree/blank.png" alt=" " height="20" width="20"/>
+<img id="nodeToggle_options_horde" src="img/theme/graphics/tree/join.png" alt="|-" height="20" width="20"/>
+<a href="#" target="horde_main">
+<img id="nodeIcon_options_horde" src="img/theme/graphics/horde.png"/>
+Global Options
+</a>
+</div>
+</div>
+<div class="treeRow">
+<div style="float:left;">
+<img src="img/theme/graphics/tree/blank.png" alt=" " height="20" width="20"/>
+<img id="nodeToggle_options_turba" src="img/theme/graphics/tree/join.png" alt="|-" height="20" width="20"/>
+<a href="#" target="horde_main">
+<img id="nodeIcon_options_turba" src="img/theme/graphics/turba.png"/>
+Address Book
+</a>
+</div>
+</div>
+<div class="treeRow">
+<div style="float:left;">
+<img src="img/theme/graphics/tree/blank.png" alt=" " height="20" width="20"/>
+<img id="nodeToggle_options_kronolith" src="img/theme/graphics/tree/join.png" alt="|-" height="20" width="20"/>
+<a href="#" target="horde_main">
+<img id="nodeIcon_options_kronolith" src="img/theme/graphics/kronolith.png"/>
+Calendar
+</a>
+</div>
+</div>
+<div class="treeRow">
+<div style="float:left;">
+<img src="img/theme/graphics/tree/blank.png" alt=" " height="20" width="20"/>
+<img id="nodeToggle_options_ingo" src="img/theme/graphics/tree/join.png" alt="|-" height="20" width="20"/>
+<a href="#" target="horde_main">
+<img id="nodeIcon_options_ingo" src="img/theme/graphics/ingo.png"/>
+Filters
+</a>
+</div>
+</div>
+<div class="treeRow">
+<div style="float:left;">
+<img src="img/theme/graphics/tree/blank.png" alt=" " height="20" width="20"/>
+<img id="nodeToggle_options_imp" src="img/theme/graphics/tree/join.png" alt="|-" height="20" width="20"/>
+<a href="#" target="horde_main">
+<img id="nodeIcon_options_imp" src="img/theme/graphics/imp.png"/>
+Mail
+</a>
+</div>
+</div>
+<div class="treeRow">
+<div style="float:left;">
+<img src="img/theme/graphics/tree/blank.png" alt=" " height="20" width="20"/>
+<img id="nodeToggle_options_mnemo" src="img/theme/graphics/tree/join.png" alt="|-" height="20" width="20"/>
+<a href="#" target="horde_main">
+<img id="nodeIcon_options_mnemo" src="img/theme/graphics/mnemo.png"/>
+Notes
+</a>
+</div>
+</div>
+<div class="treeRow">
+<div style="float:left;">
+<img src="img/theme/graphics/tree/blank.png" alt=" " height="20" width="20"/>
+<img id="nodeToggle_options_nag" src="img/theme/graphics/tree/joinbottom.png" alt="`-" height="20" width="20"/>
+<a href="#" target="horde_main">
+<img id="nodeIcon_options_nag" src="img/theme/graphics/nag.png"/>
+Tasks
+</a>
+</div>
+</div>
+</div>-->
+<div class="treeRow">
+<div style="float:left;">
+<img id="nodeToggle_options" src="img/theme/graphics/tree/nullonly.png" alt=" " height="20" width="20"/>
+<span class="toggle" onclick="viewOptionsPage()">
+<img id="nodeIcon_options" src="img/theme/graphics/prefs.png"/>
+Options
+</span>
+</div>
+</div>
+<div class="treeRow">
+<div style="float:left;">
+<img id="nodeToggle_logout" src="img/theme/graphics/tree/nullonly.png" alt=" " height="20" width="20"/>
+<a href="#" onClick="logout()">
+<img id="nodeIcon_logout" src="img/theme/graphics/logout.png"/>
+Log out
+</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="hiddenSidebar" style="display: none">
+<a href="#" onclick="HordeSidebar.toggleMenuFrame(); return false;">
+<img src="img/theme/graphics/show_panel.png" alt="" title=""/>
+</a>
+</div>
+</body>
+</html>

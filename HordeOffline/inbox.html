@@ -1,0 +1,407 @@
+<!DOCTYPE HTML>
+<html manifest="mani/hordefront.manifest">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+<script type="text/javascript" src="js/functions_inbox.js"></script>
+<script type="text/javascript" src="js/prototype.js"></script>
+<script type="text/javascript" src="js/functions_mailbox.js"></script>
+<script type="text/javascript" src="js/nicetitlenew.js"></script>
+<script type="text/javascript" src="js/functions_viewmsg.js"></script>
+<!-- <script type="text/javascript" src="js/db.js"></script>-->
+<script type="text/javascript" src="js/JSLocalReading.js"></script>
+<script type="text/javascript" src="js/JRESTReader.js"></script>
+<script type="text/javascript" src="js/OfflineEvent.js"></script>
+<script type="text/javascript" src="js/popup.js"></script>
+<script type="text/javascript" src="js/RedBox.js"></script>
+<script type="text/javascript" src="js/effects.js"></script>
+<script type="text/javascript" src="js/Encodes.js"></script>
+<script type="text/javascript" src="js/Global.js"></script>
+<script type="text/javascript" src="js/ui.js"></script>
+<script type="text/javascript" src="js/XMLWriter.js"></script>
+<link href="css/theme/screen.css" rel="stylesheet" type="text/css"/>
+<link href="css/theme/bluewhite/screen.css" rel="stylesheet" type="text/css"/>
+<link href="css/theme/opera.css" rel="stylesheet" type="text/css"/>
+<link href="css/imp/theme/screen.css" rel="stylesheet" type="text/css"/>
+<link href="css/tooltip.css" rel="stylesheet" type="text/css"/>
+<link href="css/imp/theme/bluewhite/screen.css" rel="stylesheet" type="text/css"/>
+</head>
+
+<body>
+<div id="dhtmltooltip" style="visibility:hidden"></div>
+
+
+
+<!--On load functions-->
+<script type="text/javascript">
+// Function to run after page finish loading
+function windowOnload(func) {
+    var current = window.onload;
+
+    if(typeof(current) != 'function') {
+        window.onload = func;
+		//alert('if');
+    } else {
+        window.onload = function() {
+            current.apply(current);
+			var begin=parseInt(localStorage.getItem("currentinboxpage"));
+			var emailsperpage=parseInt(localStorage.getItem("emailsperpage"));
+            func.apply(func, new Array(begin*emailsperpage-(emailsperpage-1), begin*emailsperpage));
+        };
+		//alert('else');
+    }
+}
+windowOnload(loadDynamicInboxInfo);
+windowOnload(fillInbox);
+
+
+</script>
+<ul class="notices">
+<li id="emptyallsuccess" style="display:none"><img src="img/theme/graphics/alerts/success.png" alt="Success" title="">Emptied all messages successfully.</li>
+<li id="emptyallfail" style="display:none"><img src="img/theme/graphics/alerts/error.png" alt="Error" title="">Failed to empty this mailbox.</li>
+</ul>
+
+<div class="header" style="margin-bottom:2px; margin-top:1px">
+<div style="width:40%" class="leftFloat"> <span id="topname">  </span><a href="#" onMouseover="ddrivetip('Refresh Inbox (Accesskey R)')" onMouseout="hideddrivetip()" accesskey="R" onClick="refreshInbox()">
+<img src="img/theme/graphics/reload.png" alt="Reload" title=""/>
+</a>
+<!--<a href="#" onMouseover="ddrivetip('Search Inbox')" onMouseout="hideddrivetip()" onClick="viewSearchPage()">
+<img src="img/theme/graphics/search.png" alt="Search" title=""/>
+</a>-->
+<a href="#" onclick="imp_confirm(emptyFolder, 'Are you sure you wish to delete all emails in this folder?'); return false;" onMouseover="ddrivetip('Empty folder')" onMouseout="hideddrivetip()">
+<img src="img/theme/graphics/empty_spam.png" alt="Empty folder" title=""/>
+</a>
+</div>
+<div style="width:20%" class="leftFloat" id="toppageinfo">   </div>
+<div style="width:40%" class="rightFloat rightAlign" id="topmsginfo">    </div>
+<div class="clear"/>
+</div>
+<table width="100%" cellspacing="0">
+<tbody>
+<tr class="mboxcontrol">
+<td>
+<div class="leftFloat">
+<form id="select1" action="javascript:void(0)" onsubmit="return false">
+<input type="hidden" name="mailbox" value="INBOX"/>
+<label for="filter1" class="hidden">Select:</label>
+<select id="filter1" name="filter" onchange="makeSelection(1);">
+<option value="99" selected="selected">Select:</option>
+<option value="!0">All</option>
+<option value="0">None</option>
+<option value="+0">Invert</option>
+<option value="!1">Seen</option>
+<option value="1">Unseen</option>
+<option value="2">Important</option>
+<option value="!2">Not Important</option>
+<option value="4">Recent</option>
+<option value="!4">Not Recent</option>
+</select>
+<label for="flag1" class="hidden">Mark as:</label>
+<select id="flag1" name="flag" onchange="flagMessages(1);">
+<option value="" selected="selected">Mark as:</option>
+<option value="Seen">Seen</option>
+<option value="Unseen">Unseen</option>
+<option value="Important">Important</option>
+<option value="NotImportant">Not Important</option>
+<option value="Recent">Not Recent</option>
+</select>
+</form>
+</div>
+<div class="leftFloat" style="padding-left:10px">
+<form method="post" action="imp/mailbox.php">
+<input type="hidden" name="mailbox" value="INBOX"/>
+<ul class="msgactions" style="display:inline">
+<li>
+<a href="#" onclick="moveMessage(1); return false;" class="widget1">Move</a>
+</li>
+<!--<li class="lastnavbar">
+<a href="#" onclick="transfer('copy_messages', 1); return false;" class="widget1">Copy</a>
+</li>-->
+</ul>
+<label for="targetMailbox1" class="hidden">Target Mailbox:</label>
+<select id="targetMailbox1" name="targetMailbox">
+<option value="" selected="selected">Messages to</option>
+<option value="" disabled="disabled">- - - - - - - - -</option>
+<option value="*new*">New Folder</option>
+<option value="" disabled="disabled">- - - - - - - - -</option>
+<option value="INBOX">Inbox</option>
+<option value="Draft">Drafts</option>
+<option value="Sent">Sent</option>
+<option value="Outbox">Outbox</option>
+<option value="Trash">Trash</option>
+</select>
+</form>
+</div>
+<div class="rightFloat">
+<form>
+<input type="hidden" name="mailbox" value="INBOX"/>
+<a href="#" onMouseout="hideddrivetip()" onClick="firstPage()">
+<img src="img/theme/graphics/nav/first-grey.png" alt="" title="" id="firstpageimg1"/>
+</a>
+<a href="#" onMouseout="hideddrivetip()" onClick="previousPage()">
+<img src="img/theme/graphics/nav/left-grey.png" alt="" title="" id="previouspageimg1"/>
+</a>
+<label for="page1" class="hidden">Page:</label>
+<input type="text" id="pagenobox1" name="page" value="1" size="1" style="text-align:center"/>
+<a href="#" onMouseout="hideddrivetip()" onClick="nextPage()">
+<img src="img/theme/graphics/nav/right-grey.png" alt=">" title="" id="nextpageimg1"/>
+</a>
+<a href="#" onMouseout="hideddrivetip()" onClick="lastPage()">
+<img src="img/theme/graphics/nav/last-grey.png" alt=">>" title="" id="lastpageimg1"/>
+</a>
+</form>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+<table width="100%" cellspacing="0">
+<tbody>
+<tr>
+<td class="mboxcontrol bottombordercollapse">
+<div class="rightFloat">
+<!--<ul class="msgactions">
+<li>
+<a href="#" class="widget1">Hide Deleted</a>
+</li>
+<li class="lastnavbar">
+<a href="#" class="widget1" accesskey="g">
+Pur<span class="accessKey">g</span>e Deleted
+</a>
+</li>
+</ul>-->
+</div>
+<div class="leftFloat">
+<ul class="msgactions">
+<li>
+<a href="#" onclick="deleteMessage(1)" class="widget1" accesskey="D">
+<span class="accessKey">D</span>elete
+</a>
+</li>
+<li id="ud1">
+<a href="#" onclick="undeleteMessage();" class="widget1" accesskey="U">
+<span class="accessKey">U</span>ndelete
+</a>
+</li>
+<li>
+<a href="#" onclick="forwardFromInbox(); return false;" class="widget1">Forward</a>
+</li>
+</ul>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+<form method="post" id="messages" name="messages" action="imp/mailbox.php">
+<input type="hidden" name="mailbox" value="INBOX"/>
+<input type="hidden" name="mailbox_token" value="7-sjjbcaN847s4npO3W1-f8UoVA"/>
+<table class="messageList" width="100%" cellspacing="0" style="font-size:85%">
+<tbody>
+<tr class="item">
+<th id="checkheader" width="8%">
+<label for="checkAll" class="hidden">Check All/None</label>
+<input type="checkbox" class="checkbox" id="checkAll1" name="checkAll1" onclick="makeSelection(-1)" title="Check All/None (Accesskey A)" accesskey="A"/>
+</th>
+<th class="selected" width="4%" onclick="document.location.href=this.down('A').href;">
+<a href="#" nicetitle="Sort by Arrival">
+<img src="img/theme/graphics/az.png" alt="/\" title=""/>
+</a>
+<a href="#" class="widget">#</a>
+</th>
+<th class="item" width="10%" onclick="document.location.href=this.down('A').href;">
+<a href="#" class="widget">Date</a>
+</th>
+<th class="item" width="20%" onclick="document.location.href=this.down('A').href;">
+<a href="#" class="widget" accesskey="m">
+From
+</a>
+</th>
+<th class="item" width="52%" onclick="document.location.href=this.down('A').href;">
+<a href="#" class="widget" accesskey="j">
+Subject
+</a>
+<!--<span style="font-size:95%">
+[
+<a href="imp/mailbox.php?mailbox=INBOX&sortby=161&actionID=change_sort&mailbox_token=7-sjjbcaN847s4npO3W1-f8UoVA" onclick="if (window.event) window.event.cancelBubble = true; else if (event) event.stopPropagation();" class="widget" style="font-size:95%; font-weight:normal;" accesskey="T">
+<span class="accessKey">T</span>hread
+</a>
+]
+</span>-->
+</th>
+<!--<th class="item" width="6%" onclick="document.location.href=this.down('A').href;">
+<a href="#" class="widget" accesskey="z">
+Size </a>
+</th>-->
+</tr>
+
+<!--<tr id="row20INBOX" class="unseen">
+<td>
+<label>
+<input id="check20INBOX" type="checkbox" class="checkbox" name="indices[]" onclick="selectRange(event);" value="20INBOX"/>
+<img src="img/imp/theme/graphics/mail_unseen.png" alt="Unseen" title="Unseen"/>
+</label>
+</td>
+<td> 20 </td>
+<td>07/01/2010 </td>
+<td>
+<a href="imp/message.php?mailbox=INBOX&index=20" onMouseover="ddrivetip('niranjala niranjalag@uom.lk')";
+onMouseout="hideddrivetip()">Ruvini Weerasinghe</a>
+</td>
+<td>
+<a href="imp/message.php?mailbox=INBOX&index=20" id="subject20INBOX">NT-213 (Extra Lecture)</a>
+</td>
+<td class="rightAlign">3 KB</td>
+</tr>-->
+<!--
+<tr id="row4INBOX" class="seen">
+<td>
+<label>
+<input id="check4INBOX" type="checkbox" class="checkbox" name="indices[]" onclick="selectRange(event);" value="4INBOX"/>
+</label>
+</td>
+<td> 4 </td>
+<td>11/05/2009 </td>
+<td>
+<a href="imp/message.php?mailbox=INBOX&index=4" title="niranjala &lt;niranjalag@uom.lk&gt;">niranjala</a>
+</td>
+<td>
+<a href="imp/message.php?mailbox=INBOX&index=4" id="subject4INBOX">Edex Sithuwam 2010</a>
+</td>
+<td class="rightAlign">4.0 MB</td>
+</tr>-->
+
+</tbody>
+</table>
+<div id="mailInboxDiv"></div>
+<input type="hidden" name="page" value="1"/>
+<input type="hidden" id="actionID" name="actionID" value=""/>
+<input type="hidden" id="targetMbox" name="targetMbox" value=""/>
+<input type="hidden" id="newMbox" name="newMbox" value="0"/>
+<input type="hidden" id="flag" name="flag" value=""/>
+</form>
+<table width="100%" cellspacing="0">
+<tbody>
+<tr>
+<td class="mboxcontrol topborder">
+<div class="rightFloat">
+<!--<ul class="msgactions">
+<li>
+<a href="#" class="widget">Hide Deleted</a>
+</li>
+<li class="lastnavbar">
+<a href="#" class="widget" accesskey="g">
+Pur<span class="accessKey">g</span>e Deleted </a>
+</li>
+</ul>-->
+</div>
+<div class="leftFloat">
+<ul class="msgactions">
+<li>
+<a href="#" onclick="deleteMessage(1)" class="widget" accesskey="D">
+<span class="accessKey">D</span>elete
+</a>
+</li>
+<li id="ud2">
+<a href="#" onclick="undeleteMessage(); return false;" class="widget" accesskey="U">
+<span class="accessKey">U</span>ndelete
+</a>
+</li>
+<li>
+<a href="#" onclick="forwardFromInbox(); return false;" class="widget">Forward</a>
+</li>
+</ul>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+<table width="100%" cellspacing="0">
+<tbody>
+<tr class="mboxcontrol">
+<td class="bottomborder">
+<div class="leftFloat">
+<form id="select2" action="javascript:void(0)" onsubmit="return false">
+<input type="hidden" name="mailbox" value="INBOX"/>
+<label for="filter2" class="hidden">Select:</label>
+<select id="filter2" name="filter" onchange="makeSelection(1);">
+<option value="99" selected="selected">Select:</option>
+<option value="!0">All</option>
+<option value="0">None</option>
+<option value="+0">Invert</option>
+<option value="!1">Seen</option>
+<option value="1">Unseen</option>
+<option value="2">Important</option>
+<option value="!2">Not Important</option>
+<option value="4">Recent</option>
+<option value="!4">Not Recent</option>
+</select>
+<label for="flag2" class="hidden">Mark as:</label>
+<select id="flag2" name="flag" onchange="flagMessages(2);">
+<option value="" selected="selected">Mark as:</option>
+<option value="Seen">Seen</option>
+<option value="Unseen">Unseen</option>
+<option value="Important">Important</option>
+<option value="NotImportant">Not Important</option>
+<option value="Recent">Not Recent</option>
+</select>
+</form>
+</div>
+<div class="leftFloat" style="padding-left:10px">
+<form method="post" action="imp/mailbox.php">
+<input type="hidden" name="mailbox" value="INBOX"/>
+<ul class="msgactions" style="display:inline">
+<li>
+<a href="#" onclick="moveMessage(2); return false;" class="widget">Move</a>
+</li>
+<!--<li class="lastnavbar">
+<a href="#" onclick="transfer('copy_messages', 2); return false;" class="widget">Copy</a>
+</li>-->
+</ul>
+<label for="targetMailbox2" class="hidden">Target Mailbox:</label>
+<select id="targetMailbox2" name="targetMailbox">
+<option value="" selected="selected">Messages to</option>
+<option value="" disabled="disabled">- - - - - - - - -</option>
+<option value="*new*">New Folder</option>
+<option value="" disabled="disabled">- - - - - - - - -</option>
+<option value="INBOX">Inbox</option>
+<option value="Draft">Drafts</option>
+<option value="Sent">Sent</option>
+<option value="Outbox">Outbox</option>
+<option value="Trash">Trash</option>
+</select>
+</form>
+</div>
+<div class="rightFloat">
+<form >
+<input type="hidden" name="mailbox" value="INBOX"/>
+<a href="#" onMouseout="hideddrivetip()" onClick="firstPage()">
+<img src="img/theme/graphics/nav/first-grey.png" alt="" title="" id="firstpageimg2"/>
+</a>
+<a href="#" onMouseout="hideddrivetip()" onClick="previousPage()">
+<img src="img/theme/graphics/nav/left-grey.png" alt="" title="" id="previouspageimg2"/>
+</a>
+<label for="page2" class="hidden">Page:</label>
+<input type="text" id="pagenobox2" name="page" value="1" size="1" style="text-align:center"/>
+<a href="#" onMouseout="hideddrivetip()" onClick="nextPage()">
+<img src="img/theme/graphics/nav/right-grey.png" alt=">" title="" id="nextpageimg2"/>
+</a>
+<a href="#" onMouseout="hideddrivetip()" onClick="lastPage()">
+<img src="img/theme/graphics/nav/last-grey.png" alt=">>" title="" id="lastpageimg2"/>
+</a>
+</form>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+<table align="right">
+<tbody>
+<tr>
+<td>
+<!--<a href="#" onClick="viewPwdChangeScreen()"> Change password </a>-->
+</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

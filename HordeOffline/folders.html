@@ -1,0 +1,187 @@
+
+<!DOCTYPE HTML>
+<!--   IMP: Copyright 2001-2008 The Horde Project.  IMP is under the GPL.  -->
+<!-- Horde Project: http://www.horde.org/ | IMP: http://www.horde.org/imp/ -->
+<!--        GNU Public License: http://www.fsf.org/copyleft/gpl.html       -->
+<html manifest="mani/hordefront.manifest">
+<head>
+
+<script type="text/javascript" src="js/prototype.js"></script>
+<script type="text/javascript" src="js/sidebaroff.js"></script>
+<script type="text/javascript" src="js/functions_mailbox.js"></script>
+<script type="text/javascript" src="js/JSLocalReading.js"></script>
+<script type="text/javascript" src="js/JRESTReader.js"></script>
+<script type="text/javascript" src="js/OfflineEvent.js"></script>
+<script type="text/javascript" src="js/nicetitlenew.js"></script>
+<script type="text/javascript" src="js/functions_inbox.js"></script>
+<script type="text/javascript" src="js/functions_folders.js"></script>
+<script type="text/javascript" src="js/RedBox.js"></script>
+<script type="text/javascript" src="js/effects.js"></script>
+<script type="text/javascript" src="js/Encodes.js"></script>
+<script type="text/javascript" src="js/Global.js"></script>
+<script type="text/javascript" src="js/ui.js"></script>
+<script type="text/javascript" src="js/XMLWriter.js"></script>
+<link href="css/theme/screen.css" rel="stylesheet" type="text/css"/>
+<link href="css/theme/bluewhite/screen.css" rel="stylesheet" type="text/css"/>
+<link href="css/theme/opera.css" rel="stylesheet" type="text/css"/>
+<link href="css/imp/theme/screen.css" rel="stylesheet" type="text/css"/>
+<link href="css/tooltip.css" rel="stylesheet" type="text/css"/>
+<link href="css/imp/theme/bluewhite/screen.css" rel="stylesheet" type="text/css"/>
+<link href="css/dropdown.css" rel="stylesheet" type="text/css"/>
+<title>Mail :: Folder Navigator</title> 
+</head> 
+ 
+<body> 
+
+<div id="dhtmltooltip" style="visibility:hidden"></div>
+
+ 
+<!--On load functions-->
+<script type="text/javascript">
+// Function to run after page finish loading
+function windowOnload(func) {
+    var current = window.onload;
+
+    if(typeof(current) != 'function') {
+        window.onload = func;
+    } else {
+        window.onload = function() {
+            current.apply(current);
+            func.apply(func, new Array());
+        };
+    }
+}
+windowOnload(loadDynamicFolderNavInfo);
+
+</script>
+
+<div id="folderNotices" style="display:none">
+<ul id="folderNoticesUl" class="notices"><li><img id="folderNoticesImg" src="" alt="" title=""><span id="folderNoticesMsg"></span></li></ul>
+</div>
+
+<h1 class="header"> 
+ Folder Navigator&nbsp;<a href="#" onClick="if(isOnline()){loadDynamicFolderNavInfo()}else{imp_info('Cannot update while working in offline mode.',1);}" onMouseover="ddrivetip('Reload View')" onMouseout="hideddrivetip()"><img src="img/theme/graphics/reload.png" alt="Refresh" title="" /></a> 
+</h1> 
+<div class="headerbox folders"> 
+
+<ul id="infomsg" class="notices" style="display:none"><li><img id="infomsgimg" src="" alt="Message" title=""><span id="infomsgtxt"></span></li></ul>
+
+ <form id="fmanager" name="fmanager" action="#"> 
+ <input type="hidden" id="actionID" name="actionID" value="" /> 
+ <input type="hidden" id="folders_token" name="folders_token" value="JYNJnqyKAPz9hziIBxjO8LxaUC0" /> 
+ <input type="hidden" id="new_mailbox" name="new_mailbox" value="" /> 
+ <input type="hidden" id="new_names" name="new_names" value="" /> 
+ <input type="hidden" id="old_names" name="old_names" value="" /> 
+ <input type="hidden" name="view_subscribed" value="" /> 
+<table style="width:100%;border-collapse:collapse"> 
+ <tr class="control"> 
+  <td> 
+ 
+   <div class="leftFloat"> 
+    <label for="checkAll0" class="hidden">Check All/None</label> 
+    &nbsp;<input type="checkbox" class="checkbox" id="checkAll0" name="checkAll" title="Check All/None (Accesskey A)" accesskey="A" onClick="toggleSelection()"/> 
+   </div> 
+ 
+   <div class="leftFloat" style="padding-left:5px"> 
+    <label for="action_choose0" class="hidden">Choose Action</label> 
+    <select id="action_choose0" onchange="folderNavSubmit()"> 
+     <option selected="selected">Choose Action</option> 
+     <option value="">--------------------</option> 
+     <option value="create_folder">Create</option> 
+    <!-- <option value="rename_folder">Rename</option>--> 
+     <option value="delete_folder_confirm">Delete</option> 
+     <option value="folders_empty_mailbox_confirm">Empty</option> 
+  <!--   <option value="expunge_folder">Purge</option> -->
+<!--      <option value="poll_folder">Check for New Mail</option> 
+     <option value="nopoll_folder">Do Not Check for New Mail</option> -->
+     <option value="mark_folder_seen">Mark All Messages as Seen</option> 
+     <option value="mark_folder_unseen">Mark All Messages as Unseen</option> 
+<!--     <option value="download_folder">Download</option> 
+     <option value="download_folder_zip">Download [.zip format]</option> -->
+  <!--   <option value="import_mbox">Import Messages</option> -->
+  <!--   <option value="mbox_size">Show Size</option> -->
+    <!-- <option value="rebuild_tree">Rebuild Folder Tree</option> -->
+    </select> 
+ 
+   </div> 
+   <div class="leftFloat" style="padding-left:15px"> 
+  <!--  <ul class="msgactions"> 
+ 
+     <li><a href="/horde/imp/folders.php?folders_token=JYNJnqyKAPz9hziIBxjO8LxaUC0&amp;actionID=expand_all_folders" class="widget">Expand All</a></li> 
+     <li class="lastnavbar"><a href="/horde/imp/folders.php?folders_token=JYNJnqyKAPz9hziIBxjO8LxaUC0&amp;actionID=collapse_all_folders" class="widget">Collapse All</a></li> 
+    </ul> -->
+   </div> 
+   <div class="rightFloat"> 
+   <!-- <a href="services/help/?module=imp&amp;topic=folder-options" onclick="popup(this.href); return false;" class="helplink" target="help" title="Help"><img src="img/theme/graphics/help.png" alt="Help" title="" width="16" height="16" /></a> -->
+<a href="#" onclick="popup1('services/help/?module=imp&amp;topic=folder-options');return false;" class="helplink" target="hordehelpwin" title="Help"><img src="img/theme/graphics/help.png" alt="Help" title="" width="16" height="16" /></a> 
+
+<script language="JavaScript"> 
+function popup1(url){
+	if(localStorage.getItem('connectionStatus')=='online'&&localStorage.getItem('connectionStatusBrowser')=='online'&&localStorage.getItem('connectionStatusUser')=='online'){
+ var controlinfo;
+ controlinfo = window.open(url, '',"width=600,height=500, menubar=0, resizable=0,scrollbars=0");
+ controlinfo.focus();
+ return;
+	}else{
+		imp_info('This feature is not available in offline mode.',1);
+	}
+}
+</script>
+   </div> 
+  </td> 
+ </tr> 
+</table> 
+ 
+<div id="mainFolders">
+</div>
+
+<div id="additionalFolders">
+</div>
+
+<div id="createNewFolder">
+</div>
+
+ 
+<!--<div class="item0"> 
+ &nbsp;<label><input type="checkbox" class="checkbox" name="folder_list[]" value="INBOX" /><span style="display: none;">Select mailbox</span></label> <img src="img/theme/graphics/tree/joinbottom-down.png" alt="" title="" style="vertical-align:middle" /><img src="img/theme/graphics/inbox.png" alt="Inbox" title="" style="vertical-align:middle" /> <a href="#" onClick="viewInbox()" title="View messages in Inbox"><span id="inboxInfo">Inbox</span></a> 
+</div> 
+ 
+<div class="item1"> 
+ &nbsp;<label><input type="checkbox" class="checkbox" name="folder_list[]" value="Drafts" /><span style="display: none;">Select mailbox</span></label> <img src="img/theme/graphics/tree/join.png" alt="" title="" style="vertical-align:middle" /><img src="img/theme/graphics/drafts.png" alt="Draft folder" title="" style="vertical-align:middle" /> <a href="#" onClick="viewInbox(null,'Draft')" title="View messages in Drafts">Drafts</a>  
+</div> 
+
+<div class="item1"> 
+ &nbsp;<label><input type="checkbox" class="checkbox" name="folder_list[]" value="Sent" /><span style="display: none;">Select mailbox</span></label> <img src="img/theme/graphics/tree/join.png" alt="" title="" style="vertical-align:middle" /><img src="img/theme/graphics/sent.png" alt="Sent mail folder" title="" style="vertical-align:middle" /> <a href="#" onClick="viewInbox(null,'Sent')" title="View messages in Sent">Sent</a>  
+</div> 
+ 
+<div class="item0"> 
+ &nbsp;<label><input type="checkbox" class="checkbox" name="folder_list[]" value="Outbox" /><span style="display: none;">Select mailbox</span></label> <img src="img/theme/graphics/tree/join.png" alt="" title="" style="vertical-align:middle" /><img src="img/theme/graphics/outbox.png" alt="Outbox" title="" style="vertical-align:middle" /> <a href="#" onClick="viewInbox(null,'OfflineCompose')" title="View messages in Outbox">Outbox</a>  
+</div> 
+
+<div class="item1"> 
+ &nbsp;<label><input type="checkbox" class="checkbox" name="folder_list[]" value="Trash" /><span style="display: none;">Select mailbox</span></label> <img src="img/theme/graphics/tree/join.png" alt="" title="" style="vertical-align:middle" /><img src="img/theme/graphics/trash.png" alt="Trash" title="" style="vertical-align:middle" /> <a href="#" onClick="viewInbox(null,'Trash')" title="View messages in Trash">Trash</a>  
+</div> -->
+ 
+<!--<div class="item0"> &nbsp;<label><input type="checkbox" class="checkbox" name="folder_list[]" value="test" /><span style="display: none;">Select mailbox</span></label> <img src="img/theme/graphics/tree/join.png" alt="" title="" style="vertical-align:middle" /><img src="img/theme/graphics/folder.png" alt="Mailbox" title="" style="vertical-align:middle" /> <a href="#" title="View messages in test">test</a> </div> -->
+ 
+<!--<div class="item1"> 
+ &nbsp;<label><input type="checkbox" class="checkbox" name="folder_list[]" value="New Folder" /><span style="display: none;">Select mailbox</span></label> <img src="img/theme/graphics/tree/join.png" alt="" title="" style="vertical-align:middle" /><img src="img/theme/graphics/newfolder.png" alt="New Folder" title="" style="vertical-align:middle" /> <a href="#" onClick="createNewFolder()" title="New Folder">New Folder</a>  
+</div> -->
+ 
+</form></div><script language="JavaScript1.5" type="text/javascript"> 
+<!--
+var _setHordeTitle = 1;
+try {
+    if (document.title && parent.frames.horde_main) parent.document.title = document.title;
+} catch (e) {
+}
+// -->
+</script> 
+<script type="text/javascript"> 
+<!--
+if (typeof(_setHordeTitle) == 'undefined' && document.title && parent.frames.horde_main) parent.document.title = document.title;
+// -->
+</script> 
+<!--<p align="right"><a href="#" onClick="viewPwdChangeScreen()"> Change password </a></p> -->
+</body> 
+</html> 

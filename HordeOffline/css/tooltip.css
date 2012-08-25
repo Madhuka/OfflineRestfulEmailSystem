@@ -1,0 +1,23 @@
+@charset "utf-8";
+#dhtmltooltip{
+	position: absolute;
+	padding: 4px;
+	top: 4px;
+	left: 5px;
+	color: white;
+	font-size: 13px;
+	font-family: Verdana, Helvetica, Arial, sans-serif;
+	width: -7px;
+	font-weight: normal;
+	background: url(../img/ntbghrd.png);
+	
+	border: 2px double #fff;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	/* Mozilla proprietary */
+    -moz-border-radius: 5px;
+	height: -3px;
+	/*border-color::#FFF;
+	border-width:thick;*/
+	
+}

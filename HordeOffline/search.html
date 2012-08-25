@@ -1,0 +1,205 @@
+<!--   IMP: Copyright 2001-2009 The Horde Project.  IMP is under the GPL.  --> 
+<!-- Horde Project: http://www.horde.org/ | IMP: http://www.horde.org/imp/ --> 
+<!--        GNU Public License: http://www.fsf.org/copyleft/gpl.html       --> 
+<!DOCTYPE HTML>
+<html manifest="mani/hordefront.manifest"><head>
+<script language="JavaScript"> 
+function popup1(url){
+	if(localStorage.getItem('connectionStatus')=='online'&&localStorage.getItem('connectionStatusBrowser')=='online'&&localStorage.getItem('connectionStatusUser')=='online'){
+		 var controlinfo;
+		 controlinfo = window.open(url, '',"width=600,height=500, menubar=0, resizable=0,scrollbars=0");
+		 controlinfo.focus();
+		 return;
+	}else{
+		imp_info('This feature is not available in offline mode.',1);
+	}
+}
+</script>
+<script type="text/javascript" src="js/functions_inbox.js"></script>
+<script type="text/javascript" src="js/prototype.js"></script>
+<script type="text/javascript" src="js/functions_mailbox.js"></script>
+<script type="text/javascript" src="js/nicetitlenew.js"></script>
+<script type="text/javascript" src="js/functions_viewmsg.js"></script>
+<!-- <script type="text/javascript" src="js/db.js"></script>-->
+<script type="text/javascript" src="js/JSLocalReading.js"></script>
+<script type="text/javascript" src="js/JRESTReader.js"></script>
+<script type="text/javascript" src="js/OfflineEvent.js"></script>
+<script type="text/javascript" src="js/popup.js"></script>
+<script type="text/javascript" src="js/RedBox.js"></script>
+<script type="text/javascript" src="js/effects.js"></script>
+<script type="text/javascript" src="js/Encodes.js"></script>
+<script type="text/javascript" src="js/Global.js"></script>
+<script type="text/javascript" src="js/ui.js"></script>
+<script type="text/javascript" src="js/XMLWriter.js"></script>
+<link href="css/theme/screen.css" rel="stylesheet" type="text/css"/>
+<link href="css/theme/bluewhite/screen.css" rel="stylesheet" type="text/css"/>
+<link href="css/theme/opera.css" rel="stylesheet" type="text/css"/>
+<link href="css/imp/theme/screen.css" rel="stylesheet" type="text/css"/>
+<link href="css/tooltip.css" rel="stylesheet" type="text/css"/>
+<link href="css/imp/theme/bluewhite/screen.css" rel="stylesheet" type="text/css"/>
+<title>Mail :: Message Search</title> 
+</head> 
+ 
+<body> 
+<div id="dhtmltooltip" style="visibility:hidden"></div>
+
+<script type="text/javascript">
+
+function doSearch(){
+	var r;
+	if($('search_headers').checked){
+		if($('search_headers_text').value==""){
+			imp_info('Please enter a search query.',4);
+			$('search_headers_text').value="";
+			$('search_bodies_text').value=""
+			return;
+		}
+		var type=$('searchHeader').value;
+		if(type=='all'){
+			r=searchForAll($('search_headers_text').value);
+		}else if(type=='from'){
+			r=searchForFrom($('search_headers_text').value);
+		}else if(type=='to'){
+			r=searchForTo($('search_headers_text').value);
+		}else if(type=='subject'){
+			r=searchForSubject($('search_headers_text').value);
+		}
+	}else{
+		if($('search_bodies_text').value==""){
+			imp_info('Please enter a search query.',4);
+			return;
+		}
+	}
+	if(r==null||r.length==0){
+			imp_info('No results were found for your query.',4);
+			$('search_headers_text').value="";
+			$('search_bodies_text').value=""
+			return;
+	}
+	localStorage.setItem('searchresults',JSON.stringify(r));
+	localStorage.setItem('folder','searchresults');
+	self.location="inbox.html";
+}
+</script>
+
+<h1 class="header"> 
+ 
+ <strong>&nbsp;&nbsp;Search</strong> 
+ <a href="#" onclick="popup1('services/help/?module=imp&amp;topic=search');return false;" class="helplink" target="hordehelpwin" title="Help" onMouseover="ddrivetip('Help')" onMouseout="hideddrivetip()"><img src="img/theme/graphics/help.png" alt="Help" title="" width="16" height="16" /></a> 
+</h1> 
+ <br/>
+
+ 
+<div class="smallheader leftAlign"> 
+  &nbsp;&nbsp;Search Criteria 
+</div> 
+ 
+<div class="item">
+  <br/>
+  <table class="item" cellspacing="0"> 
+  <tr> 
+  <td width="20">&nbsp;</td> 
+  <td width="165"> 
+   <input type="radio" class="checkbox" name="search" id="search_headers" value="headers" checked="checked" onClick="$('search_headers_text').focus()"/> 
+ <em>
+ <label for="search_headers" style="font-size:12px">Search Email headers in  </label>
+ </em></td> 
+  <td class="leftAlign"> 
+  <table class="item" cellspacing="0"> 
+  <tr><td>
+    <select  name="searchHeader" id="searchHeader"> 
+ 	<option value="all" selected="selected">All</option>
+     <option value="from">From</option> 
+    <option value="to">To</option> 
+    <option value="subject">Subject</option> 
+   </select> : </td><td>
+   <input type="text" id="search_headers_text" name="search_headers_text" size="40" onFocus="$('search_headers').checked=true"/> </td>
+   </tr></table>
+  </td> 
+  </tr> 
+  <tr> 
+  <td>&nbsp;</td> 
+  <td> 
+   <input type="radio" class="checkbox" name="search" id="search_bodies" value="bodies" onClick="$('search_bodies_text').focus()"/> 
+ <em>
+ <label for="search_bodies" style="font-size:12px">Search Email bodies</label></em> 
+ </td> 
+ <td class="leftAlign">
+ <table class="item" cellspacing="0"> 
+  <tr>
+    <td>
+    <span style="padding-left:78px">:</span></td><td> 
+    <input type="text" id="search_bodies_text" name="search_bodies_text" size="40" onFocus="$('search_bodies').checked=true" /> </td>
+   </tr></table>
+  </td> 
+  </tr> 
+ </table> 
+<br/>
+</div> 
+ 
+ 
+<!--<div class="smallheader leftAlign"> 
+ Search Folders 
+</div> 
+ 
+<div class="item"> 
+ <a href="#" onclick="toggleAll(true); return false;">Select all</a> | 
+ <a href="#" onclick="toggleAll(false); return false;">Select none</a> 
+ 
+</div> 
+ 
+<table width="100%" cellspacing="0"> 
+ <tr> 
+  <td class="item leftAlign" valign="top"> 
+ 
+   <input id="folder0" type="checkbox" class="checkbox"name="search_folders[]" value="INBOX" checked="checked" /> 
+   Inbox<br /> 
+ 
+ 
+   <input id="folder1" type="checkbox" class="checkbox"name="search_folders[]" value="Drafts" /> 
+   Drafts<br /> 
+ 
+  </td> 
+  <td class="item" valign="top"> 
+ 
+ 
+   <input id="folder2" type="checkbox" class="checkbox"name="search_folders[]" value="Sent" /> 
+   Sent<br /> 
+ 
+ 
+   <input id="folder3" type="checkbox" class="checkbox"name="search_folders[]" value="test" /> 
+   test<br /> 
+ 
+  </td> 
+  <td class="item" valign="top"> 
+ 
+ 
+  </td> 
+ </tr> 
+</table> -->
+ 
+ 
+ 
+ 
+<div> &nbsp;&nbsp;
+ <input type="button" class="button" value="Submit" onclick="doSearch();" /> 
+ <input type="button" class="button" value="Back to Inbox" onclick="viewInbox()" /> 
+</div> 
+</form> 
+<script language="JavaScript1.5" type="text/javascript"> 
+<!--
+var _setHordeTitle = 1;
+try {
+    if (document.title && parent.frames.horde_main) parent.document.title = document.title;
+} catch (e) {
+}
+// -->
+</script> 
+<script type="text/javascript"> 
+<!--
+if (typeof(_setHordeTitle) == 'undefined' && document.title && parent.frames.horde_main) parent.document.title = document.title;
+// -->
+</script> 
+<!--<p align="right"><a href="#" onClick="viewPwdChangeScreen()"> Change password </a></p> -->
+</body> 
+</html> 

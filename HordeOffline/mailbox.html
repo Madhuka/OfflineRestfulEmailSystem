@@ -1,0 +1,218 @@
+<!DOCTYPE HTML>
+<!--   IMP: Copyright 2001-2008 The Horde Project.  IMP is under the GPL.  -->
+<!-- Horde Project: http://www.horde.org/ | IMP: http://www.horde.org/imp/ -->
+<!--        GNU Public License: http://www.fsf.org/copyleft/gpl.html       -->
+<html manifest="mani/hordefront.manifest">
+<head>
+<!--<script type="text/javascript" src="/horde/js/prototype.js"></script>
+<script type="text/javascript" src="/horde/js/horde-prototype.js"></script>
+<script type="text/javascript" src="/horde/js/accesskeys.js"></script>
+<script type="text/javascript" src="imp/js/effects.js"></script>
+<script type="text/javascript" src="imp/js/redbox.js"></script>
+<script type="text/javascript" src="imp/js/mailbox.js"></script>-->
+<link href="css/theme/screen.css" rel="stylesheet" type="text/css"/>
+<link href="css/theme/bluewhite/screen.css" rel="stylesheet" type="text/css"/>
+<link href="css/theme/opera.css" rel="stylesheet" type="text/css"/>
+<link href="css/imp/theme/screen.css" rel="stylesheet" type="text/css"/>
+<link href="css/tooltip.css" rel="stylesheet" type="text/css"/>
+<link href="css/imp/theme/bluewhite/screen.css" rel="stylesheet" type="text/css"/>
+<link href="css/dropdown.css" rel="stylesheet" type="text/css"/>
+<title></title>
+<link href="img/theme/favicon.ico" rel="SHORTCUT ICON"/>
+<script type="text/javascript" src="js/popup.js"></script>
+<script type="text/javascript" src="js/prototype.js"></script>
+<script type="text/javascript" src="js/functions_mailbox.js"></script>
+<script type="text/javascript" src="js/ajax.js"></script>
+<script type="text/javascript" src="js/JSLocalReading.js"></script>
+<script type="text/javascript" src="js/JRESTReader.js"></script>
+<script type="text/javascript" src="js/OfflineEvent.js"></script>
+<script type="text/javascript" src="js/RedBox.js"></script>
+<script type="text/javascript" src="js/effects.js"></script>
+<script type="text/javascript" src="js/Encodes.js"></script>
+<script type="text/javascript" src="js/Global.js"></script>
+<script type="text/javascript" src="js/ui.js"></script>
+<script type="text/javascript" src="js/XMLWriter.js"></script>
+<script type="text/javascript">
+//functions to load at pageload
+	function onpageload(){
+		checkStatus();
+	}
+		
+	//function to check whether currently online or not
+	function checkStatus()
+	{
+			checkStatusPTDefault();
+			setTimeout("checkStatus()",2000);	
+	}
+</script>
+
+<!--Script for dropdown menu-->
+<script>
+
+// close layer when click-out<br>
+document.onclick = mclose;
+parent.horde_main.onclick = mclose;
+parent.horde_sidebar.onclick = mclose;
+</script>
+</head>
+
+
+
+<body onLoad="onpageload()">
+
+<form action="mailbox.php" method="get" name="menuform">
+<div id="menu">
+
+<!--On load functions-->
+<script type="text/javascript">
+// Function to run after page finish loading
+function windowOnload(func) {
+    var current = window.onload;
+
+    if(typeof(current) != 'function') {
+        window.onload = func;
+		//alert('if');
+    } else {
+        window.onload = function() {
+            current.apply(current);
+            func.apply(func, new Array());
+        };
+		//alert('else');
+    }
+}
+windowOnload(loadDynamicFolderInfoMailbox);
+
+
+function folderSubmit(){
+	var selct=$F("mailbox");
+	viewInbox(null,selct);
+}
+
+</script>
+
+
+<div class="leftFloat">
+<ul>
+<li>
+<a id='inboxBtnTop' href="#" accesskey="I" onClick="viewInbox()" class="current">
+<img src="img/imp/theme/graphics/folders/inbox.png" alt="Inbox" title=""/>
+<br/>
+<span class="accessKey">I</span>nbox
+</a>
+</li>
+<li>
+<a href="javascript:popup('compose.html');" accesskey="N">
+<img src="img/imp/theme/graphics/compose.png" alt="New Message" title=""/>
+<br/>
+<span class="accessKey">N</span>ew Message
+</a>
+</li>
+<li>
+<a id="foldersBtnTop" href="#" accesskey="F" onClick="viewFolderNavigator()">
+<img src="img/imp/theme/graphics/folders/folder.png" alt="Folders" title=""/>
+<br/>
+<span class="accessKey">F</span>olders
+</a>
+</li>
+<li>
+<a href="#" id="searchBtnTop" accesskey="S" onClick="viewSearchPage()">
+<img src="img/theme/graphics/search.png" alt="Search" title=""/>
+<br/>
+<span class="accessKey">S</span>earch </a>
+</li>
+
+<li>
+<a id="optionsBtnTop" href="#" accesskey="O" onClick="viewOptionsPage()">
+<img src="img/theme/graphics/prefs.png" alt="Options" title=""/>
+<br/>
+<span class="accessKey">O</span>ptions </a>
+</li>
+
+<!--<li>
+<a href="#">
+<img src="img/theme/graphics/problem.png" alt="Problem" title=""/>
+<br/>
+Problem
+</a>
+</li>-->
+<li>
+<a href="services/help/" onclick="if(localStorage.getItem('connectionStatus')=='online'&&localStorage.getItem('connectionStatusUser')=='online'){popup(this.href);return false;}else{imp_info('This feature is not available in offline mode.',1);} return false;" class="helplink" target="help">
+<img src="img/theme/graphics/help_index.png" alt="Help" title=""/>
+<br/>
+Help
+</a>
+</li>
+<li>
+<a href="#" onClick="logout()">
+<img src="img/theme/graphics/logout.png" alt="Log out" title=""/>
+<br/>
+Log out
+</a>
+</li>
+</ul>
+</div>
+<div class="rightFloat"> 
+<ul class="rightFloat" > 
+
+<li >
+<a href="#" class="statusback"  style="height:30px"><div style="float:left">
+<img id="statusimg" src="img/checking.gif" style="width:16px;	height:16px" alt="Checking..." title=""/>
+<br/>
+<span id="statustxt" style="width:50px; margin-top:1px">&nbsp;Checking...&nbsp;</span></div>
+<div id="sddm" style="float:right">
+    <p onClick="mopen('m1')" onMouseOver="javascript:if($('m1').style.visibility!='visible')document.getElementById('sddmp').style.backgroundColor=''" class="drop" id="sddmp"></p>
+        <div id="m1" onClick="changeConnectionStatusUser()" style="z-index:10">
+        <p id="userselectiontxt">Processing...</p>
+        </div>
+   </div>
+</a>
+</li>
+</li>
+</ul>
+</div>
+<div class="rightFloat">
+  <input type="hidden" name="no_newmail_popup" value="1">
+</div>
+ <div class="rightFloat"> 
+  <ul><li class="rightFloat"><a href="#" onclick="folderSubmit()"><img src="img/imp/theme/graphics/folders/folder_open.png" alt="Open Folder" title=""><br>Open Fo<span class="accessKey">l</span>der</a></li></ul> 
+ </div>
+ <span class="rightFloat">
+ <select id="mailbox" name="mailbox" onChange="folderSubmit()">
+   <option value="INBOX" selected="selected">Inbox</option>
+   <option value="Drafts">Drafts</option>
+   <option value="Sent">Sent</option>
+   <option value="Outbox">Outbox</option>
+   <option value="Trash">Trash</option>
+   <!--<option value="" disabled="disabled">- - - - - - - - -</option>
+<option value="**search_2zycrn3c71k488c0ww4wcc">Virtual INBOX</option>-->
+ </select>
+ </span>
+<!--<img id="statusimg" src="img/checking.gif" onClick="checkStatus()" alt="checking"/> -->
+<br class="clear"/>
+</div>
+</form>
+<!--<div id="mainContentHolder" style="overflow:hidden">
+    <object id="mainContentHolderObj" name="mainContentHolderObj" type="text/html" data="http://www.w3schools.com/" width="100%" height="100%" style="overflow:hidden"></object>
+</div>-->
+<!--
+<div width="100%" height="100%">
+<iframe  id="mainContentHolder" src="http://www.w3schools.com/" width="100%" height="100%" scrolling="auto"></iframe></div>-->
+
+
+<script language="JavaScript1.5" type="text/javascript">
+
+var _setHordeTitle = 1;
+try {
+    if (document.title && parent.frames.horde_main) parent.document.title = document.title;
+} catch (e) {
+}
+// -->
+</script>
+<script type="text/javascript">
+
+if (typeof(_setHordeTitle) == 'undefined' && document.title && parent.frames.horde_main) parent.document.title = document.title;
+// -->
+</script>
+
+</body>
+</html>

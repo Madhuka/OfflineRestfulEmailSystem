@@ -1,0 +1,205 @@
+<!DOCTYPE HTML>
+<html manifest="mani/hordefront.manifest">
+<head>
+ <link rel="SHORTCUT ICON" href="img/theme/favicon.ico" />
+ <title>Horde</title>
+<script type="text/javascript" src="js/prototype.js"></script>
+<script type="text/javascript" src="js/JSLocalReading.js"></script>
+<script type="text/javascript" src="js/JRESTReader.js"></script>
+<script type="text/javascript" src="js/OfflineEvent.js"></script>
+<script type="text/javascript" src="js/login.js"></script>
+<script type="text/javascript" src="js/functions_mailbox.js"></script>
+<script type="text/javascript" src="js/RedBox.js"></script>
+<script type="text/javascript" src="js/effects.js"></script>
+<script type="text/javascript" src="js/functions_inbox.js"></script>
+<script type="text/javascript" src="js/Encodes.js"></script>
+<script type="text/javascript" src="js/Global.js"></script>
+<script type="text/javascript" src="js/ui.js"></script>
+<script type="text/javascript" src="js/XMLWriter.js"></script>
+<script type="text/javascript">
+ 
+ 	//clearDB();
+	
+ // Check if a new cache is available on page load.
+ 	if(window.applicationCache){
+		if(window.addEventListener){
+			window.addEventListener('load', function(e) {
+			  window.applicationCache.addEventListener('updateready', function(e) {
+				if (window.applicationCache.status == window.applicationCache.UPDATEREADY) {
+				  // Browser downloaded a new app cache.
+				  // Swap it in and reload the page to get the new hotness.
+				  window.applicationCache.swapCache();
+				  if(confirm('A new version of this site is available. Load it?')){
+					  window.location.reload();
+				  }
+				} else {
+				  // Manifest didn't changed. Nothing new to server.
+				}
+			  }, false);
+			
+			}, false);
+		}
+		else if (window.attachEvent){
+			window.attachEvent('onload', function(e) {
+			  window.applicationCache.attachEvent('onupdateready', function(e) {
+				if (window.applicationCache.status == window.applicationCache.UPDATEREADY) {
+				  // Browser downloaded a new app cache.
+				  // Swap it in and reload the page to get the new hotness.
+				  window.applicationCache.swapCache();
+				  if(confirm('A new version of this site is available. Load it?')){
+					  window.location.reload();
+				  }
+				} else {
+				  // Manifest didn't changed. Nothing new to server.
+				}
+			  });
+			
+			});
+		}
+	}
+	//on exit 
+	window.onbeforeunload=function(){
+		localStorage.setItem("xtttt",Math.round(new Date().getTime()/(1000*60)));
+		sessionStorage.setItem("sn",1);
+	}
+ 	
+	//alert(localStorage.getItem("x1dd1"))
+ 	if(parseInt(localStorage.getItem("x1dd1"))!=131){
+		window.location="login.html";	
+	}else if(localStorage.getItem("x1dd1")==131 && localStorage.getItem("c")!=1){
+		if(localStorage.getItem("x2dd1")==141){
+			submit_login();
+		}else{
+			var xtttt=localStorage.getItem("xtttt");
+			if(sessionStorage.getItem("sn")!=1){
+				if(xtttt!=0){
+					if((Math.round(new Date().getTime()/(1000*60))-xtttt)<10){
+						submit_login();
+					}else{
+						localStorage.setItem("x1dd1",130);
+						localStorage.setItem("x1dd1",140);
+						window.location="login.html";
+					}
+				}
+			}
+		}
+	}
+	//localStorage.setItem("c",0);
+	
+	if(parseInt(localStorage.getItem("currentinboxpage"))<1||localStorage.getItem("currentinboxpage")==null){
+			localStorage.setItem("currentinboxpage",1);
+	}
+		
+	if(localStorage.getItem("emailsperpage")==null){
+			localStorage.setItem("emailsperpage",20);
+	}
+	if(localStorage.getItem("refreshinterval")==null){
+			localStorage.setItem("refreshinterval",0);
+	}
+	if(localStorage.getItem("folder")==null){
+			localStorage.setItem('folder','INBOX');
+	}	
+	
+	localStorage.setItem('connectionStatus','checking');
+	localStorage.setItem('connectionStatusBrowser','online');
+	localStorage.setItem('connectionStatusUser','online');
+	localStorage.setItem('mailidlist','');
+	localStorage.setItem('emailid',1);
+	localStorage.setItem('emailno',1);
+	
+	
+	loaddb();
+	setAutoRefresh();
+	
+	function loaddb(){
+			try{
+				readFolders();
+			}catch(e){}
+				
+			var xfolder = JSON.parse(localStorage.getItem(getSavedCurrentUser()+"FolderList"));
+			for (var i=0; i<xfolder.length;i++){ 
+				if(NoOfMessages(xfolder[i])<1){ 
+					try{
+						readFolder(xfolder[i]);
+					}catch(e){}
+				}else{
+					try{
+						updateFolder(xfolder[i]);
+					}catch(e){}
+
+				}
+			}
+			organizeMsgs();
+			//loadFolders(getSavedCurrentUser());
+
+		//countFolderList('');
+		/*if(NoOfMessages("INBOX")==0){
+			loadEmails('3');
+			loadEmails('1');
+			loadEmails('0');
+			loadEmails('2');
+		}else{
+			updateMsgFolder("INBOX");
+		}*/
+		
+	}
+	
+	
+ </script>
+ 
+ <script type="text/javascript">
+ 	/*function online(event) {
+	  if(navigator.onLine) alert('online');
+	  else alert('offline');
+	
+	}
+	addEvent(window, 'online', online);
+	addEvent(window, 'offline', online);
+	online({ type: 'ready' });*/
+	
+	setInterval(function () {
+	  if(navigator.onLine){
+		  if(localStorage.getItem('connectionStatusBrowser')=='offline'){
+			  localStorage.setItem('connectionStatusBrowser','online'); 
+			  if(localStorage.getItem('connectionStatus')=='offline'){
+				imp_info('Unable to switch to online mode. No network connection detected.',4);
+			  }else{
+				horde_toolbar.document.getElementById('statusimg').src='img/tick.png';
+				horde_toolbar.document.getElementById('statusimg').alt='online';
+				horde_toolbar.document.getElementById('statustxt').innerHTML='&nbsp;&nbsp;&nbsp;Online&nbsp;&nbsp;&nbsp;&nbsp;';
+				horde_toolbar.document.getElementById('userselectiontxt').textContent="Go to offline mode";
+				doSyncAll();
+			  }
+		  	  
+		  }
+	  }
+	  else{	  
+		  if(localStorage.getItem('connectionStatusBrowser')=='online'){  
+		  	  localStorage.setItem('connectionStatusBrowser','offline');  
+			  if (localStorage.getItem('connectionStatus')=='online' && localStorage.getItem('connectionStatusUser')=='online'){  
+				  horde_toolbar.document.getElementById('statusimg').src='img/wrong.png';
+				  horde_toolbar.document.getElementById('statusimg').alt='offline';
+				  horde_toolbar.document.getElementById('statustxt').innerHTML='&nbsp;&nbsp;&nbsp;Offline&nbsp;&nbsp;&nbsp;&nbsp;';
+				  horde_toolbar.document.getElementById('userselectiontxt').textContent="Go to online mode";
+			  }
+		  }
+		  
+	  }
+	}, 250);
+	
+
+ </script>
+ 
+</head>
+
+<frameset id="topframe" name="topframe" cols="150,*" framespacing="0" frameborder="0">
+  <frame id="horde_sidebar" name="horde_sidebar" src="sidebar.html" scrolling="auto" noresize="noresize" />
+  <frameset id="horde_mail" name="horde_mail" rows="60,*" framespacing="0" frameborder="0">
+  	 	<frame id="horde_toolbar" name="horde_toolbar" src="mailbox.html" scrolling="no" noresize="noresize" style="z-index:3" />
+        <frame id="horde_main" name="horde_main" src="inbox.html" scrolling="auto" noresize="noresize" style="z-index:1" />
+  </frameset>
+</frameset>
+<noframes></noframes>
+
+
+</html>

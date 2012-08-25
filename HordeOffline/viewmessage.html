@@ -1,0 +1,446 @@
+<!DOCTYPE HTML>
+<html manifest="mani/hordefront.manifest">
+    <head>
+      <meta http-equiv="x-dns-prefetch-control" content="off">
+      <link href="css/theme/screen.css" rel="stylesheet" type="text/css">
+      <link href="css/theme/bluewhite/screen.css" rel="stylesheet" type="text/css">
+      <link href="css/imp/theme/screen.css" rel="stylesheet" type="text/css">
+      <link href="css/imp/theme/bluewhite/screen.css" rel="stylesheet" type="text/css">
+      <title></title>
+      <link href="img/theme/graphics/favicon.ico" rel="SHORTCUT ICON">
+      <link href="/horde/imp/mailbox.php?mailbox=INBOX&start=1" rel="Up">
+      <link href="/horde/imp/message.php?mailbox=INBOX&index=2" rel="Next" id="next">
+      <link href="/horde/imp/search.php" rel="search">
+       <script type="text/javascript" src="js/prototype.js"></script>
+      <script type="text/javascript" src="js/functions_viewmsg.js"></script>
+      <script type="text/javascript" src="js/functions_inbox.js"></script>
+      <script type="text/javascript" src="js/functions_mailbox.js"></script>
+     <!-- <script type="text/javascript" src="js/db.js"></script>-->
+	<script type="text/javascript" src="js/JSLocalReading.js"></script>
+	<script type="text/javascript" src="js/JRESTReader.js"></script>
+    <script type="text/javascript" src="js/OfflineEvent.js"></script>
+    <script type="text/javascript" src="js/popup.js"></script>
+    <script type="text/javascript" src="js/RedBox.js"></script>
+	<script type="text/javascript" src="js/effects.js"></script>
+   <script type="text/javascript" src="js/Encodes.js"></script>
+<script type="text/javascript" src="js/Global.js"></script>
+<script type="text/javascript" src="js/ui.js"></script>
+<script type="text/javascript" src="js/XMLWriter.js"></script>
+    </head>
+    <body>
+    	<!--On load functions-->
+		<script type="text/javascript">
+        // Function to run after page finish loading
+        function windowOnload(func) {
+		var current = window.onload;
+		if(typeof(current) != 'function') {
+			window.onload = func;
+		} else {
+			window.onload = function() {
+				current.apply(current);
+				func.apply(func);
+			};
+		}
+	}
+	windowOnload(showEmail);
+</script>
+    
+    
+      <form method="post" id="messages" name="messages" action="/horde/imp/message.php">
+        <input type="hidden" id="targetMbox" name="targetMbox" value="">
+        <input type="hidden" id="actionID" name="actionID" value="">
+        <input type="hidden" id="message_token" name="message_token" value="T8FUxhH2BgY3d5HKx-86AQI8EgU">
+        <input type="hidden" name="mailbox" value="INBOX">
+        <input type="hidden" name="thismailbox" value="INBOX">
+        <input type="hidden" name="start" value="1">
+        <input type="hidden" name="index" value="1">
+        <input type="hidden" id="newMbox" name="newMbox" value="0">
+        <h1 class="header">
+           
+ 			<span id="topmsgname">Inbox: </span> 
+          <span id="topmsgno" style="unicode-bidi: embed">( of )</span>
+        </h1>
+        <table style="width:100%;border-collapse:collapse">
+          <tbody>
+            <tr class="mboxcontrol">
+              <td>
+                <div class="leftFloat">
+                  <label for="flag1" class="hidden">Mark as:</label>
+                  <select id="flag1" name="flag1" onchange="flagMessages(1,0);">
+                    <option value="" selected="selected">Mark as:</option>
+                    <option value="Unseen">Unseen</option>
+                    <option value="Important">Important</option>
+                    <option value="NotImportant">Not Important</option>
+                    <option value="Recent">Recent</option>
+                    <option value="NotRecent">Not Recent</option>
+                  </select>
+                </div>
+                <div class="leftFloat" style="padding-left:15px">
+                  <ul class="msgactions">
+                    <li>
+                      <a href="#" onclick="moveMessage(); return false;" class="widget">Move</a>
+                    </li>
+         <!--           <li class="lastnavbar">
+                      <a href="#" onclick="transfer('copy_message', 1); return false;" class="widget">Copy</a>
+                    </li>-->
+                  </ul>
+                </div>
+                <div class="leftFloat">
+                  <label for="target1" class="hidden">Target Folder</label>
+                  <select id="target1" name="target1">
+                    <option value="" selected="selected">Messages to</option>
+                    <option value="" disabled="disabled">- - - - - - - - -</option>
+                    <option value="*new*">New Folder</option>
+                    <option value="" disabled="disabled">- - - - - - - - -</option>
+                    <option value="Inbox">Inbox</option>
+                    <option value="Draft">Drafts</option>
+                    <option value="Sent">Sent</option>
+                    <option value="Outbox">Outbox</option>
+                    <option value="Trash">Trash</option>
+                  </select>
+                </div>
+                <div class="rightFloat nowrap">
+                  <a href="#" class="widget" accesskey="k" onClick="viewInbox(1,localStorage.getItem('folder'))">
+                    Bac<span class="accessKey">k</span>
+                     to <span id="bakfolder1">Inbox</span>
+                  </a>
+                   <a href="#" nicetitle="Previous Message" onClick="previousEmail()">
+                  <img id="previousemail1" src="img/theme/graphics/nav/left-grey.png" alt="" title=""></a>
+                  <a href="#" nicetitle="Next Message" onClick="nextEmail()">
+                    <img id="nextemail1"src="img/theme/graphics/nav/right-grey.png" alt=">" title="">
+                  </a>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <table width="100%" cellspacing="0">
+          <tbody>
+            <tr>
+              <td class="mboxcontrol bottomborder">
+                <ul class="msgactions">
+                  <li>
+                    <a href="#" class="widget" accesskey="D" onclick="deleteMessage()">
+                      <span class="accessKey">D</span>elete
+                    </a>
+                  </li>
+                  <li>
+                    <a href="javascript:localStorage.setItem('actionID','reply');popup('compose.html');" class="widget hasmenu" accesskey="R">
+                      <span class="accessKey">R</span>eply
+                    </a>
+                    <ul>
+                      <li>
+                        <a href="javascript:localStorage.setItem('actionID','reply');popup('compose.html');" class="widget">To Sender</a>
+                      </li>
+                      <li>
+                        <a href="javascript:localStorage.setItem('actionID','reply_all');popup('compose.html');" class="widget" accesskey="A">
+                          To 
+                          <span class="accessKey">A</span>
+                          ll
+                        </a>
+                      </li>
+                    </ul>
+                  </li>
+                  <li>
+                    <a href="javascript:localStorage.setItem('actionID','forward_all');popup('compose.html');" class="widget hasmenu">Forward</a>
+                    <ul>
+                      <li>
+                        <a href="javascript:localStorage.setItem('actionID','forward_all');popup('compose.html');" class="widget">Entire Message</a>
+                      </li>
+                      <li>
+                        <a href="javascript:localStorage.setItem('actionID','forward_body');popup('compose.html');" class="widget">Body Text Only</a>
+                      </li>
+                    </ul>
+                  </li>
+ 
+                  <!--<li>
+                    <a href="/horde/imp/thread.php?mailbox=INBOX&index=1&start=1" class="widget" accesskey="V">
+                      <span class="accessKey">V</span>iew Thread
+                    </a>
+                  </li>-->
+                  <!--<li>
+                    <a href="#" onclick="view('/horde/imp/view.php?popup_view=1&mailbox=INBOX&index=1&actionID=view_source&id=0&mimecache=bb2a2a3dd11d70accb86e364f04f3012', '2502540316'); return false;" class="widget" accesskey="M">
+                      <span class="accessKey">M</span>essage Source
+                    </a>
+                  </li>-->
+                  <li>
+                    <a href="/horde/services/download/?module=imp&actionID=save_message&mailbox=INBOX&index=1&fn=%2FNotice" class="widget">Save as</a>
+                  </li>
+                  <li>
+                    <a href="javascript:popup('printpreview.html');" class="widget" target="_blank" accesskey="P">
+                      <span class="accessKey">P</span>rint
+                    </a>
+                  </li>
+                  <!--<li class="lastnavbar">
+                    <a href="#" class="widget hasmenu">Headers</a>
+                    <ul>
+                      <li>
+                        <a href="/horde/imp/message.php?mailbox=INBOX&index=1&message_token=T8FUxhH2BgY3d5HKx-86AQI8EgU&show_all_headers=1" class="widget">Show All Headers</a>
+                      </li>
+                    </ul>
+                  </li>-->
+                </ul>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div id="msgheaders">
+          <table width="100%" cellspacing="0">
+            <tbody>
+              <tr>
+                <td class="item0 rightAlign nowrap" valign="top">
+                  <strong>Date:</strong>
+                </td>
+                <td class="item0 msgheader" width="100%" id="dateinfo">&nbsp;</td>
+              </tr>
+              <tr>
+                <td class="item1 rightAlign nowrap" valign="top">
+                  <strong>From:</strong>
+                </td>
+                <td class="item1 msgheader" width="100%">
+                  <span class="nowrap">
+                    <span id="frominfo"> </span>
+                </span></td>
+              </tr>
+              <tr>
+                <td class="item0 rightAlign nowrap" valign="top">
+                  <strong>To:</strong>
+                </td>
+                <td class="item0 msgheader" width="100%">
+                  <span class="nowrap">
+                  <span id="toinfo"> </span>
+                   </span>
+                </td>
+              </tr>
+              <tr>
+                <td class="item1 rightAlign nowrap" valign="top">
+                  <strong>Subject:</strong>
+                </td>
+                <td class="item1 msgheader" width="100%" id="subectinfo">&nbsp; </td>
+              </tr>
+              <tr>
+                <td class="item0 rightAlign nowrap" valign="top">
+                  <strong>Part(s):</strong>
+                </td>
+                <td class="item0 msgheader" width="100%">
+                <div id="msgparts"></div>
+                  <!--<table cellspacing="2">
+                    <tbody>
+                      <tr valign="middle">
+                        <td>
+                          <img src="img/theme/graphics/mime/pdf.png" alt="" title="application/pdf">
+                        </td>
+                        <td>2</td>
+                        <td>
+                          <a href="#" onclick="view('/horde/imp/view.php?popup_view=1&mailbox=INBOX&index=1&actionID=view_attach&id=2&mimecache=bb2a2a3dd11d70accb86e364f04f3012', '2'); return false;" nicetitle="View Notice.pdf [application/pdf]">Notice.pdf</a>
+                        </td>
+                        <td>
+                          <a href="/horde/services/download/?module=imp&thismailbox=INBOX&mailbox=INBOX&index=1&actionID=download_attach&id=2&mimecache=bb2a2a3dd11d70accb86e364f04f3012&fn=%2FNotice.pdf" class="download" nicetitle="Download Notice.pdf">14 KB</a>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <a href="/horde/imp/view.php?mailbox=INBOX&index=1&actionID=download_all&mimecache=bb2a2a3dd11d70accb86e364f04f3012" nicetitle="Download All Attachments (in .zip file)">
+                    Download All Attachments (in .zip file) 
+                    <img src="img/theme/graphics/mime/compressed.png" alt="Download All Attachments (in .zip file)" title="">
+                  </a>-->
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div id="messageBody" class="messageBody">
+          <table width="100%" cellspacing="3">
+            <tbody>
+               <tr>
+                <td class="text" >
+                  <div class="fixed leftAlign" id="emailbody">
+                  </div>
+                  <br/><br/>
+                  <div class="togglequoteparent" id="togglequoteparent" style="display:none">
+                  <span onclick="[ this, this.next(), this.next(1) ].invoke('toggle')" class="widget togglequote" style="display:none">[Show Quoted Text]</span>
+                  <span onclick="[ this, this.previous(), this.next() ].invoke('toggle')" class="widget togglequote">[Hide Quoted Text]</span>
+                  <span>
+                    <div id="quotedtxt" class="fixed leftAlign">
+                    </div>
+                    </span></div>
+                </td>
+              </tr>
+             
+            </tbody>
+          </table>
+        </div>
+        <input type="hidden" name="flag" id="flag" value="">
+        <table width="100%" cellspacing="0">
+          <tbody>
+            <tr>
+              <td class="mboxcontrol topborder">
+                <ul class="msgactions">
+                  <li>
+                    <a href="#" onclick="deleteMessage()" class="widget" accesskey="D">
+                      <span class="accessKey">D</span>elete
+                    </a>
+                  </li>
+                   <li>
+                    <a href="javascript:localStorage.setItem('actionID','reply');popup('compose.html');" class="widget hasmenu" accesskey="R">
+                      <span class="accessKey">R</span>eply
+                    </a>
+                    <ul>
+                      <li>
+                        <a href="javascript:localStorage.setItem('actionID','reply');popup('compose.html');" class="widget">To Sender</a>
+                      </li>
+                      <li>
+                        <a href="javascript:localStorage.setItem('actionID','reply_all');popup('compose.html');" class="widget" accesskey="A">
+                          To 
+                          <span class="accessKey">A</span>
+                          ll
+                        </a>
+                      </li>
+                    </ul>
+                  </li>
+                  <li>
+                    <a href="javascript:localStorage.setItem('actionID','forward_all');popup('compose.html');" class="widget hasmenu">Forward</a>
+                    <ul>
+                      <li>
+                        <a href="javascript:localStorage.setItem('actionID','forward_all');popup('compose.html');" class="widget">Entire Message</a>
+                      </li>
+                      <li>
+                        <a href="javascript:localStorage.setItem('actionID','forward_body');popup('compose.html');" class="widget">Body Text Only</a>
+                      </li>
+                    </ul>
+                  </li>
+                <!--  <li>
+                    <a href="/horde/imp/thread.php?mailbox=INBOX&index=1&start=1" class="widget" accesskey="V">
+                      <span class="accessKey">V</span>iew Thread
+                    </a>
+                  </li>-->
+                  <!--<li>
+                    <a href="#" onclick="view('/horde/imp/view.php?popup_view=1&mailbox=INBOX&index=1&actionID=view_source&id=0&mimecache=bb2a2a3dd11d70accb86e364f04f3012', '2502540316'); return false;" class="widget" accesskey="M">
+                      <span class="accessKey">M</span>essage Source
+                    </a>
+                  </li>-->
+                  <li>
+                    <a href="/horde/services/download/?module=imp&actionID=save_message&mailbox=INBOX&index=1&fn=%2FNotice" class="widget">Save as</a>
+                  </li>
+                  <li>
+                    <a  href="javascript:popup('printpreview.html');" class="widget" target="_blank" accesskey="P">
+                      <span class="accessKey">P</span>rint
+                    </a>
+                  </li>
+                  <!--<li class="lastnavbar">
+                    <a href="#" class="widget hasmenu">Headers</a>
+                    <ul>
+                      <li>
+                        <a href="/horde/imp/message.php?mailbox=INBOX&index=1&message_token=T8FUxhH2BgY3d5HKx-86AQI8EgU&show_all_headers=1" class="widget">Show All Headers</a>
+                      </li>
+                    </ul>
+                  </li>-->
+                </ul>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <table style="width:100%;border-collapse:collapse">
+          <tbody>
+            <tr class="mboxcontrol">
+              <td>
+                <div class="leftFloat">
+                  <label for="flag2" class="hidden">Mark as:</label>
+                  <select id="flag2" name="flag2" onchange="flagMessages(2,0);">
+                    <option value="" selected="selected">Mark as:</option>
+                     <option value="Unseen">Unseen</option>
+                    <option value="Important">Important</option>
+                    <option value="NotImportant">Not Important</option>
+                    <option value="Recent">Recent</option>
+                    <option value="NotRecent">Not Recent</option>
+                  </select>
+                </div>
+                <div class="leftFloat" style="padding-left:15px">
+                  <ul class="msgactions">
+                    <li>
+                      <a href="#" onclick="moveMessage(); return false;" class="widget">Move</a>
+                    </li>
+                   <!-- <li class="lastnavbar">
+                      <a href="#" onclick="transfer('copy_message', 2); return false;" class="widget">Copy</a>
+                    </li>-->
+                  </ul>
+                </div>
+                <div class="leftFloat">
+                  <label for="target2" class="hidden">Target Folder</label>
+                  <select id="target2" name="target2">
+                   <option value="" selected="selected">Messages to</option>
+                    <option value="" disabled="disabled">- - - - - - - - -</option>
+                    <option value="*new*">New Folder</option>
+                    <option value="" disabled="disabled">- - - - - - - - -</option>
+                    <option value="Inbox">Inbox</option>
+                    <option value="Draft">Drafts</option>
+                    <option value="Sent">Sent</option>
+                    <option value="Outbox">Outbox</option>
+                    <option value="Trash">Trash</option>
+                          </select>
+                </div>
+                <div class="rightFloat nowrap">
+                  <a href="#" class="widget" accesskey="k" onClick="viewInbox(1,localStorage.getItem('folder'))">
+                    Bac<span class="accessKey">k</span>
+                     to <span id="bakfolder2">Inbox</span>
+                  </a>
+                  <a href="#" onClick="previousEmail()" nicetitle="Previous Message">
+                  <img id="previousemail2" src="img/theme/graphics/nav/left-grey.png" alt="" title=""></a>
+                  <a href="#" nicetitle="Next Message" onClick="nextEmail()">
+                    <img id="nextemail2" src="img/theme/graphics/nav/right-grey.png"/nav/right.png" alt=">" title="">
+                  </a>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td class="bottomborder" style="padding:0" colspan="3"></td>
+            </tr>
+          </tbody>
+        </table>
+      </form>
+      <script type="text/javascript">
+    
+
+function tr(badval)
+{
+    retval = '';
+    validchars = 'abcdefghijklmnopqrstuvwxyz0123456789';
+
+    badval.toLowerCase();
+    for (i = 0; i < badval.length; i++) {
+        if (validchars.indexOf(badval.charAt(i)) != -1) {
+            retval += badval.charAt(i);
+        } else {
+            retval += '_';
+        }
+    }
+    return retval;
+}
+
+function view(url, partid)
+{
+    param = "menubar=yes,toolbar=no,location=no,status=no,scrollbars=yes,resizable=yes";
+    window.open(url, '6lkvzp4wwxie' + tr(partid), param);
+}
+
+// -->
+</script>
+      <script language="JavaScript1.5" type="text/javascript">
+    
+var _setHordeTitle = 1;
+try {
+    if (document.title && parent.frames.horde_main) parent.document.title = document.title;
+} catch (e) {
+}
+// -->
+</script>
+      <script type="text/javascript">
+    
+if (typeof(_setHordeTitle) == 'undefined' && document.title && parent.frames.horde_main) parent.document.title = document.title;
+// -->
+</script>
+     <!-- <p align="right">
+        <a href="#" onClick="viewPwdChangeScreen()"> Change password </a>
+      </p>-->
+    </body>
+  </html>

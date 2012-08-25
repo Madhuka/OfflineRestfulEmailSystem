@@ -1,0 +1,221 @@
+<!DOCTYPE HTML>
+<html manifest="mani/hordefront.manifest">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<!--   IMP: Copyright 2001-2008 The Horde Project.  IMP is under the GPL.  -->
+<!-- Horde Project: http://www.horde.org/ | IMP: http://www.horde.org/imp/ -->
+<!--        GNU Public License: http://www.fsf.org/copyleft/gpl.html       -->
+<link rel="SHORTCUT ICON" href="img/theme/favicon.ico" />
+<script type="text/javascript" src="js/login.js"></script>
+<script type="text/javascript" src="js/ajax.js"></script>
+<script type="text/javascript" src="js/JSLocalReading.js"></script>
+<script type="text/javascript" src="js/JRESTReader.js"></script>
+<script type="text/javascript" src="js/OfflineEvent.js"></script>
+<script type="text/javascript" src="js/prototype.js"></script>
+<script type="text/javascript" src="js/md5.js"></script>
+<script type="text/javascript" src="js/RedBox.js"></script>
+<script type="text/javascript" src="js/effects.js"></script>
+<script type="text/javascript" src="js/functions_mailbox.js"></script>
+<script type="text/javascript">
+
+	 // Check if a new cache is available on page load.
+	if(window.applicationCache){
+		if(window.addEventListener){
+			window.addEventListener('load', function(e) {
+			  window.applicationCache.addEventListener('updateready', function(e) {
+				if (window.applicationCache.status == window.applicationCache.UPDATEREADY) {
+				  // Browser downloaded a new app cache.
+				  // Swap it in and reload the page to get the new hotness.
+				  window.applicationCache.swapCache();
+				  if(confirm('A new version of this site is available. Load it?')){
+					  window.location.reload();
+				  }
+				} else {
+				  // Manifest didn't changed. Nothing new to server.
+				}
+			  }, false);
+			
+			}, false);
+		}
+		else if (window.attachEvent){
+			window.attachEvent('onload', function(e) {
+			  window.applicationCache.attachEvent('onupdateready', function(e) {
+				if (window.applicationCache.status == window.applicationCache.UPDATEREADY) {
+				  // Browser downloaded a new app cache.
+				  // Swap it in and reload the page to get the new hotness.
+				  window.applicationCache.swapCache();
+				  if(confirm('A new version of this site is available. Load it?')){
+					  window.location.reload();
+				  }
+				} else {
+				  // Manifest didn't changed. Nothing new to server.
+				}
+			  });
+			
+			});
+		}
+	}
+
+	//localStorage.setItem('status','checking..');
+	localStorage.setItem('connectionStatus','checking');
+	localStorage.setItem('connectionStatusBrowser','online');
+	localStorage.setItem('connectionStatusUser','online');
+	
+	if(localStorage.getItem("xtttt")==null){
+		localStorage.setItem("xtttt",0);
+	}
+	
+	//login
+	if(localStorage.getItem("x1dd1")==null){
+		localStorage.setItem("x1dd1",130);
+	}
+	//remember me
+	if(localStorage.getItem("x2dd1")==null){
+		localStorage.setItem("x2dd1",140);
+	}
+	
+	if(localStorage.getItem("x1dd1")==131){
+		if(localStorage.getItem("x2dd1")==141){
+			submit_login();
+		}else{
+			var xtttt=localStorage.getItem("xtttt");
+			if(xtttt!=0){
+				if((Math.round(new Date().getTime()/(1000*60))-xtttt)<10){
+					submit_login();
+				}
+			}
+		}
+	}
+	
+	
+	/*function changeStatus(){
+		if(localStorage.getItem('status')=='online'){
+			localStorage.setItem('status','offline');
+			document.getElementById('statusimg').src='img/wrong.gif';
+		}else if(localStorage.getItem('status')=='offline'){
+			localStorage.setItem('status','online');
+			document.getElementById('statusimg').src='img/tick.png';	
+		}
+	}*/
+	
+
+	
+	//functions to load at pageload
+	function onpageload(){
+		checkStatus();
+	}
+		
+	//function to check whether currently online or not
+	function checkStatus()
+	{
+		checkStatusPTDefault(0);
+		setTimeout("checkStatus()",2000);		
+	}
+	
+	
+</script>
+
+
+
+<link href="css/login.css" rel="stylesheet" type="text/css">
+<link href="css/screen_004.css" rel="stylesheet" type="text/css">
+<link href="css/screen_003.css" rel="stylesheet" type="text/css">
+<!--<link href="css/screen.css" rel="stylesheet" type="text/css">
+<link href="css/screen_002.css" rel="stylesheet" type="text/css">-->
+<title>Mail :: Welcome to Horde</title>
+<!--<link href="https://webmail.uom.lk/horde/imp/themes/graphics/favicon.ico" rel="SHORTCUT ICON">-->
+</head>
+
+<body onLoad="onpageload()">
+
+<div id="menu" >
+<h1 style="padding-left:65px">   Offline Webmail<ul class="rightFloat" style="padding:0px; margin::-10px">
+<li>
+<a href="#" class="statusback">
+<img id="statusimg" src="img/checking.gif" style="width:16px;	height:16px" alt="Checking..." title=""/>
+<br/>
+<span id="statustxt">&nbsp;Checking...&nbsp;</span>
+</a>
+</li>
+</ul></h1>
+</div>
+
+
+<div id="loginbody" style="display:block">
+<ul id="msgincrct" class="notices" style="display:none"><li><img src="img/theme/graphics/alerts/message.png" alt="Message" title="">Login failed because your username or password was entered incorrectly.</li></ul>
+
+<ul id="msgnorcrd" class="notices" style="display:none"><li><img src="img/theme/graphics/alerts/message.png" alt="Message" title="">Offline Login failed. There are no data for this user account. Please try to login in online mode. </li></ul>
+
+<form name="imp_login" id="imp_login" action="#">
+<table width="100%">
+<tbody><tr>
+<td align="center">
+<table align="center">
+<tbody>
+<tr>
+<td class="light rightAlign"><label for="imapuser"><strong>Username</strong></label></td>
+<td class="light leftAlign" nowrap="nowrap">
+<input tabindex="2" id="imapuser" name="imapuser" style="direction: ltr;" type="text">
+</td>
+</tr>
+
+<tr>
+<td class="light rightAlign"><label for="pass"><strong>Password</strong></label></td>
+<td class="leftAlign">
+<input tabindex="3" id="pass" name="pass" style="direction: ltr;" type="password" onKeyPress="javascript:checkLogKeyPress(event)">
+</td>
+</tr>
+
+
+<tr>
+<td>&nbsp;</td>
+<td class="light leftAlign">
+<input  name="remcb" id="remcb" tabindex="5" value="Remember Me" type="checkbox" onKeyPress="javascript:checkLogKeyPress()">
+&nbsp;
+<label for="remcb">Remember Me</label>
+</td>
+</tr>
+
+<tr>
+<td>&nbsp;</td>
+<td class="light leftAlign">
+<input class="button" name="loginButton" id="loginButton" tabindex="6" value="Login " onclick="submit_login(0);" type="button">
+</td>
+</tr>
+
+
+</tbody></table>
+</td>
+</tr>
+</tbody></table>
+</form>
+<!-- This file contains any "Message Of The Day" Type information -->
+<!-- It will be included below the log-in form on the login page. -->
+
+<br>
+<table width="100%"><tbody><tr><td align="center"><img src="img/horde-power1.png" alt="Powered by Horde" title=""></td></tr></tbody></table>
+</div>
+
+<div id="loading" style="display:none; margin-top:30px">
+<div style="font-weight: bolder;  font-size: 140%; line-height:36px;text-align:center; border-color:#66A">
+<p style="padding-top:10px;padding-bottom:10px">Loading...
+<br/><img src="img/loading.gif" alt="..........."/><br/>
+Please wait...
+</p>
+</div>
+</div>
+<script language="JavaScript1.5" type="text/javascript">
+<!--
+var _setHordeTitle = 1;
+try {
+if (document.title && parent.frames.horde_main) parent.document.title = document.title;
+} catch (e) {
+}
+// -->
+</script>
+<script type="text/javascript">
+<!--
+if (typeof(_setHordeTitle) == 'undefined' && document.title && parent.frames.horde_main) parent.document.title = document.title;
+// -->
+</script>
+</body></html>

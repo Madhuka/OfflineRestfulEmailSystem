@@ -1,0 +1,47 @@
+<DBMAIL>
+<Function>GetAllHeaders</Function>
+<Status>Sucess</Status>
+<Folder>INBOX</Folder>
+<Mailheaders>
+<mailheader1>
+<mailid>1</mailid>
+<date>2011-04-23 10:20:00</date>
+<from_addr>ishara@dude.net</from_addr>
+<to_addr>mithila@dude.net</to_addr>
+<subject>High Performance Lecture</subject>
+<message_id><4DD36A31.1090309@dude.net></message_id>
+<content_type>text/plain; charset=ISO-8859-1; format=flowed</content_type>
+<ccaddr/>
+<bccaddr/>
+<references/>
+<size>8404</size>
+</mailheader1>
+<mailheader2>
+<mailid>5</mailid>
+<date>2011-05-18 14:00:00</date>
+<from_addr>ishara@dude.net</from_addr>
+<to_addr>mithila@dude.net</to_addr>
+<subject>Project meeting</subject>
+<message_id/>
+<content_type/>
+<ccaddr/>
+<bccaddr/>
+<references/>
+<size>4374</size>
+</mailheader2>
+<mailheader3>
+<mailid>6</mailid>
+<date>2011-05-18 14:40:00</date>
+<from_addr>ishara@dude.net</from_addr>
+<to_addr>mithila@dude.net</to_addr>
+<subject>Upload these images</subject>
+<message_id/>
+<content_type/>
+<ccaddr/>
+<bccaddr/>
+<references/>
+<size>8320</size>
+</mailheader3>
+</Mailheaders>
+<Untagged>Email Headers in Sucess</Untagged>
+</DBMAIL>

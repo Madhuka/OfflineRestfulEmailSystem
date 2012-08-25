@@ -1,0 +1,49 @@
+<DBMAIL>
+<Function>GetAllIDs</Function>
+<Status>Sucess</Status>
+<AllMails>
+<Email>
+<mailid>1</mailid>
+<date>2011-04-23 10:20:00</date>
+<from_addr>madhuka@dude.net</from_addr>
+<to_addr>ishara@dude.net</to_addr>
+<subject>High Performance Lecture</subject>
+<message_id>4DD36A31.1090309@dude.net</message_id>
+<content_type>text/plain; charset=ISO-8859-1; format=flowed</content_type>
+<ccaddr/>
+<bccaddr/>
+<references/>
+<size>8404</size>
+</Email>
+<Email>
+<mailid>2</mailid>
+<date>2011-05-18 12:10:00</date>
+<from_addr>mithila@dude.net</from_addr>
+<to_addr>ishara@dude.net</to_addr>
+<subject>Project final report</subject>
+<message_id>4DD36792.3040803@dude.net</message_id>
+<content_type>
+multipart/mixed; boundary="------------060909060600080003020907"
+</content_type>
+<ccaddr/>
+<bccaddr/>
+<references/>
+<size>2532</size>
+</Email>
+<Email>
+<mailid>7</mailid>
+<date>2011-05-18 14:40:00</date>
+<from_addr>tharidu@dude.net</from_addr>
+<to_addr>madhuka@dude.net</to_addr>
+<subject>Upload these images</subject>
+<message_id>3</message_id>
+<content_type>multipart/mixed; boundary="------------060909060600080003020907"</content_type>
+<ccaddr></ccaddr>
+<bccaddr></bccaddr>
+<references></references>
+<size>8320</size>
+</Email>
+<TimeStamp/>
+</AllMails>
+<Untagged>Email Headers and IDs in Inbox</Untagged>
+</DBMAIL>

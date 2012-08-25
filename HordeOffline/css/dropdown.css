@@ -1,0 +1,71 @@
+@charset "utf-8";
+/* CSS Document */
+
+#sddm
+{	margin: 0;
+	padding: 0;
+	z-index: 30;
+	list-style: none;
+	float: left;
+	font: bold 11px arial
+}
+
+#sddm  p
+{	display: block;
+	margin: 0;
+	padding: 0px;
+	width: 18px;
+	height:28px;
+	background: #6666AA;
+	background-image:url(../img/dropdown-arrowoff.png);
+	background-repeat:no-repeat;
+	background-position:center;
+	color: #FFF;
+	text-align: center;
+	vertical-align:middle;
+	text-decoration: none}
+
+#sddm  p:hover
+{	background: #f0f9fc ;
+	background-image:url(../img/dropdown-arrowon.png);
+	background-repeat:no-repeat;
+	background-position:center;
+}
+
+#sddm div
+{	position: absolute;
+	visibility: hidden;
+	margin: 0;
+	padding: 0;
+	background: #f0f9fc ;
+	border: 1px solid #5970B2}
+	
+
+#sddm div p
+{	position: relative;
+		display: block;
+		margin: 0;
+		padding: 5px 10px;
+		width: auto;
+		white-space: nowrap;
+		text-align: center;
+		vertical-align:middle;
+		text-decoration: none;
+		background: #f0f9fc ;
+		color: #2875DE;
+		font: 12px;
+		}
+
+#sddm div p:hover
+	{	background: #D9F4FC;
+		color: #211491;
+	}
+		 
+		 
+#menu p {
+    display: block;
+	vertical-align:middle;
+	border:none;
+	margin-left:0px;
+
+}

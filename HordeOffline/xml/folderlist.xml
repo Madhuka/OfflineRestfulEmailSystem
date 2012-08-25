@@ -1,0 +1,11 @@
+<DBMAIL>
+<Function>FolderList</Function>
+<Status>Sucess</Status>
+<FolderList>
+<folder>INBOX</folder>
+<folder>SENT</folder>
+<folder>OUTBOX</folder>
+<folder>TRASH</folder>
+</FolderList>
+<Untagged>Recent Flag List</Untagged>
+</DBMAIL>

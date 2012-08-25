@@ -1,0 +1,1164 @@
+@charset "utf-8";
+/* CSS Document */
+
+* { 
+padding: 0px;
+margin: 0px;
+}
+body { 
+font-size: 75%;
+font-family: "Geneva", "Arial", "Helvetica", sans-serif;
+background-image: none;
+background-attachment: scroll;
+background-repeat: repeat;
+background-position: 0% 0%;
+background-size: auto;
+background-origin: padding-box;
+background-clip: border-box;
+background-color: #ffffff;
+color: #000000;
+}
+body.scrollbar-quirk { 
+margin-right: 15px;
+}
+p { 
+margin-bottom: 10px;
+}
+img, .img, .img:active, .img:hover, .img:visited, .image { 
+border: none;
+vertical-align: middle;
+background-image: none;
+background-attachment: scroll;
+background-repeat: repeat;
+background-position: 0% 0%;
+background-size: auto;
+background-origin: padding-box;
+background-clip: border-box;
+background-color: transparent;
+}
+input[type="image"] { 
+border: none;
+vertical-align: middle;
+background-image: none;
+background-attachment: scroll;
+background-repeat: repeat;
+background-position: 0% 0%;
+background-size: auto;
+background-origin: padding-box;
+background-clip: border-box;
+background-color: transparent;
+}
+ins { 
+background-image: none;
+background-attachment: scroll;
+background-repeat: repeat;
+background-position: 0% 0%;
+background-size: auto;
+background-origin: padding-box;
+background-clip: border-box;
+background-color: #ccffcc;
+}
+del { 
+background-image: none;
+background-attachment: scroll;
+background-repeat: repeat;
+background-position: 0% 0%;
+background-size: auto;
+background-origin: padding-box;
+background-clip: border-box;
+background-color: #ffcccc;
+}
+br.spacer { 
+line-height: 8px;
+}
+.box { 
+padding: 3px;
+border: 1px dashed #999999;
+background-image: none;
+background-attachment: scroll;
+background-repeat: repeat;
+background-position: 0% 0%;
+background-size: auto;
+background-origin: padding-box;
+background-clip: border-box;
+background-color: #ffffff;
+}
+.solidbox { 
+border: 1px solid #000000;
+}
+.greybox { 
+border: 1px solid #000000;
+background-image: none;
+background-attachment: scroll;
+background-repeat: repeat;
+background-position: 0% 0%;
+background-size: auto;
+background-origin: padding-box;
+background-clip: border-box;
+background-color: #e9e9e9;
+}
+.headerbox { 
+border-right: 1px solid #000000;
+border-bottom: 1px solid #000000;
+border-left: 1px solid #000000;
+background-image: none;
+background-attachment: scroll;
+background-repeat: repeat;
+background-position: 0% 0%;
+background-size: auto;
+background-origin: padding-box;
+background-clip: border-box;
+background-color: #ffffff;
+}
+.roundedBox { }
+.roundedTop { }
+.roundedBottom { }
+.header { 
+text-align: left;
+font-weight: 700;
+font-size: 125%;
+padding: 3px;
+}
+.header a:hover, a.header:hover { 
+color: #333333;
+}
+.header img { 
+vertical-align: bottom;
+}
+.header input, .header select { 
+font-size: 80%;
+}
+.header .smallheader input, .header .smallheader select { 
+font-size: 100%;
+}
+.header .button, .header .smallheader .button { 
+font-size: 72%;
+}
+.nowrap { 
+white-space: nowrap;
+}
+.clear { 
+clear: both;
+line-height: 0;
+height: 0px;
+}
+a { 
+color: #0000ff;
+text-decoration: none;
+}
+a:hover { 
+text-decoration: underline;
+}
+.selected { 
+background-image: none;
+background-attachment: scroll;
+background-repeat: repeat;
+background-position: 0% 0%;
+background-size: auto;
+background-origin: padding-box;
+background-clip: border-box;
+background-color: #bbcbff;
+}
+.selected-over { 
+background-image: none;
+background-attachment: scroll;
+background-repeat: repeat;
+background-position: 0% 0%;
+background-size: auto;
+background-origin: padding-box;
+background-clip: border-box;
+background-color: #cceeff;
+}
+table { 
+border: none;
+}
+td, th { 
+padding: 1px;
+}
+th { 
+color: #333333;
+}
+ul.linedRow { 
+list-style-type: none;
+}
+.linedRow, tr.linedRow td, table.linedRow td, ul.linedRow li { 
+color: #000000;
+background-image: none;
+background-attachment: scroll;
+background-repeat: repeat;
+background-position: 0% 0%;
+background-size: auto;
+background-origin: padding-box;
+background-clip: border-box;
+background-color: #ffffff;
+border-bottom: 1px solid #dddddd;
+}
+table.linedRow, ul.linedRow { 
+border-bottom: none;
+}
+.linedRowSelectedCol, td.linedRowSelectedCol, table.linedRow td.linedRowSelectedCol { 
+color: #000000;
+background-image: none;
+background-attachment: scroll;
+background-repeat: repeat;
+background-position: 0% 0%;
+background-size: auto;
+background-origin: padding-box;
+background-clip: border-box;
+background-color: #f3f3f3;
+border-bottom: 1px solid #dddddd;
+}
+.selectedRow, tr.selectedRow td { 
+background-image: none;
+background-attachment: scroll;
+background-repeat: repeat;
+background-position: 0% 0%;
+background-size: auto;
+background-origin: padding-box;
+background-clip: border-box;
+background-color: #ffffcc;
+}
+.selectedRow:hover, tr.selectedRow:hover td, .selectedRow-over, tr.selectedRow-over td { 
+background-image: none;
+background-attachment: scroll;
+background-repeat: repeat;
+background-position: 0% 0%;
+background-size: auto;
+background-origin: padding-box;
+background-clip: border-box;
+background-color: #ffffdd;
+}
+table.nopadding td, table.nopadding th { 
+padding: 0px;
+}
+.sortup { 
+background-image: url("https://webmail.uom.lk/horde/themes/graphics/za.png");
+background-attachment: scroll;
+background-repeat: no-repeat;
+background-position: 0% 50%;
+background-size: auto;
+background-origin: padding-box;
+background-clip: border-box;
+background-color: #bbcbff;
+padding-left: 10px;
+}
+.sortdown { 
+background-image: url("https://webmail.uom.lk/horde/themes/graphics/az.png");
+background-attachment: scroll;
+background-repeat: no-repeat;
+background-position: 0% 50%;
+background-size: auto;
+background-origin: padding-box;
+background-clip: border-box;
+background-color: #bbcbff;
+padding-left: 10px;
+}
+.striped, .rowEven, .item0 { 
+background-color: #eeeeee;
+}
+.rowOdd, .item1 { 
+background-color: #dddddd;
+}
+.widget { 
+font-size: 90%;
+}
+.light { }
+.smallheader { 
+font-weight: 700;
+font-size: 100%;
+padding: 2px;
+}
+.header .smallheader { 
+font-size: 80%;
+}
+.header .smallheader a.smallheader { 
+font-size: 100%;
+}
+small, .small { 
+font-size: 80%;
+}
+.control { 
+color: #000000;
+background-image: none;
+background-attachment: scroll;
+background-repeat: repeat;
+background-position: 0% 0%;
+background-size: auto;
+background-origin: padding-box;
+background-clip: border-box;
+background-color: #cccccc;
+border-bottom: 1px solid #999999;
+padding: 1px;
+}
+.item { 
+color: #000000;
+background-image: none;
+background-attachment: scroll;
+background-repeat: repeat;
+background-position: 0% 0%;
+background-size: auto;
+background-origin: padding-box;
+background-clip: border-box;
+background-color: #eeeeee;
+}
+.accessKey { 
+text-decoration: underline;
+}
+.text { 
+color: #000000;
+background-image: none;
+background-attachment: scroll;
+background-repeat: repeat;
+background-position: 0% 0%;
+background-size: auto;
+background-origin: padding-box;
+background-clip: border-box;
+background-color: #ffffff;
+}
+.form table { 
+width: 100%;
+padding: 2px;
+border-collapse: collapse;
+}
+form[action^="https://"] input[type="submit"] { 
+background-image: url("https://webmail.uom.lk/horde/themes/graphics/locked.png");
+background-repeat: no-repeat;
+background-position: 95% 50%;
+padding-right: 10%;
+}
+input[disabled], textarea[disabled] { 
+background-color: #e9e9e9;
+color: #a8a8a8;
+}
+.htmlarea .statusBar .statusBarTree a { 
+font: inherit inherit inherit inherit/inherit inherit;
+}
+.htmlarea table { 
+width: auto;
+}
+.form-error { 
+color: #ff0000;
+}
+input, select, textarea { 
+font-weight: 400;
+font-size: 100%;
+font-family: "Geneva", "Arial", "Helvetica", sans-serif;
+}
+input { 
+padding: 1px;
+}
+option { 
+padding: 0px 5px 0px 3px;
+}
+.checkbox, .radio { 
+border: none;
+height: 14px;
+width: 14px;
+background-image: none;
+background-attachment: scroll;
+background-repeat: repeat;
+background-position: 0% 0%;
+background-size: auto;
+background-origin: padding-box;
+background-clip: border-box;
+background-color: transparent;
+
+}
+.button { 
+cursor: pointer;
+font-size: 90%;
+padding: 1px 6px;
+}
+a.button { 
+padding: 2px 8px;
+font-weight: 400;
+text-decoration: none;
+}
+pre, code, .fixed { 
+font-size: 100%;
+font-family: "Lucida Console", "Courier", "Courier New";
+}
+.signature { 
+color: #cccccc;
+}
+.signature .fixed { 
+color: #cccccc;
+font-family: "Lucida Console", "Courier", "Courier New";
+}
+.citation { 
+margin: 1em 0px;
+padding-left: 1em;
+border-left-width: 1px;
+border-left-style: solid;
+}
+.quoted1 { 
+color: #660066;
+border-color: #660066;
+}
+.quoted2 { 
+color: #007777;
+border-color: #007777;
+}
+.quoted3 { 
+color: #990000;
+border-color: #990000;
+}
+.quoted4 { 
+color: #000099;
+border-color: #000099;
+}
+.quoted5 { 
+color: #bb6600;
+border-color: #bb6600;
+}
+.notices { 
+text-align: left;
+margin: 0.5em 8px;
+list-style-type: none;
+}
+.notices li, .notice { 
+font-weight: 700;
+color: #000000;
+background-image: none;
+background-attachment: scroll;
+background-repeat: repeat;
+background-position: 0% 0%;
+background-size: auto;
+background-origin: padding-box;
+background-clip: border-box;
+background-color: #ffffcc;
+border: 1px solid #aaaaaa;
+padding: 1px 1px 1px 5px;
+}
+.notices img, .notice img { 
+margin-right: 0.5em;
+}
+.tooltip, div.nicetitle { 
+color: #000000;
+background-image: none;
+background-attachment: scroll;
+background-repeat: repeat;
+background-position: 0% 0%;
+background-size: auto;
+background-origin: padding-box;
+background-clip: border-box;
+background-color: #ffffcc;
+border: 1px solid #000000;
+padding: 5px;
+z-index: 1001;
+}
+div.nicetitle { 
+position: absolute;
+overflow-x: hidden;
+overflow-y: hidden;
+opacity: 0.9;
+}
+div.nicetitle pre { 
+font-family: "Lucida Console", "Courier", "Courier New";
+}
+.inProgress { 
+font: 80% "Geneva", "Arial", "Helvetica", sans-serif;
+padding: 2px;
+color: #ffffff;
+background-image: none;
+background-attachment: scroll;
+background-repeat: repeat;
+background-position: 0% 0%;
+background-size: auto;
+background-origin: padding-box;
+background-clip: border-box;
+background-color: #ff0000;
+}
+.treeRow { 
+overflow-x: hidden;
+overflow-y: hidden;
+min-height: 20px;
+clear: both;
+}
+#menu { 
+overflow-x: hidden;
+overflow-y: hidden;
+min-height: 50px;
+margin-bottom: 8px;
+}
+#menu ul { 
+padding: 5px;
+}
+#menu li { 
+list-style-type: none;
+text-align: center;
+margin: 2px;
+float: left;
+}
+#menu li.separator { 
+width: 40px;
+}
+#menu a { 
+display: block;
+white-space: pre;
+font-size: 90%;
+text-decoration: none;
+padding: 3px;
+}
+#menu h1 { 
+font-weight: 700;
+font-size: 150%;
+line-height: 48px;
+vertical-align: bottom;
+}
+#menu input, #menu select { 
+margin-top: 16px;
+}
+#menuBottom { 
+margin: -8px 0px 0px;
+padding: 4px;
+float: right;
+text-align: right;
+font-size: 90%;
+background-image: none;
+background-attachment: scroll;
+background-repeat: repeat;
+background-position: 0% 0%;
+background-size: auto;
+background-origin: padding-box;
+background-clip: border-box;
+background-color: #eeeeee;
+}
+.sidebar #menu { 
+margin: 0px;
+}
+#sidebarPanel { 
+padding-top: 5px;
+padding-bottom: 10px;
+background-image: none;
+background-attachment: scroll;
+background-repeat: repeat;
+background-position: 0% 0%;
+background-size: auto;
+background-origin: padding-box;
+background-clip: border-box;
+background-color: #eeeeee;
+white-space: nowrap;
+}
+#sidebarPanel a, #sidebarPanel span { 
+color: #000000;
+white-space: pre;
+font-size: 90%;
+text-decoration: none;
+}
+#sidebarPanel a a, #sidebarPanel a span, #sidebarPanel span a, #sidebarPanel span span { 
+font-size: 100%;
+}
+#sidebarPanel span.accessKey { 
+text-decoration: underline;
+}
+#sidebarPanel span.toggle { 
+cursor: pointer;
+}
+#sidebarPanel a:hover { 
+color: #000000;
+}
+.pager { 
+text-align: center;
+}
+.tabset { 
+float: left;
+width: 100%;
+font-weight: 700;
+background-image: url("https://webmail.uom.lk/horde/themes/graphics/tab_bottom.gif");
+background-attachment: scroll;
+background-repeat: repeat-x;
+background-position: 50% 100%;
+background-size: auto;
+background-origin: padding-box;
+background-clip: border-box;
+background-color: transparent;
+}
+.tabset ul { 
+margin-top: 4px;
+padding-left: 8px;
+list-style: none;
+}
+.tabset li { 
+float: left;
+margin: -3px 2px 0px 0px;
+white-space: nowrap;
+}
+.tabset li a { 
+color: #000000;
+background-color: #e9e9e9;
+padding: 2px 0.5em;
+display: block;
+border: 1px solid #000000;
+}
+.tabset li a:hover { 
+background-color: #ffffff;
+}
+.tabset li.activeTab a { 
+border-bottom: 1px solid #000000;
+background-color: #000000;
+color: #ffffff;
+}
+.tabset li.activeTab a:hover { }
+.tabset img { 
+display: block;
+float: left;
+padding-right: 2px;
+}
+#services_prefs .header ul { 
+float: right;
+text-align: right;
+font-size: 80%;
+}
+#services_prefs .header li { 
+list-style: none;
+display: inline;
+}
+.prefsOverview div { 
+float: left;
+}
+.prefsOverview div div { 
+padding-left: 10px;
+width: 95%;
+}
+.prefsOverview h2 { 
+font-weight: 700;
+font-size: 150%;
+}
+.prefsOverview dt a { 
+display: block;
+padding: 2px;
+font-weight: 700;
+border: 1px solid #000000;
+border-bottom: 1px solid #444466;
+background-image: none;
+background-attachment: scroll;
+background-repeat: repeat;
+background-position: 0% 0%;
+background-size: auto;
+background-origin: padding-box;
+background-clip: border-box;
+background-color: #e9e9e9;
+}
+.prefsOverview dd { 
+padding: 2px;
+margin-bottom: 10px;
+color: #000000;
+background-image: none;
+background-attachment: scroll;
+background-repeat: repeat;
+background-position: 0% 0%;
+background-size: auto;
+background-origin: padding-box;
+background-clip: border-box;
+background-color: #ffffff;
+border-right: 1px solid #000000;
+border-bottom: 1px solid #000000;
+border-left: 1px solid #000000;
+}
+div.prefsContainer { 
+padding: 1em;
+}
+div.prefsContainer p { 
+padding-top: 1em;
+}
+.currentBlock { 
+border: 2px solid #ff0000;
+}
+.blockIcons { 
+padding-top: 5px;
+display: none;
+}
+.blockHeader:hover .blockIcons { 
+display: block;
+}
+#googlesearch { 
+padding: 0.3em;
+}
+body.help_about, body.help_entry { 
+margin: 0.5em;
+}
+.helplink { 
+cursor: help;
+}
+.help { 
+background-image: none;
+background-attachment: scroll;
+background-repeat: repeat;
+background-position: 0% 0%;
+background-size: auto;
+background-origin: padding-box;
+background-clip: border-box;
+background-color: #ffffff;
+color: #000000;
+}
+.help h1 { 
+font-size: 125%;
+padding-top: 0.5em;
+padding-bottom: 0.5em;
+}
+.help h2 { 
+padding-top: 1em;
+padding-bottom: 0.5em;
+font-size: 110%;
+}
+.help p { 
+margin-right: 1em;
+margin-bottom: 1em;
+margin-left: 1em;
+}
+.help em { 
+display: block;
+padding: 5px;
+margin-right: 1em;
+margin-bottom: 1em;
+margin-left: 1em;
+}
+.help em.helpTip { 
+color: #009900;
+background-image: none;
+background-attachment: scroll;
+background-repeat: repeat;
+background-position: 0% 0%;
+background-size: auto;
+background-origin: padding-box;
+background-clip: border-box;
+background-color: #e0f0e0;
+}
+.help em.helpWarn { 
+color: #990000;
+background-image: none;
+background-attachment: scroll;
+background-repeat: repeat;
+background-position: 0% 0%;
+background-size: auto;
+background-origin: padding-box;
+background-clip: border-box;
+background-color: #f0e0e0;
+}
+ol.code-listing { 
+overflow-x: hidden;
+overflow-y: hidden;
+color: #999999;
+background-color: #ffffff;
+text-align: left;
+list-style-type: decimal-leading-zero;
+list-style-position: inside;
+white-space: nowrap;
+font-size: 100%;
+font-family: "Lucida Console", "Courier", "Courier New";
+}
+ol.code-listing li { 
+padding-top: 3px;
+padding-right: 3px;
+padding-bottom: 3px;
+white-space: pre;
+padding-left: 0.5em;
+}
+ol.code-listing .comment { 
+color: #666666;
+}
+ol.code-listing .default { 
+color: #0000bb;
+}
+ol.code-listing .keyword { 
+color: #007700;
+}
+ol.code-listing .string { 
+color: #dd0000;
+}
+table.lineNumbered * { 
+font-size: 100%;
+line-height: 16px;
+font-family: "Lucida Console", "Courier", "Courier New";
+}
+.lineNumbered th { 
+background-image: none;
+background-attachment: scroll;
+background-repeat: repeat;
+background-position: 0% 0%;
+background-size: auto;
+background-origin: padding-box;
+background-clip: border-box;
+background-color: #e9e9e9;
+border-right: 1px solid #e0e0e0;
+border-bottom: none;
+padding-right: 10px;
+padding-left: 10px;
+text-align: right;
+}
+.lineNumbered td { 
+vertical-align: top;
+width: 100%;
+white-space: pre;
+background-image: none;
+background-attachment: scroll;
+background-repeat: repeat;
+background-position: 0% 0%;
+background-size: auto;
+background-origin: padding-box;
+background-clip: border-box;
+background-color: #ffffff;
+padding-left: 10px;
+}
+.parentheses { 
+color: #22aa66;
+font-weight: 700;
+}
+.comment { 
+color: #aaaacc;
+}
+.htag { 
+color: #556699;
+background-image: none;
+background-attachment: scroll;
+background-repeat: repeat;
+background-position: 0% 0%;
+background-size: auto;
+background-origin: padding-box;
+background-clip: border-box;
+background-color: #d5d6da;
+font-weight: 700;
+}
+.metac { 
+color: #00ffff;
+background-image: none;
+background-attachment: scroll;
+background-repeat: repeat;
+background-position: 0% 0%;
+background-size: auto;
+background-origin: padding-box;
+background-clip: border-box;
+background-color: #d5d6da;
+}
+.id { 
+color: #ee8822;
+background-image: none;
+background-attachment: scroll;
+background-repeat: repeat;
+background-position: 0% 0%;
+background-size: auto;
+background-origin: padding-box;
+background-clip: border-box;
+background-color: #e4e4e0;
+}
+.attr { 
+color: #66aaff;
+}
+.value { 
+color: #dd4466;
+}
+.color { 
+color: #ff5577;
+}
+.eol { 
+color: #2266ee;
+}
+.url { 
+color: #996622;
+}
+.file { 
+color: #444444;
+background-image: none;
+background-attachment: scroll;
+background-repeat: repeat;
+background-position: 0% 0%;
+background-size: auto;
+background-origin: padding-box;
+background-clip: border-box;
+background-color: #ffee44;
+}
+.class { 
+font-style: italic;
+}
+ul.sound-list { 
+list-style: none;
+}
+.sound-list li { 
+height: 24px;
+}
+.sound-list embed { 
+vertical-align: middle;
+height: 24px;
+}
+.mimeStatusMessage, .mimeStatusWarning, .mimeHeaders, .mimePartInfo { 
+padding: 1px;
+margin-bottom: 2px;
+font-size: 90%;
+}
+.mimeStatusMessage { 
+color: #000000;
+background-image: none;
+background-attachment: scroll;
+background-repeat: repeat;
+background-position: 0% 0%;
+background-size: auto;
+background-origin: padding-box;
+background-clip: border-box;
+background-color: #ffffcc;
+border: 1px solid #fff760;
+width: 100%;
+}
+.mimeStatusWarning { 
+border: 1px solid #880000;
+background-image: none;
+background-attachment: scroll;
+background-repeat: repeat;
+background-position: 0% 0%;
+background-size: auto;
+background-origin: padding-box;
+background-clip: border-box;
+background-color: #e81222;
+color: #ffffff;
+width: 100%;
+}
+.mimeHeaders { 
+border: 1px solid #cccccc;
+background-image: none;
+background-attachment: scroll;
+background-repeat: repeat;
+background-position: 0% 0%;
+background-size: auto;
+background-origin: padding-box;
+background-clip: border-box;
+background-color: #f9f9f9;
+width: 100%;
+font-family: "Lucida Console", "Courier", "Courier New";
+}
+.mimePartInfo { 
+border: 1px solid #cccccc;
+background-image: none;
+background-attachment: scroll;
+background-repeat: repeat;
+background-position: 0% 0%;
+background-size: auto;
+background-origin: padding-box;
+background-clip: border-box;
+background-color: #f9f9f9;
+}
+.mimePartInfo, .mimePartInfo a { 
+color: #666666;
+}
+.mimeStatusIcon { 
+vertical-align: middle;
+width: 1%;
+}
+.download { 
+padding: 2px 20px 2px 0px;
+background-image: url("https://webmail.uom.lk/horde/themes/graphics/download.png");
+background-attachment: scroll;
+background-repeat: no-repeat;
+background-position: 100% 50%;
+background-size: auto;
+background-origin: padding-box;
+background-clip: border-box;
+background-color: transparent;
+}
+table.calendarPopup { 
+border: 1px solid #cccccc;
+background-image: none;
+background-attachment: scroll;
+background-repeat: repeat;
+background-position: 0% 0%;
+background-size: auto;
+background-origin: padding-box;
+background-clip: border-box;
+background-color: #ffffff;
+width: 12em;
+}
+.calendarPopup thead { 
+font-weight: 700;
+}
+.calendarPopup th { 
+border-bottom: 1px solid #cccccc;
+}
+.calendarPopup tbody { 
+text-align: right;
+}
+.calendarPopup a { 
+color: #000000;
+display: block;
+padding: 2px;
+}
+.calendarPopup tbody a:hover { 
+background-image: none;
+background-attachment: scroll;
+background-repeat: repeat;
+background-position: 0% 0%;
+background-size: auto;
+background-origin: padding-box;
+background-clip: border-box;
+background-color: #ffffcc;
+}
+.calendarPopup .current { 
+font-weight: 700;
+background-image: none;
+background-attachment: scroll;
+background-repeat: repeat;
+background-position: 0% 0%;
+background-size: auto;
+background-origin: padding-box;
+background-clip: border-box;
+background-color: #eeeeff;
+}
+.calendarPopup .today { 
+font-weight: 700;
+}
+.hidden { 
+display: none;
+}
+#RB_overlay { 
+position: absolute;
+z-index: 100;
+width: 100%;
+height: 100%;
+top: 0px;
+left: 0px;
+right: 0px;
+bottom: 0px;
+min-height: 100%;
+background-color: #000000;
+opacity: 0.6;
+}
+#RB_loading { 
+z-index: 101;
+width: 66px;
+margin-top: 200px;
+margin-right: auto;
+margin-left: auto;
+padding-bottom: 66px;
+text-align: center;
+background-image: url("https://webmail.uom.lk/horde/themes/graphics/redbox_spinner.gif");
+background-attachment: scroll;
+background-repeat: no-repeat;
+background-position: 50% 100%;
+background-size: auto;
+background-origin: padding-box;
+background-clip: border-box;
+background-color: transparent;
+}
+#RB_window { 
+z-index: 102;
+background-color: #ffffff;
+display: block;
+text-align: left;
+overflow-x: hidden;
+overflow-y: hidden;
+margin: 20px auto 0px;
+position: absolute;
+}
+#color-picker { 
+color: #999999;
+background-image: none;
+background-attachment: scroll;
+background-repeat: repeat;
+background-position: 0% 0%;
+background-size: auto;
+background-origin: padding-box;
+background-clip: border-box;
+background-color: #000000;
+padding-bottom: 8px;
+border: 1px solid #111111;
+width: 148px;
+height: 155px;
+z-index: 100;
+}
+#color-picker .north { 
+background-image: none;
+background-attachment: scroll;
+background-repeat: repeat;
+background-position: 0% 0%;
+background-size: auto;
+background-origin: padding-box;
+background-clip: border-box;
+background-color: #111111;
+border-bottom: 1px solid #171717;
+font-size: 11px;
+}
+#color-picker .north div { 
+color: #999999;
+float: right;
+padding: 5px 7px;
+cursor: pointer;
+}
+#color-picker .north div:hover { 
+color: #ffffff;
+}
+#color-picker .south { 
+margin: 32px 0px 0px 10px;
+cursor: crosshair;
+}
+#color-picker .south img { 
+height: 100%;
+width: 100%;
+position: relative;
+top: -8px;
+left: -1px;
+}
+#color-picker #color-picker-cursor { 
+background-image: url("https://webmail.uom.lk/horde/themes/graphics/color-picker-cursor.gif");
+background-attachment: scroll;
+background-repeat: no-repeat;
+background-position: 0% 0%;
+background-size: auto;
+background-origin: padding-box;
+background-clip: border-box;
+background-color: transparent;
+position: absolute;
+height: 9px;
+width: 9px;
+z-index: 101;
+}
+#color-picker #color-picker-cursor img { 
+height: 100%;
+width: 100%;
+position: relative;
+top: -8px;
+left: -1px;
+}
+#color-picker #color-picker-hex { 
+padding: 5px 0px 4px 7px;
+cursor: text;
+float: left;
+}
+#color-picker #color-picker-hex:hover { 
+color: #ffffff;
+}
+#color-picker #color-picker-resize { 
+float: right;
+top: -14px;
+left: 7px;
+height: 14px;
+width: 14px;
+cursor: se-resize;
+}
+.leftAlign { 
+text-align: left;
+}
+.rightAlign { 
+text-align: right;
+}
+.leftFloat { 
+float: left;
+}
+.rightFloat { 
+float: right;
+}
+.togglequote { 
+font-size: 80%;
+cursor: pointer;
+background-image: none;
+background-attachment: scroll;
+background-repeat: repeat;
+background-position: 0% 0%;
+background-size: auto;
+background-origin: padding-box;
+background-clip: border-box;
+background-color: #dddddd;
+}
+.togglequote:hover { 
+text-decoration: underline;
+}
+.togglequoteparent { 
+margin-bottom: 8px;
+}

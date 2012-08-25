@@ -1,0 +1,46 @@
+@charset "utf-8";
+/* CSS Document */
+.statusback { 
+background-image: none;
+background-attachment: scroll;
+background-repeat: repeat;
+background-position: 0% 0%;
+background-size: auto;
+background-origin: padding-box;
+background-clip: border-box;
+background-color: #6666AA;
+border-right: 1px solid #000000;
+border-top: 1px solid #aaaacc;
+border-left: 1px solid #aaaacc;
+border-bottom: 1px solid #000000;
+padding: 2px;
+}
+
+#menu{
+color: white;
+background-image: none;
+background-attachment: scroll;
+background-repeat: repeat;
+background-position: 0% 0%;
+background-size: auto;
+background-origin: padding-box;
+background-clip: border-box;
+background-color: #66A;
+border-bottom: 2px solid black;
+overflow: visible;
+height: 50px;
+margin-bottom: 8px;
+}
+
+#statusimg{
+	height:26px;
+	padding-bottom:2px;
+	margin-bottom:1px;
+}
+
+#statustxt{
+	
+width:50px; 
+padding-bottom:1px;font-size:80%;
+font-family: "Verdana", "Geneva", "Arial", "Helvetica", sans-serif;
+
